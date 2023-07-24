@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "325124044712",
+    "project_id": "kevin-bc476",
+    "storage_bucket": "kevin-bc476.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325124044712:android:54e6e1ba2e91d37634cf9d",
+        "android_client_info": {
+          "package_name": "com.example.kevin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325124044712-c2a1cgfggi0u0l2v28ul1rs8g6lf6p2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbYYR72j4s8jnGwYn46swABElUibTN_z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325124044712-c2a1cgfggi0u0l2v28ul1rs8g6lf6p2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
