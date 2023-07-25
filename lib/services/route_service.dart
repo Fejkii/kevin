@@ -7,6 +7,8 @@ import 'package:kevin/ui/auth/register_page.dart';
 import 'package:kevin/ui/auth/signin_page.dart';
 import 'package:kevin/ui/home_page.dart';
 import 'package:kevin/ui/project/create_project_page.dart';
+import 'package:kevin/ui/project/project_list_page.dart';
+import 'package:kevin/ui/project/project_page.dart';
 import 'package:kevin/ui/splash_page.dart';
 import 'package:kevin/ui/wine/wine_variety_page.dart';
 
@@ -27,6 +29,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const HomePage());
       case AppRoutes.createProject:
         return MaterialPageRoute(builder: (_) => const CreateProjectPage());
+      case AppRoutes.project:
+        return MaterialPageRoute(builder: (_) => const ProjectPage());
+      case AppRoutes.projectList:
+        return MaterialPageRoute(builder: (_) => const PojectListPage());
       case AppRoutes.wineVarietyList:
         return MaterialPageRoute(builder: (_) => const WineVarietyListView());
       default:

@@ -1,24 +1,22 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserProjectEntity {
   String id;
   String userId;
   String projectId;
   bool isDefault;
   bool isOwner;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime created;
+  DateTime updated;
   UserProjectEntity({
     required this.id,
     required this.userId,
     required this.projectId,
     required this.isDefault,
     required this.isOwner,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.created,
+    required this.updated,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,8 +26,8 @@ class UserProjectEntity {
       'projectId': projectId,
       'isDefault': isDefault,
       'isOwner': isOwner,
-      'createdAt': createdAt.millisecondsSinceEpoch,
-      'updatedAt': updatedAt.millisecondsSinceEpoch,
+      'created': created.millisecondsSinceEpoch,
+      'updated': updated.millisecondsSinceEpoch,
     };
   }
 
@@ -40,8 +38,8 @@ class UserProjectEntity {
       projectId: map['projectId'] as String,
       isDefault: map['isDefault'] as bool,
       isOwner: map['isOwner'] as bool,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
+      created: DateTime.fromMillisecondsSinceEpoch(map['created'] as int),
+      updated: DateTime.fromMillisecondsSinceEpoch(map['updated'] as int),
     );
   }
 

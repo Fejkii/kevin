@@ -29,4 +29,10 @@ class UpdateWineVarietyEvent extends WineVarietyEvent {
   List<Object> get props => [wineVarietyModel];
 }
 
-class WineVarietyListEvent extends WineVarietyEvent {}
+class WineVarietyListRequestEvent extends WineVarietyEvent {}
+
+class WineVarietyListReceivedEvent extends WineVarietyEvent {
+  final List<WineVarietyModel> wineVarietylist;
+
+  const WineVarietyListReceivedEvent(this.wineVarietylist);
+}

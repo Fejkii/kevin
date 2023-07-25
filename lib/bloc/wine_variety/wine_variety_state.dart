@@ -7,9 +7,7 @@ abstract class WineVarietyState extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadingState extends WineVarietyState {}
-
-class WineVarietyInitial extends WineVarietyState {}
+class WineVarietyLoadingState extends WineVarietyState {}
 
 class WineVarietySuccessState extends WineVarietyState {}
 

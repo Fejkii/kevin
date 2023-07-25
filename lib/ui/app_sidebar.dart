@@ -37,8 +37,8 @@ class AppSidebar extends StatelessWidget {
                     const SizedBox(height: 10),
                     AppSubTitleText(title: appPreferences.getUserProject()!.project.title),
                     const Spacer(),
-                    Text(appPreferences.getUser()!.userName ?? AppConstant.EMPTY),
-                    Text(appPreferences.getUser()!.email),
+                    Text(appPreferences.getUser().userName ?? AppConstant.EMPTY),
+                    Text(appPreferences.getUser().email),
                   ],
                 ),
               ),
@@ -56,13 +56,13 @@ class AppSidebar extends StatelessWidget {
               //     Navigator.popAndPushNamed(context, AppRoutes.userRoute);
               //   },
               // ),
-              // ListTile(
-              //   leading: const Icon(Icons.supervised_user_circle),
-              //   title: Text(AppLocalizations.of(context)!.project),
-              //   onTap: () {
-              //     Navigator.popAndPushNamed(context, AppRoutes.projectRoute);
-              //   },
-              // ),
+              ListTile(
+                leading: const Icon(Icons.supervised_user_circle),
+                title: Text(AppLocalizations.of(context)!.project),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, AppRoutes.project);
+                },
+              ),
               // const Divider(),
               // ListTile(
               //   leading: const Icon(Icons.nature),

@@ -5,7 +5,7 @@ class WineVarietyModel {
   String id;
   String title;
   String code;
-  
+
   WineVarietyModel({
     required this.id,
     required this.title,

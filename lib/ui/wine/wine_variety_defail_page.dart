@@ -62,7 +62,7 @@ class _WineVarietyDetailPageState extends State<WineVarietyDetailPage> {
                   }
                 },
                 builder: (context, state) {
-                  if (state is LoadingState) {
+                  if (state is WineVarietyLoadingState) {
                     return const AppLoadingIndicator();
                   } else {
                     return AppIconButton(

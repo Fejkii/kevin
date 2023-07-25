@@ -13,10 +13,16 @@ class ProjectLoadingState extends ProjectState {}
 
 class ProjectSuccessState extends ProjectState {}
 
-class CreateProjectFailureState extends ProjectState {
+class ProjectFailureState extends ProjectState {
   final String errorMessage;
-  const CreateProjectFailureState(this.errorMessage);
+  const ProjectFailureState(this.errorMessage);
 
   @override
   List<Object> get props => [errorMessage];
 }
+
+class ShareProjectLoadingState extends ProjectState {}
+
+class ShareProjectSuccessState extends ProjectState {}
+
+class ShareProjectFailureState extends ProjectState {}

@@ -24,7 +24,7 @@ class _WinePageState extends State<WinePage> {
         child: Column(
           children: [
             const Text("Wine page"),
-            Text(appPreferences.getUser()!.email),
+            Text(appPreferences.getUser().email),
           ],
         ),
       ),
@@ -33,6 +33,7 @@ class _WinePageState extends State<WinePage> {
         actions: [
           IconButton(
             onPressed: () {
+              // TODO
               // Navigator.push(
               //   context,
               //   MaterialPageRoute(

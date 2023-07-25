@@ -5,11 +5,15 @@ class UserModel {
   final String id;
   final String email;
   final String? userName;
+  final DateTime created;
+  final DateTime updated;
 
   UserModel(
     this.id,
     this.email,
     this.userName,
+    this.created,
+    this.updated,
   );
 
   Map<String, dynamic> toMap() {
@@ -17,6 +21,8 @@ class UserModel {
       'id': id,
       'email': email,
       'userName': userName,
+      'created': created.millisecondsSinceEpoch,
+      'updated': updated.millisecondsSinceEpoch,
     };
   }
 
@@ -25,6 +31,8 @@ class UserModel {
       map['id'] as String,
       map['email'] as String,
       map['userName'] != null ? map['userName'] as String : null,
+      DateTime.fromMillisecondsSinceEpoch(map['created']),
+      DateTime.fromMillisecondsSinceEpoch(map['updated']),
     );
   }
 

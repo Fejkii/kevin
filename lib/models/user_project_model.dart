@@ -10,16 +10,16 @@ class UserProjectModel {
   ProjectModel project;
   bool isDefault;
   bool isOwner;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime created;
+  DateTime updated;
   UserProjectModel({
     required this.id,
     required this.user,
     required this.project,
     required this.isDefault,
     required this.isOwner,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.created,
+    required this.updated,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,8 +29,8 @@ class UserProjectModel {
       'project': project.toMap(),
       'isDefault': isDefault,
       'isOwner': isOwner,
-      'createdAt': createdAt.millisecondsSinceEpoch,
-      'updatedAt': updatedAt.millisecondsSinceEpoch,
+      'created': created.millisecondsSinceEpoch,
+      'updated': updated.millisecondsSinceEpoch,
     };
   }
 
@@ -41,8 +41,8 @@ class UserProjectModel {
       project: ProjectModel.fromMap(map['project'] as Map<String,dynamic>),
       isDefault: map['isDefault'] as bool,
       isOwner: map['isOwner'] as bool,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
-      updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
+      created: DateTime.fromMillisecondsSinceEpoch(map['created'] as int),
+      updated: DateTime.fromMillisecondsSinceEpoch(map['updated'] as int),
     );
   }
 

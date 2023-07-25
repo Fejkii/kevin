@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/bloc/wine_variety/wine_variety_bloc.dart';
 import 'package:kevin/models/wine_variety_model.dart';
+import 'package:kevin/repository/wine_variety_repository.dart';
 import 'package:kevin/ui/widgets/app_list_view.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
@@ -22,7 +23,6 @@ class _WineVarietyListViewState extends State<WineVarietyListView> {
   @override
   void initState() {
     wineVarietyList = [];
-    _getData();
     super.initState();
   }
 
@@ -31,54 +31,43 @@ class _WineVarietyListViewState extends State<WineVarietyListView> {
     super.dispose();
   }
 
-  void _getData() {
-    BlocProvider.of<WineVarietyBloc>(context).add(WineVarietyListEvent());
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WineVarietyBloc, WineVarietyState>(
-      builder: (context, state) {
-        return AppScaffold(
-          body: _wineVarietyList(),
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.wineVarieties),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WineVarietyDetailPage(),
-                    ),
-                  ).then((value) => _getData());
-                },
-                icon: const Icon(Icons.add),
-              ),
-            ],
+    return AppScaffold(
+      body: _wineVarietyList(),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.wineVarieties),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const WineVarietyDetailPage()));
+            },
+            icon: const Icon(Icons.add),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
   Widget _wineVarietyList() {
-    return BlocConsumer<WineVarietyBloc, WineVarietyState>(
-      listener: (context, state) {
-        if (state is WineVarietyListSuccessState) {
-          wineVarietyList = state.wineVarietyList;
-          print("List: $wineVarietyList");
-        } else if (state is WineVarietyFailureState) {
-          AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
-        }
-      },
-      builder: (context, state) {
-        if (state is LoadingState) {
-          return const AppLoadingIndicator();
-        } else {
-          return AppListView(listData: wineVarietyList, itemBuilder: _itemBuilder);
-        }
-      },
+    return BlocProvider(
+      create: (context) => WineVarietyBloc(WineVarietyRepository())..add(WineVarietyListRequestEvent()),
+      child: BlocConsumer<WineVarietyBloc, WineVarietyState>(
+        listener: (context, state) {
+          if (state is WineVarietyListSuccessState) {
+            wineVarietyList = state.wineVarietyList;
+          } else if (state is WineVarietyFailureState) {
+            AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
+          }
+        },
+        builder: (context, state) {
+          if (state is WineVarietyLoadingState) {
+            return const AppLoadingIndicator();
+          } else {
+            return AppListView(listData: wineVarietyList, itemBuilder: _itemBuilder);
+          }
+        },
+      ),
     );
   }
 
@@ -92,12 +81,7 @@ class _WineVarietyListViewState extends State<WineVarietyListView> {
         ],
       ),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WineVarietyDetailPage(wineVariety: wineVarietyList[index]),
-          ),
-        ).then((value) => _getData());
+        Navigator.push(context, MaterialPageRoute(builder: (context) => WineVarietyDetailPage(wineVariety: wineVarietyList[index])));
       },
     );
   }

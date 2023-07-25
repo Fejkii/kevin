@@ -9,7 +9,7 @@ class AppRoutes {
   static const String settings = "/settings";
   static const String project = "/project";
   static const String createProject = "/createProject";
-  static const String userProjectList = "/userProjectList";
+  static const String projectList = "/projectList";
   static const String wine = "/wine";
   static const String wineVarietyList = "/wineVarietyList";
 }

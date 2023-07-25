@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/bloc/auth/auth_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
+import 'package:kevin/services/app_preferences.dart';
+import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
@@ -18,6 +21,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AppPreferences appPreferences = instance<AppPreferences>();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -71,7 +75,16 @@ class _LoginPageState extends State<LoginPage> {
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is LoggedInState) {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+                if (appPreferences.getUser().userName == null) {
+                  // TODO Přesměrovat na create Name
+                  if (kDebugMode) {
+                    print("Error: User nemá jméno");
+                  }
+                } else if (appPreferences.getUserProject() == null) {
+                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.createProject, (route) => false);
+                } else {
+                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+                }
               } else if (state is AuthFailureState) {
                 AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
               }

@@ -22,6 +22,7 @@ class CreateProjectPage extends StatefulWidget {
 }
 
 class _CreateProjectPageState extends State<CreateProjectPage> {
+  AppPreferences appPreferences = instance<AppPreferences>();
   final TextEditingController _titleController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   late bool _isDefaultValue = false;
@@ -49,7 +50,17 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
       ],
       child: AppScaffold(
         body: _bodyWidget(),
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: (() {
+                appPreferences.logout();
+                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.signin, (route) => false);
+              }),
+              icon: const Icon(Icons.logout),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -60,7 +71,6 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
         AppTitleText(text: hasUserProject ? AppLocalizations.of(context)!.nextProject : AppLocalizations.of(context)!.noProject),
         const SizedBox(height: 20),
         _form(context),
-        // _getSharedProjects()
       ],
     );
   }
@@ -81,17 +91,19 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
             icon: Icons.tag,
           ),
           const SizedBox(height: 20),
-          CheckboxListTile(
-            title: Text(AppLocalizations.of(context)!.setProjectDefault),
-            subtitle: Text(AppLocalizations.of(context)!.isProjectDefaultSubtitle),
-            value: _isDefaultValue,
-            onChanged: (newValue) {
-              setState(() {
-                _isDefaultValue = newValue!;
-              });
-            },
-            controlAffinity: ListTileControlAffinity.leading, //  <-- leading Checkbox
-          ),
+          hasUserProject
+              ? CheckboxListTile(
+                  title: Text(AppLocalizations.of(context)!.setProjectDefault),
+                  subtitle: Text(AppLocalizations.of(context)!.isProjectDefaultSubtitle),
+                  value: _isDefaultValue,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _isDefaultValue = newValue!;
+                    });
+                  },
+                  controlAffinity: ListTileControlAffinity.leading, //  <-- leading Checkbox
+                )
+              : Container(),
           const SizedBox(height: 20),
           BlocConsumer<ProjectBloc, ProjectState>(
             listener: (context, state) {
@@ -101,7 +113,7 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
                   _isDefaultValue = false;
                 });
                 Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
-              } else if (state is CreateProjectFailureState) {
+              } else if (state is ProjectFailureState) {
                 AppToastMessage().showToastMsg(
                   state.errorMessage,
                   ToastState.error,
@@ -128,55 +140,4 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
       ),
     );
   }
-
-  // Widget _getSharedProjects() {
-  //   return userProjectList.isNotEmpty
-  //       ? Column(
-  //           children: [
-  //             const SizedBox(height: AppPadding.p20),
-  //             AppTitleText(text: AppLocalizations.of(context)!.sharedProject),
-  //             AppContentText(text: AppLocalizations.of(context)!.selectProject),
-  //             SafeArea(
-  //               child: BlocConsumer<UserProjectCubit, UserProjectState>(
-  //                 listener: (context, state) {
-  //                   if (state is UserProjectListSuccessState) {
-  //                     userProjectList = state.userProjectList;
-  //                   } else if (state is UserProjectFailureState) {
-  //                     AppToastMessage().showToastMsg(state.errorMessage, ToastStates.error);
-  //                   }
-  //                 },
-  //                 builder: (context, state) {
-  //                   if (state is UserProjectLoadingState) {
-  //                     return const AppLoadingIndicator();
-  //                   } else {
-  //                     return AppListView(listData: userProjectList, itemBuilder: _itemBuilder);
-  //                   }
-  //                 },
-  //               ),
-  //             ),
-  //           ],
-  //         )
-  //       : Container();
-  // }
-
-  // Widget _itemBuilder(BuildContext context, int index) {
-  //   return AppListViewItem(
-  //     itemBody: Row(
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       children: [
-  //         if (userProjectList[index].isDefault) const Icon(Icons.star, size: AppSize.s20),
-  //         if (userProjectList[index].isDefault) const SizedBox(width: AppPadding.p10),
-  //         Text(userProjectList[index].project!.title),
-  //       ],
-  //     ),
-  //     onTap: () {
-  //       Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //           builder: (context) => UserProjectDetailView(userProject: userProjectList[index]),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }

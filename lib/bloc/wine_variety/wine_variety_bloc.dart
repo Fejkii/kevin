@@ -1,27 +1,23 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/const/app_collections.dart';
 import 'package:kevin/models/wine_variety_model.dart';
-import 'package:kevin/services/app_firestore_service.dart';
+import 'package:kevin/repository/wine_variety_repository.dart';
 
 part 'wine_variety_event.dart';
 part 'wine_variety_state.dart';
 
 class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
-  AppFirestoreService appFirebase = AppFirestoreService();
-  WineVarietyBloc() : super(WineVarietyInitial()) {
-    on<CreateWineVarietyEvent>((event, emit) async {
-      emit(LoadingState());
-      try {
-        final wineVarietyRef = appFirebase.createDoc(AppCollection.wineVarieties);
-        final wineVarietyModel = WineVarietyModel(
-          id: wineVarietyRef.id,
-          title: event.title,
-          code: event.code,
-        );
-        await wineVarietyRef.set(wineVarietyModel.toMap());
+  final WineVarietyRepository wineVarietyRepository;
+  late final StreamSubscription? wineVarietyStream;
 
+  WineVarietyBloc(this.wineVarietyRepository) : super(WineVarietyLoadingState()) {
+    on<CreateWineVarietyEvent>((event, emit) async {
+      emit(WineVarietyLoadingState());
+      try {
+        await wineVarietyRepository.createWineVariety(event.title, event.code);
         emit(WineVarietySuccessState());
       } on FirebaseException catch (e) {
         emit(WineVarietyFailureState(e.message ?? "Error"));
@@ -29,33 +25,35 @@ class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
     });
 
     on<UpdateWineVarietyEvent>((event, emit) async {
-      emit(LoadingState());
+      emit(WineVarietyLoadingState());
       try {
-        await appFirebase.updateDoc(
-          AppCollection.wineVarieties,
-          event.wineVarietyModel.id,
-          event.wineVarietyModel.toMap(),
-        );
-
+        await wineVarietyRepository.updateWineVariety(event.wineVarietyModel);
         emit(WineVarietySuccessState());
       } on FirebaseException catch (e) {
         emit(WineVarietyFailureState(e.message ?? "Error"));
       }
     });
 
-    on<WineVarietyListEvent>((event, emit) async {
-      emit(LoadingState());
+    on<WineVarietyListRequestEvent>((event, emit) async {
+      emit(WineVarietyLoadingState());
       try {
-        List<WineVarietyModel> list = [];
-        await appFirebase.getList(AppCollection.wineVarieties).then((value) {
-          for (var element in value.docs) {
-            list.add(WineVarietyModel.fromMap(element.data()));
-          }
+        wineVarietyRepository.getAllWineVarieties().listen((list) {
+          add(WineVarietyListReceivedEvent(list));
         });
-        emit(WineVarietyListSuccessState(list));
       } on FirebaseException catch (e) {
         emit(WineVarietyFailureState(e.message ?? "Error"));
       }
     });
+
+    on<WineVarietyListReceivedEvent>((event, emit) async {
+      emit(WineVarietyLoadingState());
+      emit(WineVarietyListSuccessState(event.wineVarietylist));
+    });
   }
+
+  // @override
+  // Future<void> close() {
+  //   wineVarietyStream?.cancel();
+  //   return super.close();
+  // }
 }

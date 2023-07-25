@@ -22,6 +22,7 @@ class AppPreferences {
 
   Future<void> logout() async {
     await _sharedPreferences.remove(AppPreferencesKeys.user.name);
+    // TODO fix odhlášení
   }
 
   bool isUserLoggedIn() {
@@ -35,11 +36,8 @@ class AppPreferences {
     await _sharedPreferences.setString(AppPreferencesKeys.user.name, user.toJson());
   }
 
-  UserModel? getUser() {
-    if (_sharedPreferences.getString(AppPreferencesKeys.user.name) != null) {
-      return UserModel.fromJson(_sharedPreferences.getString(AppPreferencesKeys.user.name)!);
-    }
-    return null;
+  UserModel getUser() {
+    return UserModel.fromJson(_sharedPreferences.getString(AppPreferencesKeys.user.name) ?? "");
   }
 
   Future<void> setUserProject(UserProjectModel userProject) async {

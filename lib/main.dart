@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/bloc/auth/auth_bloc.dart';
 import 'package:kevin/bloc/project/project_bloc.dart';
+import 'package:kevin/bloc/user_project/user_project_bloc.dart';
 import 'package:kevin/bloc/wine/wine_bloc.dart';
 import 'package:kevin/bloc/wine_variety/wine_variety_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/firebase_options.dart';
+import 'package:kevin/repository/wine_variety_repository.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/services/route_service.dart';
@@ -35,8 +37,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
         BlocProvider<ProjectBloc>(create: (context) => ProjectBloc()),
+        BlocProvider<UserProjectBloc>(create: (context) => UserProjectBloc()),
         BlocProvider<WineBloc>(create: (context) => WineBloc()),
-        BlocProvider<WineVarietyBloc>(create: (context) => WineVarietyBloc()),
+        BlocProvider<WineVarietyBloc>(create: (context) => WineVarietyBloc(WineVarietyRepository())),
       ],
       child: MaterialApp(
         theme: ThemeData(),
