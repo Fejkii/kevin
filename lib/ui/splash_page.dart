@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
+import 'package:kevin/ui/theme/app_colors.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 
 class SplashPage extends StatefulWidget {
@@ -55,16 +56,23 @@ class _SplashPageState extends State<SplashPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              AppTitleText(text: AppLocalizations.of(context)!.appName),
+              AppTitleText(
+                text: AppLocalizations.of(context)!.appName,
+              ),
               const SizedBox(
                 height: 200,
                 width: 200,
-                child: Icon(Icons.wine_bar, color: Colors.green, size: 120),
+                child: Icon(Icons.wine_bar, size: 120),
               ),
               AppTitleText(text: AppLocalizations.of(context)!.appSubtitle),
             ],
           ),
+          
         ),
+
+      ),
+      theme: ThemeData(
+        primaryColor: AppColors.primary
       ),
     );
   }

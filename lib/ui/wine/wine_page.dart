@@ -16,10 +16,7 @@ class _WinePageState extends State<WinePage> {
 
   @override
   Widget build(BuildContext context) {
-    // return const Center(child: Text("Wine page"));
-
     return AppScaffold(
-      hasSidebar: true,
       body: Center(
         child: Column(
           children: [

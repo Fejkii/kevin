@@ -10,14 +10,14 @@ import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/wine/wine_variety_defail_page.dart';
 
-class WineVarietyListView extends StatefulWidget {
-  const WineVarietyListView({super.key});
+class WineVarietyListPage extends StatefulWidget {
+  const WineVarietyListPage({super.key});
 
   @override
-  State<WineVarietyListView> createState() => _WineVarietyListViewState();
+  State<WineVarietyListPage> createState() => _WineVarietyListPageState();
 }
 
-class _WineVarietyListViewState extends State<WineVarietyListView> {
+class _WineVarietyListPageState extends State<WineVarietyListPage> {
   late List<WineVarietyModel> wineVarietyList;
 
   @override

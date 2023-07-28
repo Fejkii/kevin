@@ -22,7 +22,6 @@ class AppPreferences {
 
   Future<void> logout() async {
     await _sharedPreferences.remove(AppPreferencesKeys.user.name);
-    // TODO fix odhlášení
   }
 
   bool isUserLoggedIn() {

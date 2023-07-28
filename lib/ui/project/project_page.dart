@@ -6,6 +6,7 @@ import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/project/share_project_widget.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
+import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 
 class ProjectPage extends StatefulWidget {
   const ProjectPage({super.key});
@@ -37,7 +38,7 @@ class _ProjectPageState extends State<ProjectPage> {
       children: [
         const ShareProjectWidget(),
         const Divider(height: 40),
-        Text("${AppLocalizations.of(context)!.projectName}: ${appPreferences.getUserProject()!.project.title}"),
+        AppSubTitleText(title: "${AppLocalizations.of(context)!.projectName}: ${appPreferences.getUserProject()!.project.title}"),
         const SizedBox(height: 20),
         AppButton(
           title: AppLocalizations.of(context)!.showUserProjectList,

@@ -47,51 +47,55 @@ class _WineVarietyDetailPageState extends State<WineVarietyDetailPage> {
       builder: (context, state) {
         return AppScaffold(
           body: _form(context),
-          appBar: AppBar(
-            title: Text(widget.wineVariety != null ? widget.wineVariety!.title : AppLocalizations.of(context)!.createWineVariety),
-            actions: [
-              BlocConsumer<WineVarietyBloc, WineVarietyState>(
-                listener: (context, state) {
-                  if (state is WineVarietySuccessState) {
-                    widget.wineVariety != null
-                        ? AppToastMessage().showToastMsg(AppLocalizations.of(context)!.updatedSuccessfully, ToastState.success)
-                        : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.createdSuccessfully, ToastState.success);
-                    Navigator.pop(context);
-                  } else if (state is WineVarietyFailureState) {
-                    AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
-                  }
-                },
-                builder: (context, state) {
-                  if (state is WineVarietyLoadingState) {
-                    return const AppLoadingIndicator();
-                  } else {
-                    return AppIconButton(
-                      iconButtonType: IconButtonType.save,
-                      onPress: (() {
-                        if (_formKey.currentState!.validate()) {
-                          widget.wineVariety != null
-                              ? BlocProvider.of<WineVarietyBloc>(context).add(
-                                  UpdateWineVarietyEvent(
-                                    wineVarietyModel: WineVarietyModel(
-                                      id: widget.wineVariety!.id,
-                                      title: _titleController.text,
-                                      code: _codeController.text,
-                                    ),
-                                  ),
-                                )
-                              : BlocProvider.of<WineVarietyBloc>(context)
-                                  .add(CreateWineVarietyEvent(title: _titleController.text, code: _codeController.text));
-                        }
-                      }),
-                    );
-                  }
-                },
-              ),
-            ],
-          ),
+          appBar: _appBar(context),
         );
       },
     );
+  }
+
+  AppBar _appBar(BuildContext context) {
+    return AppBar(
+          title: Text(widget.wineVariety != null ? widget.wineVariety!.title : AppLocalizations.of(context)!.createWineVariety),
+          actions: [
+            BlocConsumer<WineVarietyBloc, WineVarietyState>(
+              listener: (context, state) {
+                if (state is WineVarietySuccessState) {
+                  widget.wineVariety != null
+                      ? AppToastMessage().showToastMsg(AppLocalizations.of(context)!.updatedSuccessfully, ToastState.success)
+                      : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.createdSuccessfully, ToastState.success);
+                  Navigator.pop(context);
+                } else if (state is WineVarietyFailureState) {
+                  AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
+                }
+              },
+              builder: (context, state) {
+                if (state is WineVarietyLoadingState) {
+                  return const AppLoadingIndicator();
+                } else {
+                  return AppIconButton(
+                    iconButtonType: IconButtonType.save,
+                    onPress: (() {
+                      if (_formKey.currentState!.validate()) {
+                        widget.wineVariety != null
+                            ? BlocProvider.of<WineVarietyBloc>(context).add(
+                                UpdateWineVarietyEvent(
+                                  wineVarietyModel: WineVarietyModel(
+                                    id: widget.wineVariety!.id,
+                                    title: _titleController.text,
+                                    code: _codeController.text,
+                                  ),
+                                ),
+                              )
+                            : BlocProvider.of<WineVarietyBloc>(context)
+                                .add(CreateWineVarietyEvent(title: _titleController.text, code: _codeController.text));
+                      }
+                    }),
+                  );
+                }
+              },
+            ),
+          ],
+        );
   }
 
   Widget _form(BuildContext context) {

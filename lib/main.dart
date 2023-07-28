@@ -15,6 +15,7 @@ import 'package:kevin/services/route_service.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kevin/ui/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<WineVarietyBloc>(create: (context) => WineVarietyBloc(WineVarietyRepository())),
       ],
       child: MaterialApp(
-        theme: ThemeData(),
+        theme: AppTheme.lightTheme,
         initialRoute: AppRoutes.splash,
         onGenerateRoute: RouteGenerator.onGenerateRoute,
         supportedLocales: const [

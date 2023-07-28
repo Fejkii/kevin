@@ -13,7 +13,7 @@ class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
   final WineVarietyRepository wineVarietyRepository;
   late final StreamSubscription? wineVarietyStream;
 
-  WineVarietyBloc(this.wineVarietyRepository) : super(WineVarietyLoadingState()) {
+  WineVarietyBloc(this.wineVarietyRepository) : super(WineVarietyInitial()) {
     on<CreateWineVarietyEvent>((event, emit) async {
       emit(WineVarietyLoadingState());
       try {

@@ -69,5 +69,6 @@
     "cancel": "Zrušit",
     "title": "Název",
     "code": "Kód",
-    "emptyData": "Nenalezeny žádné data"
+    "emptyData": "Nenalezeny žádné data",
+    "settings": "Nastavení"
 }

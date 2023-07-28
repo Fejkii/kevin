@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kevin/modules/settings/view/settings_page.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/vineyard/vineyard_page.dart';
@@ -21,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const WinePage(),
     const VineyardPage(),
+    const SettingsPage(),
   ];
 
   void _onPageTap(int index) {
@@ -32,42 +34,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: Column(
-      //   children: [
-      //     const Text("Home"),
-      //     Text(user?.email ?? ""),
-      //     Text(user?.uid ?? ""),
-      //     Text(user?.displayName ?? ""),
-      //     BlocConsumer<AuthBloc, AuthState>(
-      //       listener: (context, state) {
-      //         if (state is LoggedOutState) {
-      //           Navigator.pushNamedAndRemoveUntil(context, AppRoutes.signin, (route) => false);
-      //         } else if (state is AuthFailureState) {
-      //           Navigator.pushNamedAndRemoveUntil(context, AppRoutes.signin, (route) => false);
-      //         }
-      //       },
-      //       builder: (context, state) {
-      //         if (state is AuthLoadingState) {
-      //           return const AppLoadingIndicator();
-      //         } else {
-      //           return ListTile(
-      //             leading: const Icon(Icons.logout),
-      //             title: Text(AppLocalizations.of(context)!.logout),
-      //             onTap: () {
-      //               BlocProvider.of<AuthBloc>(context).add(const LogOutEvent());
-      //             },
-      //           );
-      //         }
-      //       },
-      //     ),
-      //     ElevatedButton(
-      //       onPressed: () {
-      //         BlocProvider.of<AuthBloc>(context).add(const LogOutEvent());
-      //       },
-      //       child: const Text("Odhlásit"),
-      //     ),
-      //   ],
-      // ),
       body: _pages[_currentPageIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentPageIndex,
@@ -80,6 +46,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             label: AppLocalizations.of(context)!.vineyard,
             icon: const Icon(Icons.local_florist),
+          ),
+          BottomNavigationBarItem(
+            label: AppLocalizations.of(context)!.settings,
+            icon: const Icon(Icons.settings),
           ),
         ],
       ),
