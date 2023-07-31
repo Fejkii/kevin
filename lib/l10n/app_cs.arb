@@ -70,5 +70,23 @@
     "title": "Název",
     "code": "Kód",
     "emptyData": "Nenalezeny žádné data",
-    "settings": "Nastavení"
+    "settings": "Nastavení",
+    "createWine": "Vytvořit víno",
+    "selectInSelectBox": "Vyber hodnotu",
+    "wineClassification": "Klasifikace vína",
+    "wineQuantity": "Množství vína",
+    "year": "Ročník",
+    "alcohol": "Alkohol",
+    "acid": "Kyseliny",
+    "sugar": "Zbytkový cukr",
+    "note": "Poznámka",
+    "unitLiter": "{count, plural, =0{litrů} =1{litr} =2{litry} other{litrů}}",
+    "@unitLiter": {
+        "description": "A plural message",
+        "placeholders": {
+            "count": {
+                "type": "num"
+            }
+        }
+    }
 }

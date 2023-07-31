@@ -28,7 +28,7 @@ class _ProjectPageState extends State<ProjectPage> {
     return AppScaffold(
       body: _bodyWidget(),
       appBar: AppBar(
-        title: Text(appPreferences.getUserProject()!.project.title),
+        title: Text(appPreferences.getUserProject().project.title),
       ),
     );
   }
@@ -38,7 +38,7 @@ class _ProjectPageState extends State<ProjectPage> {
       children: [
         const ShareProjectWidget(),
         const Divider(height: 40),
-        AppSubTitleText(title: "${AppLocalizations.of(context)!.projectName}: ${appPreferences.getUserProject()!.project.title}"),
+        AppSubTitleText(title: "${AppLocalizations.of(context)!.projectName}: ${appPreferences.getUserProject().project.title}"),
         const SizedBox(height: 20),
         AppButton(
           title: AppLocalizations.of(context)!.showUserProjectList,

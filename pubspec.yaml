@@ -50,6 +50,7 @@ dependencies:
 
   fluttertoast: ^8.1.2 # Error messages
   flutter_slidable: ^2.0.0 # More information in ListView item and deleting
+  dropdown_search: ^5.0.6
 
 dev_dependencies:
   flutter_test:

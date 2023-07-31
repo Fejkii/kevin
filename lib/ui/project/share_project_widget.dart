@@ -32,7 +32,7 @@ class _ShareProjectWidgetState extends State<ShareProjectWidget> {
 
   @override
   void initState() {
-    projectModel = appPreferences.getUserProject()!.project;
+    projectModel = appPreferences.getUserProject().project;
     _getData();
     userList = [];
     super.initState();

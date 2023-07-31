@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                   title: AppLocalizations.of(context)!.loginButton,
                   onTap: () {
                     _formKey.currentState!.validate()
-                        ? BlocProvider.of<AuthBloc>(context).add(LogInEvent(email: _emailController.text, password: _passwordController.text))
+                        ? BlocProvider.of<AuthBloc>(context).add(LogInEvent(email: _emailController.text.trim(), password: _passwordController.text.trim()))
                         : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
                   },
                 );

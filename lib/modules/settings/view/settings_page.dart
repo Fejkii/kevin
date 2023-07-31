@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/bloc/auth/auth_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/const/app_values.dart';
+import 'package:kevin/modules/wine/view/wine_variety_list_page.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/project/project_page.dart';
@@ -13,7 +14,6 @@ import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kevin/ui/wine/wine_variety_list_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -52,20 +52,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 ],
               ),
               const SizedBox(height: 10),
-              AppSubTitleText(title: appPreferences.getUserProject()!.project.title),
+              AppSubTitleText(title: appPreferences.getUserProject().project.title),
               const Spacer(),
               Text(appPreferences.getUser().userName ?? AppConstant.EMPTY),
               Text(appPreferences.getUser().email),
             ],
           ),
         ),
-        // ListTile(
-        //   leading: const Icon(Icons.person),
-        //   title: Text(AppLocalizations.of(context)!.profile),
-        //   onTap: () {
-        //     Navigator.popAndPushNamed(context, AppRoutes.userRoute);
-        //   },
-        // ),
+        // TODO User profile
         AppListTile(
           leading: const Icon(Icons.supervised_user_circle),
           title: AppLocalizations.of(context)!.project,

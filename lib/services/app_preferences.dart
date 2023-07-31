@@ -1,19 +1,40 @@
+import 'dart:convert';
+
 import 'package:kevin/models/user_project_model.dart';
+import 'package:kevin/modules/wine/data/model/wine_classification_model.dart';
+import 'package:kevin/modules/wine/data/repository/wine_classification_repository.dart';
+import 'package:kevin/services/language_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kevin/models/user_model.dart';
 
 enum AppPreferencesKeys {
+  language,
   user,
   userProject,
+  wineClassification,
 }
 
 class AppPreferences {
+  final WineClassificationRepository wineClassificationRepository = WineClassificationRepository();
   late SharedPreferences _sharedPreferences;
 
   AppPreferences(this._sharedPreferences);
 
   Future<SharedPreferences> initSP() async {
     return _sharedPreferences = await SharedPreferences.getInstance();
+  }
+
+  String getAppLanguage() {
+    String? language = _sharedPreferences.getString(AppPreferencesKeys.language.name);
+    if (language != null && language.isNotEmpty) {
+      return language;
+    } else {
+      return LanguageCodeEnum.czech.getValue();
+    }
+  }
+
+  Future<void> setAppLanguage(String language) async {
+    await _sharedPreferences.setString(AppPreferencesKeys.language.name, language);
   }
 
   Future<void> clear() async {
@@ -47,10 +68,20 @@ class AppPreferences {
     return _sharedPreferences.getString(AppPreferencesKeys.userProject.name) != null ? true : false;
   }
 
-  UserProjectModel? getUserProject() {
-    if (_sharedPreferences.getString(AppPreferencesKeys.userProject.name) != null) {
-      return UserProjectModel.fromJson(_sharedPreferences.getString(AppPreferencesKeys.userProject.name)!);
-    }
-    return null;
+  UserProjectModel getUserProject() {
+    return UserProjectModel.fromJson(_sharedPreferences.getString(AppPreferencesKeys.userProject.name)!);
+  }
+
+  Future<void> setWineClassifications(List<WineClassificationModel> wineClassificationList) async {
+    var wineClassifications = jsonEncode(wineClassificationList);
+    await _sharedPreferences.setString(AppPreferencesKeys.wineClassification.name, wineClassifications);
+  }
+
+  List<WineClassificationModel> getWineClassificationList() {
+    List<WineClassificationModel> wineClassificationList = [];
+    (jsonDecode(_sharedPreferences.getString(AppPreferencesKeys.wineClassification.name)!)).forEach((element) {
+      wineClassificationList.add(WineClassificationModel.fromJson(element));
+    });
+    return wineClassificationList;
   }
 }

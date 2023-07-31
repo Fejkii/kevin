@@ -76,7 +76,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                   title: AppLocalizations.of(context)!.resetPassword,
                   onTap: () {
                     _formKey.currentState!.validate()
-                        ? BlocProvider.of<AuthBloc>(context).add(ForgotPasswordEvent(email: _emailController.text))
+                        ? BlocProvider.of<AuthBloc>(context).add(ForgotPasswordEvent(email: _emailController.text.trim()))
                         : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.forgottenPasswordError, ToastState.error);
                   },
                 );

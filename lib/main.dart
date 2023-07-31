@@ -4,13 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/bloc/auth/auth_bloc.dart';
 import 'package:kevin/bloc/project/project_bloc.dart';
 import 'package:kevin/bloc/user_project/user_project_bloc.dart';
-import 'package:kevin/bloc/wine/wine_bloc.dart';
-import 'package:kevin/bloc/wine_variety/wine_variety_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/firebase_options.dart';
-import 'package:kevin/repository/wine_variety_repository.dart';
+import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
+import 'package:kevin/modules/wine/bloc/wine_classification_bloc.dart';
+import 'package:kevin/modules/wine/bloc/wine_variety_bloc.dart';
+import 'package:kevin/modules/wine/data/repository/wine_classification_repository.dart';
+import 'package:kevin/modules/wine/data/repository/wine_variety_repository.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
+import 'package:kevin/services/language_service.dart';
 import 'package:kevin/services/route_service.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -41,13 +44,15 @@ class MyApp extends StatelessWidget {
         BlocProvider<UserProjectBloc>(create: (context) => UserProjectBloc()),
         BlocProvider<WineBloc>(create: (context) => WineBloc()),
         BlocProvider<WineVarietyBloc>(create: (context) => WineVarietyBloc(WineVarietyRepository())),
+        BlocProvider<WineClassificationBloc>(create: (context) => WineClassificationBloc(WineClassificationRepository())),
       ],
       child: MaterialApp(
+        locale: Locale(instance<AppPreferences>().getAppLanguage()),
         theme: AppTheme.lightTheme,
         initialRoute: AppRoutes.splash,
         onGenerateRoute: RouteGenerator.onGenerateRoute,
-        supportedLocales: const [
-          Locale("cs", ""),
+        supportedLocales: [
+          Locale(LanguageCodeEnum.czech.getValue(), ""),
         ],
         localizationsDelegates: const [
           AppLocalizations.delegate,

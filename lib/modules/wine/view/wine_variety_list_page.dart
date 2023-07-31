@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kevin/bloc/wine_variety/wine_variety_bloc.dart';
-import 'package:kevin/models/wine_variety_model.dart';
-import 'package:kevin/repository/wine_variety_repository.dart';
+import 'package:kevin/modules/wine/bloc/wine_variety_bloc.dart';
+import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
+import 'package:kevin/modules/wine/data/repository/wine_variety_repository.dart';
+import 'package:kevin/modules/wine/view/wine_variety_defail_page.dart';
 import 'package:kevin/ui/widgets/app_list_view.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
-import 'package:kevin/ui/wine/wine_variety_defail_page.dart';
 
 class WineVarietyListPage extends StatefulWidget {
   const WineVarietyListPage({super.key});

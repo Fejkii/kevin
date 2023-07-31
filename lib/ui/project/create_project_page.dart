@@ -129,7 +129,7 @@ class _CreateProjectPageState extends State<CreateProjectPage> {
                   title: AppLocalizations.of(context)!.createProject,
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
-                      BlocProvider.of<ProjectBloc>(context).add(CreateProjectEvent(title: _titleController.text, isDefault: _isDefaultValue));
+                      BlocProvider.of<ProjectBloc>(context).add(CreateProjectEvent(title: _titleController.text.trim(), isDefault: _isDefaultValue));
                     }
                   },
                 );

@@ -1,11 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin/modules/settings/view/settings_page.dart';
+import 'package:kevin/modules/wine/view/wine_list_page.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/vineyard/vineyard_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kevin/ui/wine/wine_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   int _currentPageIndex = 0;
 
   final List<Widget> _pages = [
-    const WinePage(),
+    const WineListPage(),
     const VineyardPage(),
     const SettingsPage(),
   ];

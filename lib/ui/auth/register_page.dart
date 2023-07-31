@@ -95,9 +95,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   onTap: () {
                     _formKey.currentState!.validate()
                         ? BlocProvider.of<AuthBloc>(context).add(RegisterEvent(
-                            userName: _nameController.text,
-                            email: _emailController.text,
-                            password: _passwordController.text,
+                            userName: _nameController.text.trim(),
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
                           ))
                         : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
                   },

@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/models/wine_variety_model.dart';
-import 'package:kevin/repository/wine_variety_repository.dart';
+import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
+import 'package:kevin/modules/wine/data/repository/wine_variety_repository.dart';
 
 part 'wine_variety_event.dart';
 part 'wine_variety_state.dart';
@@ -19,8 +18,8 @@ class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
       try {
         await wineVarietyRepository.createWineVariety(event.title, event.code);
         emit(WineVarietySuccessState());
-      } on FirebaseException catch (e) {
-        emit(WineVarietyFailureState(e.message ?? "Error"));
+      } on Exception catch (e) {
+        emit(WineVarietyFailureState(e.toString()));
       }
     });
 
@@ -29,8 +28,18 @@ class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
       try {
         await wineVarietyRepository.updateWineVariety(event.wineVarietyModel);
         emit(WineVarietySuccessState());
-      } on FirebaseException catch (e) {
-        emit(WineVarietyFailureState(e.message ?? "Error"));
+      } on Exception catch (e) {
+        emit(WineVarietyFailureState(e.toString()));
+      }
+    });
+
+    on<WineVarietyListEvent>((event, emit) async {
+      emit(WineVarietyLoadingState());
+      try {
+        List<WineVarietyModel> list = await wineVarietyRepository.getWineVarietyList();
+        add(WineVarietyListReceivedEvent(list));
+      } on Exception catch (e) {
+        emit(WineVarietyFailureState(e.toString()));
       }
     });
 
@@ -40,8 +49,8 @@ class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
         wineVarietyRepository.getAllWineVarieties().listen((list) {
           add(WineVarietyListReceivedEvent(list));
         });
-      } on FirebaseException catch (e) {
-        emit(WineVarietyFailureState(e.message ?? "Error"));
+      } on Exception catch (e) {
+        emit(WineVarietyFailureState(e.toString()));
       }
     });
 

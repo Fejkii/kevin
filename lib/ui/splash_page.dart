@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/const/app_routes.dart';
+import 'package:kevin/modules/wine/bloc/wine_classification_bloc.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/theme/app_colors.dart';
@@ -22,6 +24,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<WineClassificationBloc>(context).add(WineClassificationListEvent());
     _startDelay();
   }
 
@@ -67,13 +70,9 @@ class _SplashPageState extends State<SplashPage> {
               AppTitleText(text: AppLocalizations.of(context)!.appSubtitle),
             ],
           ),
-          
         ),
-
       ),
-      theme: ThemeData(
-        primaryColor: AppColors.primary
-      ),
+      theme: ThemeData(primaryColor: AppColors.primary),
     );
   }
 }

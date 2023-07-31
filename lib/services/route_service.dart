@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/modules/settings/view/settings_page.dart';
+import 'package:kevin/modules/wine/view/wine_variety_list_page.dart';
 import 'package:kevin/services/custom_page_route.dart';
 import 'package:kevin/ui/auth/forgot_password_page.dart';
 import 'package:kevin/ui/auth/login_page.dart';
@@ -11,7 +12,6 @@ import 'package:kevin/ui/project/create_project_page.dart';
 import 'package:kevin/ui/project/project_list_page.dart';
 import 'package:kevin/ui/project/project_page.dart';
 import 'package:kevin/ui/splash_page.dart';
-import 'package:kevin/ui/wine/wine_variety_list_page.dart';
 
 class RouteGenerator {
   static Route<dynamic>? onGenerateRoute(RouteSettings routeSettings) {
