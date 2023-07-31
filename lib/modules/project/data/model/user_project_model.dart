@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:kevin/models/project_model.dart';
-import 'package:kevin/models/user_model.dart';
+import 'package:kevin/modules/auth/data/model/user_model.dart';
+import 'package:kevin/modules/project/data/model/project_model.dart';
 
 class UserProjectModel {
   String id;
@@ -37,8 +37,8 @@ class UserProjectModel {
   factory UserProjectModel.fromMap(Map<String, dynamic> map) {
     return UserProjectModel(
       id: map['id'] as String,
-      user: UserModel.fromMap(map['user'] as Map<String,dynamic>),
-      project: ProjectModel.fromMap(map['project'] as Map<String,dynamic>),
+      user: UserModel.fromMap(map['user'] as Map<String, dynamic>),
+      project: ProjectModel.fromMap(map['project'] as Map<String, dynamic>),
       isDefault: map['isDefault'] as bool,
       isOwner: map['isOwner'] as bool,
       created: DateTime.fromMillisecondsSinceEpoch(map['created'] as int),

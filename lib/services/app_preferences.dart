@@ -1,11 +1,12 @@
 import 'dart:convert';
 
-import 'package:kevin/models/user_project_model.dart';
 import 'package:kevin/modules/wine/data/model/wine_classification_model.dart';
 import 'package:kevin/modules/wine/data/repository/wine_classification_repository.dart';
 import 'package:kevin/services/language_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:kevin/models/user_model.dart';
+import 'package:kevin/modules/auth/data/model/user_model.dart';
+
+import '../modules/project/data/model/user_project_model.dart';
 
 enum AppPreferencesKeys {
   language,

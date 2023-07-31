@@ -88,5 +88,8 @@
                 "type": "num"
             }
         }
-    }
+    },
+    "noName": "Nemáš ještě nastaveno své jméno",
+    "setName": "Nastavit jméno",
+    "profile": "Profil"
 }

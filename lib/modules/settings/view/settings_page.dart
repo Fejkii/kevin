@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/bloc/auth/auth_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/const/app_values.dart';
+import 'package:kevin/modules/auth/bloc/auth_bloc.dart';
+import 'package:kevin/modules/auth/view/user_profile_page.dart';
 import 'package:kevin/modules/wine/view/wine_variety_list_page.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
-import 'package:kevin/ui/project/project_page.dart';
 import 'package:kevin/ui/widgets/app_list_tile.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
@@ -14,6 +14,8 @@ import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../../project/view/project_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -59,7 +61,14 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ),
         ),
-        // TODO User profile
+        AppListTile(
+          leading: const Icon(Icons.person),
+          title: AppLocalizations.of(context)!.profile,
+          trailing: const Icon(Icons.arrow_forward_ios),
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfilePage()));
+          },
+        ),
         AppListTile(
           leading: const Icon(Icons.supervised_user_circle),
           title: AppLocalizations.of(context)!.project,
@@ -114,10 +123,6 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           Text(
             '${AppLocalizations.of(context)!.appVersion}: 0.0.1',
-            style: const TextStyle(fontSize: 12),
-          ),
-          Text(
-            '${AppLocalizations.of(context)!.apiVersion}: ',
             style: const TextStyle(fontSize: 12),
           ),
         ],

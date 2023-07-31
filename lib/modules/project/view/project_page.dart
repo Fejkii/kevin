@@ -3,10 +3,11 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
-import 'package:kevin/ui/project/share_project_widget.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
+
+import 'share_project_widget.dart';
 
 class ProjectPage extends StatefulWidget {
   const ProjectPage({super.key});

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kevin/bloc/user_project/user_project_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
-import 'package:kevin/models/user_project_model.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
-import 'package:kevin/ui/project/project_detail_page.dart';
 import 'package:kevin/ui/widgets/app_list_view.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
+
+import '../bloc/user_project_bloc.dart';
+import '../data/model/user_project_model.dart';
+import 'project_detail_page.dart';
 
 class PojectListPage extends StatefulWidget {
   const PojectListPage({super.key});

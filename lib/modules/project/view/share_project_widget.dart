@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kevin/bloc/project/project_bloc.dart';
-import 'package:kevin/bloc/user_project/user_project_bloc.dart';
 import 'package:kevin/const/app_values.dart';
-import 'package:kevin/models/project_model.dart';
-import 'package:kevin/models/user_project_model.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/widgets/app_list_view.dart';
@@ -15,6 +11,11 @@ import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_text_field.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
+
+import '../bloc/project_bloc.dart';
+import '../bloc/user_project_bloc.dart';
+import '../data/model/project_model.dart';
+import '../data/model/user_project_model.dart';
 
 class ShareProjectWidget extends StatefulWidget {
   const ShareProjectWidget({super.key});

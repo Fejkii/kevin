@@ -1,68 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/bloc/auth/auth_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
+import 'package:kevin/modules/auth/bloc/auth_bloc.dart';
+import 'package:kevin/services/app_preferences.dart';
+import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
+import 'package:kevin/ui/widgets/buttons/app_text_button.dart';
 import 'package:kevin/ui/widgets/texts/app_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _LoginPageState extends State<LoginPage> {
+  final AppPreferences appPreferences = instance<AppPreferences>();
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordConfirmController = TextEditingController();
 
   @override
   void initState() {
+    _emailController.text = "petr@test.cz"; // TODO delete
+    _passwordController.text = "password";
     super.initState();
   }
 
   @override
   void dispose() {
-    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _passwordConfirmController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: _registerForm(context),
+      body: _loginForm(context),
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.registration),
+        title: Text(AppLocalizations.of(context)!.login),
       ),
     );
   }
 
-  Widget _registerForm(BuildContext context) {
+  Widget _loginForm(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
-        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 10),
-          AppTextField(
-            controller: _nameController,
-            label: AppLocalizations.of(context)!.name,
-            isRequired: true,
-            icon: Icons.text_fields_outlined,
-          ),
-          const SizedBox(height: 20),
           AppTextField(
             controller: _emailController,
             label: AppLocalizations.of(context)!.email,
@@ -81,7 +74,13 @@ class _RegisterPageState extends State<RegisterPage> {
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
               if (state is LoggedInState) {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+                if (appPreferences.getUser().userName == null) {
+                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.userName, (route) => false);
+                } else if (!appPreferences.hasUserProject()) {
+                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.createProject, (route) => false);
+                } else {
+                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+                }
               } else if (state is AuthFailureState) {
                 AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
               }
@@ -91,20 +90,32 @@ class _RegisterPageState extends State<RegisterPage> {
                 return const AppLoadingIndicator();
               } else {
                 return AppButton(
-                  title: AppLocalizations.of(context)!.register,
+                  title: AppLocalizations.of(context)!.loginButton,
                   onTap: () {
                     _formKey.currentState!.validate()
-                        ? BlocProvider.of<AuthBloc>(context).add(RegisterEvent(
-                            userName: _nameController.text.trim(),
-                            email: _emailController.text.trim(),
-                            password: _passwordController.text.trim(),
-                          ))
+                        ? BlocProvider.of<AuthBloc>(context).add(LogInEvent(email: _emailController.text.trim(), password: _passwordController.text.trim()))
                         : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
                   },
                 );
               }
             },
           ),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppTextButton(
+                  title: AppLocalizations.of(context)!.register,
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.register);
+                  }),
+              AppTextButton(
+                  title: AppLocalizations.of(context)!.forgottenPassword,
+                  onTap: () {
+                    Navigator.pushNamed(context, AppRoutes.forgetPassword);
+                  }),
+            ],
+          )
         ],
       ),
     );

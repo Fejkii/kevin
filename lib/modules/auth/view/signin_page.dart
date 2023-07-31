@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/bloc/auth/auth_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/const/images.dart';
 import 'package:kevin/ui/widgets/buttons/app_login_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../bloc/auth_bloc.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});

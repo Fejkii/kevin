@@ -5,12 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kevin/const/app_collections.dart';
-import 'package:kevin/models/user_model.dart';
-import 'package:kevin/models/user_project_model.dart';
-import 'package:kevin/repository/user_project_repository.dart';
-import 'package:kevin/repository/user_repository.dart';
+import 'package:kevin/modules/auth/data/model/user_model.dart';
+import 'package:kevin/modules/auth/data/repository/user_repository.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
+
+import '../../project/data/model/user_project_model.dart';
+import '../../project/data/repository/user_project_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

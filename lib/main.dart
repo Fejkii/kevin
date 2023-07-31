@@ -1,11 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/bloc/auth/auth_bloc.dart';
-import 'package:kevin/bloc/project/project_bloc.dart';
-import 'package:kevin/bloc/user_project/user_project_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/firebase_options.dart';
+import 'package:kevin/modules/auth/bloc/user_bloc.dart';
+import 'package:kevin/modules/auth/data/repository/user_repository.dart';
 import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_classification_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_variety_bloc.dart';
@@ -19,6 +18,10 @@ import 'package:kevin/services/route_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/ui/theme/app_theme.dart';
+
+import 'modules/auth/bloc/auth_bloc.dart';
+import 'modules/project/bloc/project_bloc.dart';
+import 'modules/project/bloc/user_project_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +43,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<AuthBloc>(create: (context) => AuthBloc()),
+        BlocProvider<UserBloc>(create: (context) => UserBloc(UserRepository())),
         BlocProvider<ProjectBloc>(create: (context) => ProjectBloc()),
         BlocProvider<UserProjectBloc>(create: (context) => UserProjectBloc()),
         BlocProvider<WineBloc>(create: (context) => WineBloc()),

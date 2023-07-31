@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kevin/const/app_collections.dart';
-import 'package:kevin/models/project_model.dart';
+
+import '../model/project_model.dart';
 
 class ProjectRepository {
   final firebase = FirebaseFirestore.instance.collection(AppCollection.projects);

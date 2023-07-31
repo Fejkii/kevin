@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/bloc/auth/auth_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
@@ -9,6 +8,8 @@ import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 import 'package:kevin/ui/widgets/texts/app_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../bloc/auth_bloc.dart';
 
 class ForgottenPasswordPage extends StatefulWidget {
   const ForgottenPasswordPage({super.key});

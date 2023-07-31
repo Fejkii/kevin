@@ -7,7 +7,6 @@ class ProjectModel {
     required this.id,
     required this.title,
   });
-  
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kevin/bloc/project/project_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/const/app_values.dart';
-import 'package:kevin/models/user_project_model.dart';
+import 'package:kevin/modules/project/bloc/project_bloc.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
@@ -13,6 +12,8 @@ import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_text_field.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
+
+import '../data/model/user_project_model.dart';
 
 class CreateProjectPage extends StatefulWidget {
   const CreateProjectPage({Key? key}) : super(key: key);

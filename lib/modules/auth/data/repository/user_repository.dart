@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kevin/const/app_collections.dart';
-import 'package:kevin/models/user_model.dart';
+import 'package:kevin/modules/auth/data/model/user_model.dart';
 
 class UserRepository {
   final firebase = FirebaseFirestore.instance.collection(AppCollection.users);
@@ -22,5 +22,23 @@ class UserRepository {
       }
     });
     return userModel;
+  }
+
+  Future<UserModel> createUserName(UserModel userModel, String name) async {
+    await firebase.doc(userModel.id).set(
+          UserModel(
+            userModel.id,
+            userModel.email,
+            name,
+            userModel.created,
+            DateTime.now(),
+          ).toMap(),
+        );
+
+    return userModel;
+  }
+
+  Future<void> updateUser(UserModel userModel) async {
+    await firebase.doc(userModel.id).set(userModel.toMap());
   }
 }

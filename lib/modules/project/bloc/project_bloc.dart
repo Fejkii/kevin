@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/models/project_model.dart';
-import 'package:kevin/models/user_model.dart';
-import 'package:kevin/models/user_project_model.dart';
-import 'package:kevin/repository/project_repository.dart';
-import 'package:kevin/repository/user_project_repository.dart';
-import 'package:kevin/repository/user_repository.dart';
+import 'package:kevin/modules/auth/data/model/user_model.dart';
+import 'package:kevin/modules/project/data/model/project_model.dart';
+import 'package:kevin/modules/auth/data/repository/user_repository.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
+
+import '../data/model/user_project_model.dart';
+import '../data/repository/project_repository.dart';
+import '../data/repository/user_project_repository.dart';
 
 part 'project_event.dart';
 part 'project_state.dart';
