@@ -81,8 +81,8 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(height: 20),
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is LoggedInState) {
-                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
+              if (state is LoginSuccessState) {
+                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.createProject, (route) => false);
               } else if (state is AuthFailureState) {
                 AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
               }

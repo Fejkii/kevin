@@ -24,4 +24,8 @@ class ProjectRepository {
     await projectRef.set(projectModel.toMap());
     return projectModel;
   }
+
+  Future<void> updateProject(ProjectModel projectModel) async {
+    await firebase.doc(projectModel.id).set(projectModel.toMap());
+  }
 }

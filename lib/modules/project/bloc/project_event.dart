@@ -28,26 +28,3 @@ class UpdateProjectEvent extends ProjectEvent {
   @override
   List<Object> get props => [projectModel];
 }
-
-class ShareProjectEvent extends ProjectEvent {
-  final ProjectModel projectModel;
-  final String email;
-  const ShareProjectEvent({
-    required this.projectModel,
-    required this.email,
-  });
-
-  @override
-  List<Object> get props => [projectModel, email];
-}
-
-class DeleteUserFromProjectEvent extends ProjectEvent {
-  // TODO chybí v bloku logika
-  final UserProjectModel userProjectModel;
-  const DeleteUserFromProjectEvent({
-    required this.userProjectModel,
-  });
-
-  @override
-  List<Object> get props => [userProjectModel];
-}

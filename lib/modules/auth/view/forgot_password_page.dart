@@ -50,7 +50,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AppSubTitleText(title: AppLocalizations.of(context)!.forgottenPasswordInfo),
+          AppSubTitleText(text: AppLocalizations.of(context)!.forgottenPasswordInfo),
           const SizedBox(height: 40),
           AppTextField(
             controller: _emailController,
@@ -62,7 +62,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
           const SizedBox(height: 20),
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is ForgotPasswordSendedState) {
+              if (state is ForgotPasswordSendSuccessState) {
                 AppToastMessage().showToastMsg(AppLocalizations.of(context)!.forgottenPasswordMessage, ToastState.success);
                 Navigator.pushNamedAndRemoveUntil(context, AppRoutes.signin, (route) => false);
               } else if (state is AuthFailureState) {

@@ -1,6 +1,16 @@
 {
     "appName": "KEVIN",
     "appSubtitle": "Komplexní evidence vín",
+    "welcome": "Ahoj {userName}!",
+    "@welcome": {
+        "description": "A message with a single parameter",
+        "placeholders": {
+            "userName": {
+                "type": "String",
+                "example": "Bob"
+            }
+        }
+    },
     "appVersion": "Aplication Version",
     "apiVersion": "API Version",
     "signIn": "Přihlaš se pomocí",
@@ -31,8 +41,8 @@
     "wine": "Víno",
     "vineyard": "Vinohrad",
     "projectName": "Název projektu",
-    "noProject": "Ještě nemáte vytvořen žádný projekt.\nVytvořte si vlastní projekt, vyberte sdílený projekt nebo požádejte přátele, pro nasdílení.",
-    "nextProject": "Můžete vytvořit další projekt.",
+    "noProject": "Ještě nemáš vytvořen žádný projekt.\nVytvoř si vlastní projekt, vyberte sdílený projekt nebo požádejte přátele o sdílení.",
+    "nextProject": "Můžeš vytvořit další projekt.",
     "project": "Projekt",
     "yourProjects": "Tvé projekty",
     "selectProject": "Vyber výchozí projekt",
@@ -41,20 +51,20 @@
     "nameError": "Neplatný název",
     "setProjectDefault": "Nastavit projekt jako výchozí",
     "setProjectDefaultContent": "Tato akce restartuje aplikaci a nastaví tento projekt jako výchozí",
-    "projectIsDefault": "Tento projekt je již nastaven jako výchozí",
     "isProjectDefaultSubtitle": "Tento projekt se automaticky otevře po přihlášení",
     "usersInProject": "Uživatelé v tomto projektu",
     "showUserProjectList": "Zobrazit všechny mé projekty",
     "shareProject": "Projekt můžete sdílet s ostatními uživateli",
     "sharedProject": "Sdílené projekty",
     "shareProjectButton": "Sdílet projekt",
-    "emailIsNotRegistered": "Email uživatele není zaregistrován",
+    "shareProjectFailure": "Na tento email nelze sdílet projekt",
     "userProjectSharedList": "Tento projekt je sdílen s uživateli",
     "userProjectDeleted": "Uživatel byl odebrán z projektu",
     "userAddedToProject": "Uživatel byl přidán do tohoto projektu",
     "userAddedToProjectError": "Uživatel neexistuje nebo je již součástí tohoto projektu",
     "deleteUserProject": "Odebrat uživatele z projektu",
     "deleteUserProjectContent": "Jste si jisti, že chcete odebrat uživatele z tohoto projektu?",
+    "deleteUserProjectFailure": "Tento účet nelze odebrat",
     "wineVarieties": "Odrůdy vín",
     "createWineVariety": "Vytvořit odrůdu vína",
     "save": "Uložit",

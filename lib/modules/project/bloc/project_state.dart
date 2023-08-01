@@ -20,9 +20,3 @@ class ProjectFailureState extends ProjectState {
   @override
   List<Object> get props => [errorMessage];
 }
-
-class ShareProjectLoadingState extends ProjectState {}
-
-class ShareProjectSuccessState extends ProjectState {}
-
-class ShareProjectFailureState extends ProjectState {}

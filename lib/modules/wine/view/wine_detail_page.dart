@@ -107,20 +107,15 @@ class _WineDetailPageState extends State<WineDetailPage> {
           if (state is WineVarietyLoadingState) {
             return const AppLoadingIndicator();
           } else {
-            return ListView(
-              shrinkWrap: true,
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 10),
-                    _form(context),
-                    const SizedBox(height: 20),
-                    _otherInfo(),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+                const SizedBox(height: 10),
+                _form(context),
+                const SizedBox(height: 20),
+                _otherInfo(),
+                const SizedBox(height: 20),
               ],
             );
           }

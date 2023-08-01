@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:kevin/const/app_collections.dart';
 import 'package:kevin/modules/auth/data/model/user_model.dart';
-import 'package:kevin/modules/project/data/model/user_project_entity.dart';
 import 'package:kevin/modules/project/data/repository/project_repository.dart';
 import 'package:kevin/modules/auth/data/repository/user_repository.dart';
 
+import '../model/user_project_entity.dart';
 import '../model/project_model.dart';
 import '../model/user_project_model.dart';
 
@@ -153,5 +153,9 @@ class UserProjectRepository {
       }
     });
     return userProjectModel;
+  }
+
+  Future<void> deleteUserFromProject(UserProjectModel userProjectModel) async {
+    await firebase.doc(userProjectModel.id).delete();
   }
 }

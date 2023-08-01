@@ -25,22 +25,30 @@ class _AppScaffoldState extends State<AppScaffold> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: widget.appBar,
-        body: widget.centerContent == true
-            ? Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+        body: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              widget.centerContent == true
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 40),
+                            child: widget.body,
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(
+                      padding: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 40),
                       child: widget.body,
                     ),
-                  ],
-                ),
-              )
-            : Container(
-                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-                child: widget.body,
-              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(height: 20),
           BlocConsumer<AuthBloc, AuthState>(
             listener: (context, state) {
-              if (state is LoggedInState) {
+              if (state is LoginSuccessState) {
                 if (appPreferences.getUser().userName == null) {
                   Navigator.pushNamedAndRemoveUntil(context, AppRoutes.userName, (route) => false);
                 } else if (!appPreferences.hasUserProject()) {
@@ -93,7 +93,8 @@ class _LoginPageState extends State<LoginPage> {
                   title: AppLocalizations.of(context)!.loginButton,
                   onTap: () {
                     _formKey.currentState!.validate()
-                        ? BlocProvider.of<AuthBloc>(context).add(LogInEvent(email: _emailController.text.trim(), password: _passwordController.text.trim()))
+                        ? BlocProvider.of<AuthBloc>(context)
+                            .add(LogInEvent(email: _emailController.text.trim(), password: _passwordController.text.trim()))
                         : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
                   },
                 );

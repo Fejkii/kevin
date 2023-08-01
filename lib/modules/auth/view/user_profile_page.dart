@@ -85,8 +85,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _body() {
-    return ListView(
-      shrinkWrap: true,
+    return Column(
       children: [
         const SizedBox(height: 10),
         _form(context),

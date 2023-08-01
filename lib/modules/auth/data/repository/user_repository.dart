@@ -24,6 +24,12 @@ class UserRepository {
     return userModel;
   }
 
+  Future<UserModel> createUser(String userId, String name, String email) async {
+    UserModel userModel = UserModel(userId, email, name, DateTime.now(), DateTime.now());
+    await firebase.doc(userId).set(userModel.toMap());
+    return userModel;
+  }
+
   Future<UserModel> createUserName(UserModel userModel, String name) async {
     await firebase.doc(userModel.id).set(
           UserModel(

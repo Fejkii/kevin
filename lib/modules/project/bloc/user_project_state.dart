@@ -21,6 +21,8 @@ class UpdateUserProjectSuccessState extends UserProjectState {}
 
 class DeleteUserProjectSuccessState extends UserProjectState {}
 
+class DeleteUserProjectFailureState extends UserProjectState {}
+
 class UserProjectListSuccessState extends UserProjectState {
   final List<UserProjectModel> userProjectList;
   const UserProjectListSuccessState(this.userProjectList);
@@ -28,3 +30,9 @@ class UserProjectListSuccessState extends UserProjectState {
   @override
   List<Object> get props => [userProjectList];
 }
+
+class ShareProjectLoadingState extends UserProjectState {}
+
+class ShareProjectSuccessState extends UserProjectState {}
+
+class ShareProjectFailureState extends UserProjectState {}

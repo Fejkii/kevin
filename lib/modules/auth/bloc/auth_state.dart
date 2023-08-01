@@ -11,9 +11,9 @@ abstract class AuthState extends Equatable {
 
 class AuthLoadingState extends AuthState {}
 
-class LoggedInState extends AuthState {
+class LoginSuccessState extends AuthState {
   final UserModel userModel;
-  const LoggedInState({
+  const LoginSuccessState({
     required this.userModel,
   });
 
@@ -21,8 +21,8 @@ class LoggedInState extends AuthState {
   List<Object> get props => [userModel];
 }
 
-class LoggedOutState extends AuthState {
-  const LoggedOutState();
+class LogoutSuccessState extends AuthState {
+  const LogoutSuccessState();
 }
 
 class AuthFailureState extends AuthState {
@@ -33,6 +33,6 @@ class AuthFailureState extends AuthState {
   List<Object> get props => [errorMessage];
 }
 
-class ForgotPasswordSendedState extends AuthState {
-  const ForgotPasswordSendedState();
+class ForgotPasswordSendSuccessState extends AuthState {
+  const ForgotPasswordSendSuccessState();
 }

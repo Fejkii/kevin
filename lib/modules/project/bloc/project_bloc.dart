@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/modules/auth/data/model/user_model.dart';
 import 'package:kevin/modules/project/data/model/project_model.dart';
-import 'package:kevin/modules/auth/data/repository/user_repository.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 
@@ -19,7 +16,6 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
     final AppPreferences appPreferences = instance<AppPreferences>();
     final UserProjectRepository userProjectRepository = UserProjectRepository();
     final ProjectRepository projectRepository = ProjectRepository();
-    final UserRepository userRepository = UserRepository();
 
     on<CreateProjectEvent>((event, emit) async {
       emit(ProjectLoadingState());
@@ -44,39 +40,21 @@ class ProjectBloc extends Bloc<ProjectEvent, ProjectState> {
         );
         appPreferences.setUserProject(userProjectModel);
         emit(ProjectSuccessState());
-      } on FirebaseException catch (e) {
-        emit(ProjectFailureState(e.message ?? "Error"));
+      } on Exception catch (e) {
+        emit(ProjectFailureState(e.toString()));
       }
     });
 
-    on<ShareProjectEvent>((event, emit) async {
-      emit(ShareProjectLoadingState());
-      try {
-        bool isDefault = false;
-        UserModel? userModel = await userRepository.getUserByEmail(event.email);
-        if (userModel != null) {
-          // check if user has another userProject
-          final userProject = await userProjectRepository.getDefaultUserProject(userModel.id);
-          if (userProject == null) {
-            isDefault = true;
-          }
-          userProjectRepository.createUserProject(userModel, event.projectModel, isDefault, false);
-          emit(ShareProjectSuccessState());
-        } else {
-          emit(ShareProjectFailureState());
-        }
-      } on FirebaseException catch (e) {
-        emit(ProjectFailureState(e.message ?? "Error"));
-      }
-    });
-
-    on<UpdateProjectEvent>((event, emit) {
+    on<UpdateProjectEvent>((event, emit) async {
       emit(ProjectLoadingState());
       try {
-        // TODO
+        await projectRepository.updateProject(event.projectModel);
+        UserProjectModel userProjectModel = appPreferences.getUserProject();
+        userProjectModel.project = event.projectModel;
+        await appPreferences.setUserProject(userProjectModel);
         emit(ProjectSuccessState());
-      } on FirebaseException catch (e) {
-        emit(ProjectFailureState(e.message ?? "Error"));
+      } on Exception catch (e) {
+        emit(ProjectFailureState(e.toString()));
       }
     });
   }

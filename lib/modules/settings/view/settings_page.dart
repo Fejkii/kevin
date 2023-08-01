@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/const/app_values.dart';
 import 'package:kevin/modules/auth/bloc/auth_bloc.dart';
+import 'package:kevin/modules/auth/data/model/user_model.dart';
 import 'package:kevin/modules/auth/view/user_profile_page.dart';
+import 'package:kevin/modules/project/data/model/user_project_model.dart';
 import 'package:kevin/modules/wine/view/wine_variety_list_page.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
@@ -26,6 +28,21 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final AppPreferences appPreferences = instance<AppPreferences>();
+  late UserProjectModel userProjectModel;
+  late UserModel userModel;
+
+  @override
+  void initState() {
+    _getData();
+    super.initState();
+  }
+
+  void _getData() {
+    setState(() {
+      userModel = appPreferences.getUser();
+      userProjectModel = appPreferences.getUserProject();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,25 +57,35 @@ class _SettingsPageState extends State<SettingsPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DrawerHeader(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.wine_bar, color: Theme.of(context).primaryColor),
-                  const SizedBox(width: 10),
-                  AppTitleText(
-                    text: AppLocalizations.of(context)!.appName,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              AppSubTitleText(title: appPreferences.getUserProject().project.title),
-              const Spacer(),
-              Text(appPreferences.getUser().userName ?? AppConstant.EMPTY),
-              Text(appPreferences.getUser().email),
-            ],
+        SizedBox(
+          height: 160,
+          child: DrawerHeader(
+            margin: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.wine_bar, color: Theme.of(context).primaryColor),
+                    const SizedBox(width: 10),
+                    AppTitleText(
+                      text: AppLocalizations.of(context)!.appName,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                AppSubTitleText(text: userProjectModel.project.title),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(userModel.userName ?? AppConstant.EMPTY),
+                    Text(userModel.email),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
         AppListTile(
@@ -66,18 +93,19 @@ class _SettingsPageState extends State<SettingsPage> {
           title: AppLocalizations.of(context)!.profile,
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfilePage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfilePage())).then((value) => _getData());
           },
         ),
+        const SizedBox(height: 10),
         AppListTile(
           leading: const Icon(Icons.supervised_user_circle),
           title: AppLocalizations.of(context)!.project,
           trailing: const Icon(Icons.arrow_forward_ios),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProjectPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const ProjectPage())).then((value) => _getData());
           },
         ),
-        const Divider(),
+        const Divider(height: 30),
         AppListTile(
           leading: const Icon(Icons.dataset_outlined),
           title: AppLocalizations.of(context)!.wineVarieties,
@@ -86,10 +114,10 @@ class _SettingsPageState extends State<SettingsPage> {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const WineVarietyListPage()));
           },
         ),
-        const Divider(),
+        const Divider(height: 40),
         BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is LoggedOutState) {
+            if (state is LogoutSuccessState) {
               Navigator.pushNamedAndRemoveUntil(context, AppRoutes.signin, (route) => false);
             } else if (state is AuthFailureState) {
               Navigator.pushNamedAndRemoveUntil(context, AppRoutes.signin, (route) => false);

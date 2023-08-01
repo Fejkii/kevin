@@ -26,9 +26,9 @@ class _SignInPageState extends State<SignInPage> {
           children: [
             AppTitleText(text: AppLocalizations.of(context)!.appName),
             const SizedBox(height: 5),
-            AppSubTitleText(title: AppLocalizations.of(context)!.appSubtitle),
+            AppSubTitleText(text: AppLocalizations.of(context)!.appSubtitle),
             const SizedBox(height: 50),
-            AppSubTitleText(title: AppLocalizations.of(context)!.signIn),
+            AppSubTitleText(text: AppLocalizations.of(context)!.signIn),
             const SizedBox(height: 10),
             AppLoginButton(
               text: AppLocalizations.of(context)!.signInWithEmail,

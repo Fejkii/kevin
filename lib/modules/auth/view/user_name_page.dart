@@ -53,7 +53,7 @@ class _UserNamePageState extends State<UserNamePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AppSubTitleText(title: AppLocalizations.of(context)!.noName),
+          AppSubTitleText(text: AppLocalizations.of(context)!.noName),
           const SizedBox(height: 40),
           AppTextField(
             controller: _nameController,

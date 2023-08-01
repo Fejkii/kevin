@@ -21,8 +21,8 @@ class PojectListPage extends StatefulWidget {
 }
 
 class _PojectListPageState extends State<PojectListPage> {
+  final AppPreferences appPreferences = instance<AppPreferences>();
   late List<UserProjectModel> userProjectList;
-  AppPreferences appPreferences = instance<AppPreferences>();
 
   @override
   void initState() {
@@ -42,44 +42,38 @@ class _PojectListPageState extends State<PojectListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserProjectBloc, UserProjectState>(
-      builder: (context, state) {
-        return AppScaffold(
-          body: _getContentWidget(),
-          appBar: AppBar(
-            title: Text(AppLocalizations.of(context)!.yourProjects),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, AppRoutes.createProject);
-                },
-                icon: const Icon(Icons.add),
-              ),
-            ],
+    return AppScaffold(
+      body: _userProjectList(),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.yourProjects),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, AppRoutes.createProject);
+            },
+            icon: const Icon(Icons.add),
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 
-  Widget _getContentWidget() {
-    return SafeArea(
-      child: BlocConsumer<UserProjectBloc, UserProjectState>(
-        listener: (context, state) {
-          if (state is UserProjectListSuccessState) {
-            userProjectList = state.userProjectList;
-          } else if (state is UserProjectFailureState) {
-            AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
-          }
-        },
-        builder: (context, state) {
-          if (state is UserProjectLoadingState) {
-            return const AppLoadingIndicator();
-          } else {
-            return AppListView(listData: userProjectList, itemBuilder: _itemBuilder);
-          }
-        },
-      ),
+  Widget _userProjectList() {
+    return BlocConsumer<UserProjectBloc, UserProjectState>(
+      listener: (context, state) {
+        if (state is UserProjectListSuccessState) {
+          userProjectList = state.userProjectList;
+        } else if (state is UserProjectFailureState) {
+          AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
+        }
+      },
+      builder: (context, state) {
+        if (state is UserProjectLoadingState) {
+          return const AppLoadingIndicator();
+        } else {
+          return AppListView(listData: userProjectList, itemBuilder: _itemBuilder);
+        }
+      },
     );
   }
 
@@ -97,7 +91,7 @@ class _PojectListPageState extends State<PojectListPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProjectDetailPage(userProject: userProjectList[index]),
+            builder: (context) => ProjectDetailPage(userProjectModel: userProjectList[index]),
           ),
         ).then((value) => _getData());
       },

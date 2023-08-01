@@ -18,13 +18,15 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AppPreferences appPreferences = instance<AppPreferences>();
+  final UserRepository userRepository = UserRepository();
+  final UserProjectRepository userProjectRepository = UserProjectRepository();
 
-  AuthBloc() : super(const LoggedOutState()) {
+  AuthBloc() : super(const LogoutSuccessState()) {
     on<LogOutEvent>((event, emit) async {
       emit(AuthLoadingState());
       await appPreferences.logout();
       await FirebaseAuth.instance.signOut();
-      emit(const LoggedOutState());
+      emit(const LogoutSuccessState());
     });
 
     on<GoogleLogeIn>((event, emit) async {
@@ -61,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             });
             await appPreferences.setUser(userModel);
             await appPreferences.setUserProject(userProjectModel);
-            emit(LoggedInState(userModel: userModel));
+            emit(LoginSuccessState(userModel: userModel));
           }
         }
       } on FirebaseAuthException catch (e) {
@@ -74,20 +76,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<LogInEvent>((event, emit) async {
       emit(AuthLoadingState());
+      appPreferences.clear();
       try {
         late UserModel userModel;
         late UserProjectModel? userProjectModel;
         final userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: event.email, password: event.password);
         if (userCredential.user != null) {
-          userProjectModel = await UserProjectRepository().getDefaultUserProject(userCredential.user!.uid);
+          userProjectModel = await userProjectRepository.getDefaultUserProject(userCredential.user!.uid);
           if (userProjectModel != null) {
             appPreferences.setUserProject(userProjectModel);
             userModel = userProjectModel.user;
           } else {
-            userModel = await UserRepository().getUser(userCredential.user!.uid);
+            userModel = await userRepository.getUser(userCredential.user!.uid);
           }
-          appPreferences.setUser(userModel);
-          emit(LoggedInState(userModel: userModel));
+          await appPreferences.setUser(userModel);
+          emit(LoginSuccessState(userModel: userModel));
         } else {
           emit(const AuthFailureState("Login Auth Error"));
         }
@@ -101,20 +104,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<RegisterEvent>((event, emit) async {
       emit(AuthLoadingState());
+      appPreferences.clear();
       try {
         late UserModel userModel;
         late UserProjectModel? userProjectModel;
         final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: event.email, password: event.password);
         if (userCredential.user != null) {
-          userProjectModel = await UserProjectRepository().getDefaultUserProject(userCredential.user!.uid);
+          userProjectModel = await userProjectRepository.getDefaultUserProject(userCredential.user!.uid);
           if (userProjectModel != null) {
             appPreferences.setUserProject(userProjectModel);
             userModel = userProjectModel.user;
           } else {
-            userModel = await UserRepository().getUser(userCredential.user!.uid);
+            userModel = await userRepository.createUser(userCredential.user!.uid, event.userName, event.email);
           }
-          appPreferences.setUser(userModel);
-          emit(LoggedInState(userModel: userModel));
+          await appPreferences.setUser(userModel);
+          emit(LoginSuccessState(userModel: userModel));
         }
       } on FirebaseAuthException catch (e) {
         if (kDebugMode) {
@@ -128,7 +132,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(AuthLoadingState());
       try {
         await FirebaseAuth.instance.sendPasswordResetEmail(email: event.email);
-        emit(const ForgotPasswordSendedState());
+        emit(const ForgotPasswordSendSuccessState());
       } on FirebaseAuthException catch (e) {
         if (kDebugMode) {
           print("$e : ${e.message}");
