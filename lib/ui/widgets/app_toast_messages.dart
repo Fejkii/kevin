@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kevin/ui/theme/app_colors.dart';
 
 enum ToastState {
   success,
@@ -13,13 +14,13 @@ class AppToastMessage {
       Color color;
       switch (state) {
         case ToastState.success:
-          color = Colors.green;
+          color = AppColors.green;
           break;
         case ToastState.warning:
-          color = Colors.yellow;
+          color = AppColors.yellow;
           break;
         case ToastState.error:
-          color = Colors.red;
+          color = AppColors.red;
           break;
       }
       return color;

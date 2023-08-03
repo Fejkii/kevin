@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
 import 'package:kevin/modules/wine/view/wine_detail_page.dart';
+import 'package:kevin/modules/wine/view/wine_page.dart';
+import 'package:kevin/services/app_functions.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/widgets/app_list_view.dart';
@@ -10,6 +12,7 @@ import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
+import 'package:kevin/ui/widgets/buttons/app_icon_button.dart';
 
 class WineListPage extends StatefulWidget {
   const WineListPage({super.key});
@@ -40,11 +43,11 @@ class _WineListPageState extends State<WineListPage> {
     return AppBar(
       title: Text(AppLocalizations.of(context)!.wine),
       actions: [
-        IconButton(
-          onPressed: () {
+        AppIconButton(
+          iconButtonType: IconButtonType.add,
+          onPress: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const WineDetailPage()));
           },
-          icon: const Icon(Icons.add),
         ),
       ],
     );
@@ -78,11 +81,11 @@ class _WineListPageState extends State<WineListPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(wineList[index].title),
-          Text(wineList[index].quantity.toString()),
+          Text(parseDouble(wineList[index].quantity)),
         ],
       ),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => WineDetailPage(wineModel: wineList[index])));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => WinePage(wineModel: wineList[index])));
       },
     );
   }

@@ -20,6 +20,8 @@ class ProjectRepository {
     projectModel = ProjectModel(
       id: projectRef.id,
       title: title,
+      defaultFreeSulfur: 40,
+      defaultLiquidSulfur: 15,
     );
     await projectRef.set(projectModel.toMap());
     return projectModel;

@@ -7,6 +7,7 @@ import 'package:kevin/modules/auth/bloc/user_bloc.dart';
 import 'package:kevin/modules/auth/data/repository/user_repository.dart';
 import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_classification_bloc.dart';
+import 'package:kevin/modules/wine/bloc/wine_record_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_variety_bloc.dart';
 import 'package:kevin/modules/wine/data/repository/wine_classification_repository.dart';
 import 'package:kevin/modules/wine/data/repository/wine_variety_repository.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<WineBloc>(create: (context) => WineBloc()),
         BlocProvider<WineVarietyBloc>(create: (context) => WineVarietyBloc(WineVarietyRepository())),
         BlocProvider<WineClassificationBloc>(create: (context) => WineClassificationBloc(WineClassificationRepository())),
+        BlocProvider<WineRecordBloc>(create: (context) => WineRecordBloc()),
       ],
       child: MaterialApp(
         locale: Locale(instance<AppPreferences>().getAppLanguage()),

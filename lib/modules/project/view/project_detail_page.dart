@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/const/app_routes.dart';
+import 'package:kevin/const/app_units.dart';
 import 'package:kevin/modules/project/data/model/user_project_model.dart';
+import 'package:kevin/services/app_functions.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
+import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 
 import '../../../const/app_values.dart';
@@ -35,6 +38,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   final AppPreferences appPreferences = instance<AppPreferences>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _defaultFreeSulfurController = TextEditingController();
+  final TextEditingController _defaultLiquidSulfurController = TextEditingController();
   final _titleFormKey = GlobalKey<FormState>();
   final _emailFormKey = GlobalKey<FormState>();
   late UserProjectModel userProjectModel;
@@ -46,6 +51,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     _getData();
     _titleController.text = userProjectModel.project.title;
     userProjectList = [];
+    _defaultFreeSulfurController.text = parseDouble(userProjectModel.project.defaultFreeSulfur).toString();
+    _defaultLiquidSulfurController.text = parseDouble(userProjectModel.project.defaultLiquidSulfur).toString();
     super.initState();
   }
 
@@ -53,6 +60,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
   void dispose() {
     _titleController.dispose();
     _emailController.dispose();
+    _defaultFreeSulfurController.dispose();
+    _defaultLiquidSulfurController.dispose();
     super.dispose();
   }
 
@@ -94,6 +103,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                         projectModel: ProjectModel(
                           id: userProjectModel.project.id,
                           title: _titleController.text.trim(),
+                          defaultFreeSulfur: double.parse(_defaultFreeSulfurController.text.trim()),
+                          defaultLiquidSulfur: double.parse(_defaultLiquidSulfurController.text.trim()),
                         ),
                       ),
                     );
@@ -138,7 +149,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
                   ],
                 ),
         ),
-        const Divider(height: 40),
+        const Divider(height: 20),
         _addUserToProject(context),
         const Divider(height: 40),
         _usersInProject(),
@@ -160,6 +171,23 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
             isRequired: true,
             label: AppLocalizations.of(context)!.title,
           ),
+          const Divider(height: 40),
+          AppSubTitleText(text: AppLocalizations.of(context)!.projectSettings),
+          const SizedBox(height: 20),
+          AppTextField(
+            controller: _defaultFreeSulfurController,
+            label: AppLocalizations.of(context)!.defaultFreeSulfur,
+            keyboardType: TextInputType.number,
+            isRequired: true,
+          ),
+          const SizedBox(height: 20),
+          AppTextField(
+            controller: _defaultLiquidSulfurController,
+            label: AppLocalizations.of(context)!.defaultLiquidSulfur,
+            keyboardType: TextInputType.number,
+            isRequired: true,
+            unit: AppUnits.percent,
+          ),
         ],
       ),
     );
@@ -173,7 +201,7 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          AppTitleText(text: AppLocalizations.of(context)!.shareProject),
+          AppSubTitleText(text: AppLocalizations.of(context)!.shareProject),
           const SizedBox(height: 20),
           AppTextField(
             controller: _emailController,
@@ -224,8 +252,12 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
 
   Widget _usersInProject() {
     return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AppTitleText(text: AppLocalizations.of(context)!.usersInProject),
+        AppSubTitleText(text: AppLocalizations.of(context)!.usersInProject),
+        const SizedBox(height: 10),
         BlocConsumer<UserProjectBloc, UserProjectState>(
           listener: (context, state) {
             if (state is UserProjectListSuccessState) {

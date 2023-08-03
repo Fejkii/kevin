@@ -32,15 +32,21 @@ class AppButton extends StatelessWidget {
       return ElevatedButton.icon(
         onPressed: onTap,
         icon: const Icon(Icons.add),
+        style: ElevatedButton.styleFrom(
+          shadowColor: Colors.grey,
+        ),
         label: Text(
           title,
-          style: const TextStyle(fontSize: 25),
+          style: const TextStyle(fontSize: 20),
         ),
       );
     }
 
     return ElevatedButton(
       onPressed: onTap,
+      style: ElevatedButton.styleFrom(
+        shadowColor: Colors.red,
+      ),
       child: Text(title),
     );
   }

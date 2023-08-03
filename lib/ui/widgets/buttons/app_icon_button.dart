@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 enum IconButtonType {
   save,
   edit,
+  add,
 }
 
 class AppIconButton extends StatelessWidget {
@@ -23,6 +24,9 @@ class AppIconButton extends StatelessWidget {
         break;
       case IconButtonType.edit:
         icon = Icons.edit;
+        break;
+      case IconButtonType.add:
+        icon = Icons.add;
         break;
       default:
         break;

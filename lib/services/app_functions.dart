@@ -20,9 +20,14 @@ bool isDoubleValid(String value) {
   return RegExp(r"^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").hasMatch(value);
 }
 
-String doubleValue(double? value) {
+String parseDouble(double? value) {
   RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
   return value != null ? value.toString().replaceAll(regex, '') : "";
+}
+
+double? parseStringToDouble(String? value) {
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+  return value != null ? double.parse(value.replaceAll(regex, ""))  : null;
 }
 
 bool isIntegerValid(String value) {
