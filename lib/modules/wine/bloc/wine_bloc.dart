@@ -38,7 +38,7 @@ class WineBloc extends Bloc<WineEvent, WineState> {
     on<UpdateWineEvent>((event, emit) async {
       emit(WineLoadingState());
       try {
-        await wineRepository.updateWineVariety(event.wineModel);
+        await wineRepository.updateWine(event.wineModel);
         emit(WineSuccessState());
       } on Exception catch (e) {
         emit(WineFailureState(e.toString()));
@@ -48,7 +48,7 @@ class WineBloc extends Bloc<WineEvent, WineState> {
     on<WineListRequestEvent>((event, emit) async {
       emit(WineLoadingState());
       try {
-        wineRepository.getAllWineVarieties().listen((list) {
+        wineRepository.getAllWines().listen((list) {
           add(WineListReceivedEvent(list));
         });
       } on Exception catch (e) {

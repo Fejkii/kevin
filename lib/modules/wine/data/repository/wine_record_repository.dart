@@ -20,7 +20,7 @@ class WineRecordRepository {
 
   Future<List<WineRecordModel>> getWineRecordList(String wineId) async {
     List<WineRecordModel> list = [];
-    await _getWineRecordRef(wineId).get().then((value) {
+    await _getWineRecordRef(wineId).orderBy("date", descending: true).get().then((value) {
       for (var element in value.docs) {
         list.add(WineRecordModel.fromMap(element.data()));
       }

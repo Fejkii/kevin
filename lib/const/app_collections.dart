@@ -6,4 +6,7 @@ class AppCollection {
   static String wineVarieties = "wineVarieties";
   static String wineClassifications = "wineClassifications";
   static String wineRecords = "wineRecords";
+  static String vineards = "vineards";
+  static String vineardWines = "vineardWines";
+  static String vineardRecords = "vineardRecords";
 }

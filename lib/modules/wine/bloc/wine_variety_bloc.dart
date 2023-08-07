@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
@@ -10,7 +8,6 @@ part 'wine_variety_state.dart';
 
 class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
   final WineVarietyRepository wineVarietyRepository;
-  late final StreamSubscription? wineVarietyStream;
 
   WineVarietyBloc(this.wineVarietyRepository) : super(WineVarietyInitial()) {
     on<CreateWineVarietyEvent>((event, emit) async {
@@ -59,10 +56,4 @@ class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
       emit(WineVarietyListSuccessState(event.wineVarietylist));
     });
   }
-
-  // @override
-  // Future<void> close() {
-  //   wineVarietyStream?.cancel();
-  //   return super.close();
-  // }
 }

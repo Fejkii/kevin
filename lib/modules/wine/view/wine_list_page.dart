@@ -81,7 +81,7 @@ class _WineListPageState extends State<WineListPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(wineList[index].title),
-          Text(parseDouble(wineList[index].quantity)),
+          Text("${parseDouble(wineList[index].quantity)} l"),
         ],
       ),
       onTap: () {

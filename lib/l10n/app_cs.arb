@@ -11,8 +11,11 @@
             }
         }
     },
-    "appVersion": "Aplication Version",
-    "apiVersion": "API Version",
+    "appVersion": "Verze aplikace",
+    "author": "Autor",
+    "authorName": "Petr Šťastný",
+    "authorContact": "Kontakt",
+    "authorEmail": "petr@mrhappy.cz",
     "signIn": "Přihlaš se pomocí",
     "signInWithEmail": "Emailu a hesla",
     "signInWithGoogle": "Google účtu",
@@ -66,6 +69,7 @@
     "deleteUserProjectContent": "Jste si jisti, že chcete odebrat uživatele z tohoto projektu?",
     "deleteUserProjectFailure": "Tento účet nelze odebrat",
     "projectSettings": "Nastavení projektu",
+    "wineVariety": "Odrůda vína",
     "wineVarieties": "Odrůdy vín",
     "createWineVariety": "Vytvořit odrůdu vína",
     "save": "Uložit",
@@ -133,5 +137,16 @@
     "inProgress": "Aktuálně probíhá",
     "defaultFreeSulfur": "Výchozí hodnota volné síry",
     "defaultLiquidSulfur": "Výchozí hodnota tekuté síry",
-    "undefinied": "Nedefinováno"
+    "undefinied": "Nedefinováno",
+    "createVineyard": "Vytvořit vinohrad",
+    "vineyards": "Vinohrady",
+    "wineVarietyCount": "Celkový počet odrůd",
+    "vineyardWineQuantity": "Celkový počet hlaviček",
+    "vineyardWines": "Přehled hlaviček",
+    "vineyardRecordType": "Typ záznamu vinohradu",
+    "area": "Rozloha vinohradu",
+    "sprayName": "Název postřiku",
+    "ratio": "Poměr",
+    "spray": "Postřik",
+    "water": "Voda"
 }

@@ -14,6 +14,7 @@ import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
+import 'package:kevin/ui/widgets/texts/app_text_with_value.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -137,22 +138,23 @@ class _SettingsPageState extends State<SettingsPage> {
             }
           },
         ),
-        _appVersionInfo(context),
+        _appInfo(context),
       ],
     );
   }
 
-  Widget _appVersionInfo(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
+  Widget _appInfo(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '${AppLocalizations.of(context)!.appVersion}: 0.0.1',
-            style: const TextStyle(fontSize: 12),
-          ),
+          AppTextWithValue(text: AppLocalizations.of(context)!.appVersion, value: "0.0.1"),
+          const SizedBox(height: 10),
+          AppTextWithValue(text: AppLocalizations.of(context)!.author, value: AppLocalizations.of(context)!.authorName),
+          const SizedBox(height: 10),
+          AppTextWithValue(text: AppLocalizations.of(context)!.authorContact, value: AppLocalizations.of(context)!.authorEmail),
         ],
       ),
     );

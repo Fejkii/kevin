@@ -5,6 +5,9 @@ import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/firebase_options.dart';
 import 'package:kevin/modules/auth/bloc/user_bloc.dart';
 import 'package:kevin/modules/auth/data/repository/user_repository.dart';
+import 'package:kevin/modules/vineyard/bloc/vineyard_bloc.dart';
+import 'package:kevin/modules/vineyard/bloc/vineyard_record_bloc.dart';
+import 'package:kevin/modules/vineyard/bloc/vineyard_wine_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_classification_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_record_bloc.dart';
@@ -51,6 +54,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<WineVarietyBloc>(create: (context) => WineVarietyBloc(WineVarietyRepository())),
         BlocProvider<WineClassificationBloc>(create: (context) => WineClassificationBloc(WineClassificationRepository())),
         BlocProvider<WineRecordBloc>(create: (context) => WineRecordBloc()),
+        BlocProvider<VineyardBloc>(create: (context) => VineyardBloc()),
+        BlocProvider<VineyardWineBloc>(create: (context) => VineyardWineBloc()),
+        BlocProvider<VineyardRecordBloc>(create: (context) => VineyardRecordBloc()),
       ],
       child: MaterialApp(
         locale: Locale(instance<AppPreferences>().getAppLanguage()),

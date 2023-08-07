@@ -27,7 +27,7 @@ String parseDouble(double? value) {
 
 double? parseStringToDouble(String? value) {
   RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-  return value != null ? double.parse(value.replaceAll(regex, ""))  : null;
+  return value != null && value != "" ? double.parse(value.replaceAll(regex, ""))  : null;
 }
 
 bool isIntegerValid(String value) {
