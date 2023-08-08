@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:input_quantity/input_quantity.dart';
 import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
@@ -8,7 +9,6 @@ import 'package:kevin/modules/wine/view/wine_record_detail_page.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:quantity_input/quantity_input.dart';
 
 import '../../../const/app_values.dart';
 import '../../../services/app_functions.dart';
@@ -88,20 +88,24 @@ class _WinePageState extends State<WinePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(AppLocalizations.of(context)!.wineQuantity),
-            QuantityInput(
-              value: wineQuantity,
-              acceptsZero: true,
-              type: QuantityInputType.int,
-              step: 10,
-              onChanged: (value) => setState(() => wineQuantity = int.parse(value.replaceAll(',', ''))),
-              inputWidth: 120,
-              buttonColor: Theme.of(context).primaryColor,
-              minValue: 0,
-              elevation: 5,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-              ),
+            InputQty(
+              initVal: wineQuantity,
+              onQtyChanged: (value) => setState(() => wineQuantity = int.parse(value.toString())),
             ),
+            // QuantityInput(
+            //   value: wineQuantity,
+            //   acceptsZero: true,
+            //   type: QuantityInputType.int,
+            //   step: 10,
+            //   onChanged: (value) => setState(() => wineQuantity = int.parse(value.replaceAll(',', ''))),
+            //   inputWidth: 120,
+            //   buttonColor: Theme.of(context).primaryColor,
+            //   minValue: 0,
+            //   elevation: 5,
+            //   decoration: const InputDecoration(
+            //     border: OutlineInputBorder(),
+            //   ),
+            // ),
             AppIconButton(
               iconButtonType: IconButtonType.save,
               onPress: () {

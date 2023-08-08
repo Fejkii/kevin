@@ -51,7 +51,9 @@ dependencies:
   fluttertoast: ^8.1.2 # Error messages
   flutter_slidable: ^2.0.0 # More information in ListView item and deleting
   dropdown_search: ^5.0.6 # Select box
-  quantity_input: ^1.0.2 # Plus and minus buttons for numbers
+  input_quantity: ^1.2.1 # Plus and minus buttons for numbers
+
+  url_launcher: ^6.1.12 # For opening extern URL
 
 dev_dependencies:
   flutter_test:
