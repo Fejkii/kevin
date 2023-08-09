@@ -42,27 +42,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
 
           final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-          late UserProjectModel userProjectModel;
           if (userCredential.user != null) {
             UserModel userModel = UserModel(
               userCredential.user!.uid,
               userCredential.user!.email ?? "",
-              "", // TODO po přihlášení přes Google / FB / Apple, vyhodit obrazovku se zadáním jména.
+              userCredential.user!.displayName ?? "",
               DateTime.now(),
               DateTime.now(),
             );
             await FirebaseFirestore.instance.collection(AppCollection.users).doc(userCredential.user!.uid).set(userModel.toMap());
-            await FirebaseFirestore.instance
-                .collection(AppCollection.userProjects)
-                .where("userId", isEqualTo: userCredential.user!.uid)
-                .get()
-                .then((value) {
-              for (var element in value.docs) {
-                userProjectModel = UserProjectModel.fromMap(element.data());
-              }
-            });
             await appPreferences.setUser(userModel);
-            await appPreferences.setUserProject(userProjectModel);
+            final userProject = await userProjectRepository.getDefaultUserProject(userCredential.user!.uid);
+            if (userProject != null) {
+              await appPreferences.setUserProject(userProject);
+            }
             emit(LoginSuccessState(userModel: userModel));
           }
         }
@@ -84,7 +77,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (userCredential.user != null) {
           userProjectModel = await userProjectRepository.getDefaultUserProject(userCredential.user!.uid);
           if (userProjectModel != null) {
-            appPreferences.setUserProject(userProjectModel);
+            await appPreferences.setUserProject(userProjectModel);
             userModel = userProjectModel.user;
           } else {
             userModel = await userRepository.getUser(userCredential.user!.uid);

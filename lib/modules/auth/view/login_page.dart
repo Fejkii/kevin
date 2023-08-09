@@ -56,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const SizedBox(height: 10),
           AppTextField(
             controller: _emailController,
             label: AppLocalizations.of(context)!.email,
