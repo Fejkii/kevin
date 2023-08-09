@@ -13,10 +13,12 @@ import 'package:kevin/ui/widgets/app_list_tile.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
+import 'package:kevin/ui/widgets/buttons/app_text_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 import 'package:kevin/ui/widgets/texts/app_text_with_value.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../project/view/project_page.dart';
 
@@ -154,9 +156,31 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: 10),
           AppTextWithValue(text: AppLocalizations.of(context)!.author, value: AppLocalizations.of(context)!.authorName),
           const SizedBox(height: 10),
-          AppTextWithValue(text: AppLocalizations.of(context)!.authorContact, value: AppLocalizations.of(context)!.authorEmail),
+          Row(
+            children: [
+              Text("${AppLocalizations.of(context)!.authorContact}:"),
+              AppTextButton(
+                title: AppLocalizations.of(context)!.authorEmail,
+                fontWeight: FontWeight.bold,
+                onTap: () {
+                  final Uri emailLaunchUri = Uri(
+                    scheme: 'mailto',
+                    path: 'petr@mrhappy.cz',
+                    query: _encodeQueryParameters(<String, String>{
+                      'subject': 'KEVIN - helpdesk',
+                    }),
+                  );
+                  launchUrl(emailLaunchUri);
+                },
+              ),
+            ],
+          ),
         ],
       ),
     );
+  }
+
+  String? _encodeQueryParameters(Map<String, String> params) {
+    return params.entries.map((MapEntry<String, String> e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
   }
 }
