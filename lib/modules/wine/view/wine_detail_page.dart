@@ -235,14 +235,14 @@ class _WineDetailPageState extends State<WineDetailPage> {
                 hintText: AppLocalizations.of(context)!.selectInSelectBox,
               ),
             ),
-            onChanged: (List<WineVarietyModel> wineVariety) {
+            onChanged: (List<WineVarietyModel> wineVarieties) {
               setState(() {
-                selectedWineVarieties = wineVariety;
+                selectedWineVarieties = wineVarieties;
               });
             },
             selectedItems: selectedWineVarieties,
-            validator: (List<WineVarietyModel>? item) {
-              if (item == null) return AppLocalizations.of(context)!.inputEmpty;
+            validator: (List<WineVarietyModel>? items) {
+              if (items == null || items.isEmpty) return AppLocalizations.of(context)!.inputEmpty;
               return null;
             },
             autoValidateMode: AutovalidateMode.onUserInteraction,
@@ -264,7 +264,7 @@ class _WineDetailPageState extends State<WineDetailPage> {
             ),
             onChanged: (WineClassificationModel? wineClassification) {
               setState(() {
-                selectedWineClassification = wineClassification!;
+                selectedWineClassification = wineClassification;
               });
             },
             selectedItem: selectedWineClassification,
@@ -277,7 +277,7 @@ class _WineDetailPageState extends State<WineDetailPage> {
             isRequired: true,
             inputType: InputType.double,
             keyboardType: TextInputType.number,
-            unit: AppUnits().liter(_quantityController, context),
+            unit: AppUnits().liter(_quantityController.text, context),
           ),
           const SizedBox(height: 20),
           AppTextField(
@@ -301,7 +301,7 @@ class _WineDetailPageState extends State<WineDetailPage> {
             label: AppLocalizations.of(context)!.acid,
             inputType: InputType.double,
             keyboardType: TextInputType.number,
-            unit: AppUnits.gramPerOneLiter,
+            unit: AppUnits.gramPerLiter,
           ),
           const SizedBox(height: 20),
           AppTextField(
@@ -309,7 +309,7 @@ class _WineDetailPageState extends State<WineDetailPage> {
             label: AppLocalizations.of(context)!.sugar,
             inputType: InputType.double,
             keyboardType: TextInputType.number,
-            unit: AppUnits.gramPerOneLiter,
+            unit: AppUnits.gramPerLiter,
           ),
           const SizedBox(height: 20),
           AppTextField(

@@ -38,6 +38,7 @@ class _VineyardWineDetailPageState extends State<VineyardWineDetailPage> {
   final AppPreferences appPreferences = instance<AppPreferences>();
 
   late String vineyardId;
+  late String title = "";
   late VineyardWineModel? vineyardWine;
   late WineVarietyModel? selectedWineVariety;
   late List<WineVarietyModel> wineVareityList;
@@ -51,10 +52,15 @@ class _VineyardWineDetailPageState extends State<VineyardWineDetailPage> {
     if (widget.vineyardWineModel != null) {
       vineyardWine = widget.vineyardWineModel!;
       selectedWineVariety = vineyardWine!.wineModel;
-      _titleController.text = vineyardWine!.title;
+      _titleController.text = vineyardWine!.title ?? "";
       _quantityController.text = vineyardWine!.quantity.toString();
       _yearController.text = vineyardWine!.year != null ? vineyardWine!.year.toString() : "";
       _noteController.text = vineyardWine!.note ?? "";
+      if (vineyardWine!.title != "") {
+        title = vineyardWine!.title!;
+      } else {
+        title = vineyardWine!.wineModel.title;
+      }
     }
     super.initState();
     BlocProvider.of<WineVarietyBloc>(context).add(WineVarietyListEvent());
@@ -73,7 +79,7 @@ class _VineyardWineDetailPageState extends State<VineyardWineDetailPage> {
     return AppScaffold(
       body: _form(context),
       appBar: AppBar(
-        title: Text(vineyardWine != null ? vineyardWine!.title : AppLocalizations.of(context)!.addRecord),
+        title: Text(title != "" ? title : AppLocalizations.of(context)!.addRecord),
         actions: [
           BlocConsumer<VineyardWineBloc, VineyardWineState>(
             listener: (context, state) {
@@ -144,14 +150,17 @@ class _VineyardWineDetailPageState extends State<VineyardWineDetailPage> {
                       hintText: AppLocalizations.of(context)!.selectInSelectBox,
                     ),
                   ),
-                  onChanged: (WineVarietyModel? value) {
+                  onChanged: (WineVarietyModel? wineVariety) {
                     setState(() {
-                      selectedWineVariety = value;
-                      selectedWineVariety = value;
+                      selectedWineVariety = wineVariety;
                     });
                   },
                   selectedItem: selectedWineVariety,
                   clearButtonProps: const ClearButtonProps(isVisible: true),
+                  validator: (WineVarietyModel? wineVariety) {
+                    if (wineVariety == null) return AppLocalizations.of(context)!.inputEmpty;
+                    return null;
+                  },
                 );
               }
             },
@@ -170,7 +179,6 @@ class _VineyardWineDetailPageState extends State<VineyardWineDetailPage> {
             controller: _titleController,
             label: AppLocalizations.of(context)!.title,
             inputType: InputType.title,
-            isRequired: true,
           ),
           const SizedBox(height: 20),
           AppTextField(

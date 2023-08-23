@@ -7,6 +7,7 @@ import 'package:kevin/modules/vineyard/view/vineyard_detail_page.dart';
 import 'package:kevin/modules/vineyard/view/vineyard_record_detail_page.dart';
 import 'package:kevin/modules/vineyard/view/vineyard_wine_list_page.dart';
 import 'package:kevin/services/app_functions.dart';
+import 'package:kevin/ui/widgets/app_box_content.dart';
 
 import '../../../const/app_units.dart';
 import '../../../ui/widgets/app_list_view.dart';
@@ -91,18 +92,6 @@ class _VineyardPageState extends State<VineyardPage> {
         _otherInfo(),
         const SizedBox(height: 20),
         AppButton(
-          title: AppLocalizations.of(context)!.vineyardWines,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VineyardWineListPage(vineyardId: vineyardModel.id!),
-              ),
-            );
-          },
-        ),
-        const SizedBox(height: 20),
-        AppButton(
           title: AppLocalizations.of(context)!.addRecord,
           buttonType: ButtonType.add,
           onTap: () {
@@ -122,38 +111,52 @@ class _VineyardPageState extends State<VineyardPage> {
   }
 
   Widget _otherInfo() {
-      return BlocConsumer<VineyardWineBloc, VineyardWineState>(
-        listener: (context, state) {
-          if (state is VineyardWineSummarySuccessState) {
-            vineyardWineSummaryModel = state.vineyardWineSummaryModel;
-          } else if (state is VineyardWineFailureState) {
-            AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
-          }
-        },
-        builder: (context, state) {
-          if (state is VineyardWineLoadingState) {
-            return const AppLoadingIndicator();
-          } else {
-    return Column(
-      children: [
-        AppTextWithValue(
-          text: AppLocalizations.of(context)!.area,
-          value: parseDouble(vineyardModel.area),
-          unit: AppUnits.squareMeter,
-        ),
-        AppTextWithValue(
-          text: AppLocalizations.of(context)!.wineVarietyCount,
-          value: vineyardWineSummaryModel?.count,
-        ),
-        AppTextWithValue(
-          text: AppLocalizations.of(context)!.vineyardWineQuantity,
-          value: vineyardWineSummaryModel?.quantitySum,
-        ),
-      ],
+    return BlocConsumer<VineyardWineBloc, VineyardWineState>(
+      listener: (context, state) {
+        if (state is VineyardWineSummarySuccessState) {
+          vineyardWineSummaryModel = state.vineyardWineSummaryModel;
+        } else if (state is VineyardWineFailureState) {
+          AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
+        }
+      },
+      builder: (context, state) {
+        if (state is VineyardWineLoadingState) {
+          return const AppLoadingIndicator();
+        } else {
+          return AppBoxContent(
+            child: Column(
+              children: [
+                AppTextWithValue(
+                  text: AppLocalizations.of(context)!.area,
+                  value: parseDouble(vineyardModel.area),
+                  unit: AppUnits.squareMeter,
+                ),
+                AppTextWithValue(
+                  text: AppLocalizations.of(context)!.wineVarietyCount,
+                  value: vineyardWineSummaryModel?.count,
+                ),
+                AppTextWithValue(
+                  text: AppLocalizations.of(context)!.vineyardWineQuantity,
+                  value: vineyardWineSummaryModel?.quantitySum,
+                ),
+                const SizedBox(height: 20),
+                AppButton(
+                  title: AppLocalizations.of(context)!.vineyardWines,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VineyardWineListPage(vineyardId: vineyardModel.id!),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      },
     );
-          }
-        },
-      );
   }
 
   void _getData() {

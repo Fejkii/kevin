@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_record_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kevin/ui/widgets/app_box_content.dart';
 import 'package:kevin/ui/widgets/texts/app_text_field.dart';
 
 import '../../../const/app_units.dart';
@@ -300,6 +301,7 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
                   label: AppLocalizations.of(context)!.measuredFreeSulfur,
                   isRequired: true,
                   inputType: InputType.double,
+                  unit: AppUnits.miliGramPerLiter,
                   keyboardType: TextInputType.number,
                 ),
                 const SizedBox(height: 10),
@@ -318,7 +320,7 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
                           isRequired: true,
                           label: "",
                           keyboardType: TextInputType.number,
-                          unit: AppUnits().liter(_quantityController, context)),
+                          unit: AppUnits().liter(_quantityController.text, context)),
                     ),
                   ],
                 ),
@@ -337,6 +339,7 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
                         controller: _requiredSulphurisationController,
                         isRequired: true,
                         label: "",
+                        unit: AppUnits.miliGramPerLiter,
                         keyboardType: TextInputType.number,
                       ),
                     ),
@@ -363,14 +366,21 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                AppTextWithValue(
-                  text: AppLocalizations.of(context)!.sulfurizationBy,
-                  value: sulfirizationBy.toStringAsFixed(0),
-                ),
-                AppTextWithValue(
-                  text: AppLocalizations.of(context)!.liquidSulfurDosage,
-                  value: dosage.toStringAsFixed(1),
-                  unit: AppUnits.miliLiter,
+                AppBoxContent(
+                  child: Column(
+                    children: [
+                      AppTextWithValue(
+                        text: AppLocalizations.of(context)!.sulfurizationBy,
+                        value: sulfirizationBy.toStringAsFixed(0),
+                        unit: AppUnits.miliGramPerLiter,
+                      ),
+                      AppTextWithValue(
+                        text: AppLocalizations.of(context)!.liquidSulfurDosage,
+                        value: dosage.toStringAsFixed(1),
+                        unit: AppUnits.miliLiter,
+                      ),
+                    ],
+                  ),
                 )
               ],
             )

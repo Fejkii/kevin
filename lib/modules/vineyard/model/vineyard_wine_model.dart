@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 // Hlavička vinohradu
 import 'dart:convert';
 
@@ -8,7 +7,7 @@ class VineyardWineModel {
   String? id;
   String vineyardId;
   WineVarietyModel wineModel;
-  String title;
+  String? title;
   int quantity;
   int? year;
   String? note;
@@ -16,14 +15,14 @@ class VineyardWineModel {
     this.id,
     required this.vineyardId,
     required this.wineModel,
-    required this.title,
+    this.title,
     required this.quantity,
     this.year,
     this.note,
   });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'vineyardId': vineyardId,
       'wineModel': wineModel.toMap(),
@@ -36,17 +35,17 @@ class VineyardWineModel {
 
   factory VineyardWineModel.fromMap(Map<String, dynamic> map) {
     return VineyardWineModel(
-      id: map['id'] != null ? map['id'] as String : null,
-      vineyardId: map['vineyardId'] as String,
-      wineModel: WineVarietyModel.fromMap(map['wineModel'] as Map<String,dynamic>),
-      title: map['title'] as String,
-      quantity: map['quantity'] as int,
-      year: map['year'] != null ? map['year'] as int : null,
-      note: map['note'] != null ? map['note'] as String : null,
+      id: map['id'],
+      vineyardId: map['vineyardId'] ?? '',
+      wineModel: WineVarietyModel.fromMap(map['wineModel']),
+      title: map['title'],
+      quantity: map['quantity']?.toInt() ?? 0,
+      year: map['year']?.toInt(),
+      note: map['note'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory VineyardWineModel.fromJson(String source) => VineyardWineModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory VineyardWineModel.fromJson(String source) => VineyardWineModel.fromMap(json.decode(source));
 }

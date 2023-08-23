@@ -1,8 +1,11 @@
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:kevin/const/app_units.dart';
 import 'package:kevin/services/app_preferences.dart';
 
 import 'dependency_injection.dart';
+import 'language_service.dart';
 
 bool isEmailValid(String email) {
   return RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(email);
@@ -27,11 +30,27 @@ String parseDouble(double? value) {
 
 double? parseStringToDouble(String? value) {
   RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-  return value != null && value != "" ? double.parse(value.replaceAll(regex, ""))  : null;
+  return value != null && value != "" ? double.parse(value.replaceAll(regex, "")) : null;
 }
 
 bool isIntegerValid(String value) {
+  if (value.length > 18) {
+    return false;
+  }
   return RegExp(r"^[+-]?([0-9]+)$").hasMatch(value);
+}
+
+String appFormatLiter(dynamic number, BuildContext context) {
+  return "${_numberFormat(number, 0)} ${AppUnits().liter(number.toString(), context)}";
+}
+
+String _numberFormat(dynamic number, int? decimalDigits) {
+  NumberFormat formatter = NumberFormat.decimalPatternDigits(
+    locale: LanguageCodeEnum.czech.getValue(),
+    decimalDigits: decimalDigits ?? 0,
+  );
+
+  return formatter.format(number);
 }
 
 String appFormatDateTime(DateTime dateTime, {bool dateOnly = false}) {

@@ -5,11 +5,10 @@ class AppUnits {
   static const String miliLiter = "ml";
   static const String percent = "%";
   static const String squareMeter = "m\u00B2";
-  static const String gramPerOneLiter = "g/1l";
+  static const String gramPerLiter = "g/l";
+  static const String miliGramPerLiter = "mg/l";
 
-  String liter(TextEditingController controller, BuildContext context) {
-    return controller.text != ""
-        ? AppLocalizations.of(context)!.unitLiter(double.parse(controller.text))
-        : AppLocalizations.of(context)!.unitLiter(0);
+  String liter(String number, BuildContext context) {
+    return number != "" ? AppLocalizations.of(context)!.unitLiter(double.parse(number)) : AppLocalizations.of(context)!.unitLiter(0);
   }
 }

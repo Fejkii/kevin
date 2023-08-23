@@ -64,7 +64,7 @@ class _SettingsPageState extends State<SettingsPage> {
           height: 160,
           child: DrawerHeader(
             margin: const EdgeInsets.only(bottom: 20),
-            padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -155,7 +155,6 @@ class _SettingsPageState extends State<SettingsPage> {
           AppTextWithValue(text: AppLocalizations.of(context)!.appVersion, value: "0.0.1"),
           const SizedBox(height: 10),
           AppTextWithValue(text: AppLocalizations.of(context)!.author, value: AppLocalizations.of(context)!.authorName),
-          const SizedBox(height: 10),
           Row(
             children: [
               Text("${AppLocalizations.of(context)!.authorContact}:"),

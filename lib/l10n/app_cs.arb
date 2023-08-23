@@ -95,7 +95,7 @@
     "acid": "Kyseliny",
     "sugar": "Zbytkový cukr",
     "note": "Poznámka",
-    "unitLiter": "{count, plural, =0{litrů} =1{litr} =2{litry} other{litrů}}",
+    "unitLiter": "{count, plural, =0{litrů} =1{litr} =2{litry} few{litry} other{litrů}}",
     "@unitLiter": {
         "description": "A plural message",
         "placeholders": {
@@ -108,6 +108,8 @@
     "setName": "Nastavit jméno",
     "profile": "Profil",
     "addRecord": "Přidat záznam",
+    "wineInfo": "Podrobnosti o víně",
+    "wineRecord": "Záznamy vína",
     "wineRecordType": "Typ záznamu vín",
     "date": "Datum",
     "dateTo": "Datum do",

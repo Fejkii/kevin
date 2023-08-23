@@ -4,36 +4,52 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 
 class AppListView extends StatelessWidget {
+  final String? title;
   final List listData;
   final IndexedWidgetBuilder itemBuilder;
   const AppListView({
     Key? key,
+    this.title,
     required this.listData,
     required this.itemBuilder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return listData.isNotEmpty
-        ? ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: listData.length,
-            itemBuilder: itemBuilder,
-          )
-        : Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.search_off, size: 30),
-                ),
-                AppTitleText(text: AppLocalizations.of(context)!.emptyData),
-              ],
+    return Column(
+      children: [
+        if (title != null)
+          Text(
+            title!,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
             ),
-          );
+          ),
+        if (title != null) const SizedBox(height: 4),
+        listData.isNotEmpty
+            ? ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: listData.length,
+                itemBuilder: itemBuilder,
+              )
+            : Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const SizedBox(height: 15),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Icon(Icons.search_off, size: 30),
+                    ),
+                    AppTitleText(text: AppLocalizations.of(context)!.emptyData),
+                  ],
+                ),
+              )
+      ],
+    );
   }
 }
 
@@ -74,7 +90,7 @@ class AppListViewItem extends StatelessWidget {
           child: Center(
             heightFactor: 2.5,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 15),
               child: itemBody,
             ),
           ),

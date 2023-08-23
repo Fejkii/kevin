@@ -5,11 +5,15 @@ import 'package:kevin/modules/project/data/model/user_project_model.dart';
 import 'package:kevin/modules/project/view/project_detail_page.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
+import 'package:kevin/ui/widgets/app_box_content.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 
+import '../../../const/app_units.dart';
+import '../../../services/app_functions.dart';
 import '../../../ui/widgets/buttons/app_icon_button.dart';
+import '../../../ui/widgets/texts/app_text_with_value.dart';
 
 class ProjectPage extends StatefulWidget {
   const ProjectPage({super.key});
@@ -61,6 +65,22 @@ class _ProjectPageState extends State<ProjectPage> {
     return Column(
       children: [
         AppSubTitleText(text: "${AppLocalizations.of(context)!.projectName}: ${userProjectModel.project.title}"),
+        AppBoxContent(
+          child: Column(
+            children: [
+              AppTextWithValue(
+                text: AppLocalizations.of(context)!.defaultFreeSulfur,
+                value: parseDouble(userProjectModel.project.defaultFreeSulfur),
+                unit: AppUnits.miliGramPerLiter,
+              ),
+              AppTextWithValue(
+                text: AppLocalizations.of(context)!.defaultLiquidSulfur,
+                value: parseDouble(userProjectModel.project.defaultLiquidSulfur),
+                unit: AppUnits.percent,
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 20),
         AppButton(
           title: AppLocalizations.of(context)!.showUserProjectList,

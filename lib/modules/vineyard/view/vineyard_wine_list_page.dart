@@ -83,7 +83,7 @@ class _VineyardWineListPageState extends State<VineyardWineListPage> {
       itemBody: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(vineyardWineList[index].title),
+          Text(vineyardWineList[index].title != "" ? vineyardWineList[index].title! : vineyardWineList[index].wineModel.title),
           Text(vineyardWineList[index].quantity.toString()),
         ],
       ),

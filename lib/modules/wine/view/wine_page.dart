@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kevin/const/app_units.dart';
 import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
 import 'package:kevin/modules/wine/view/wine_detail_page.dart';
 import 'package:kevin/modules/wine/view/wine_record_detail_page.dart';
+import 'package:kevin/ui/widgets/app_box_content.dart';
 import 'package:kevin/ui/widgets/app_quantity_input.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
-import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../const/app_values.dart';
@@ -32,6 +33,7 @@ class WinePage extends StatefulWidget {
 }
 
 class _WinePageState extends State<WinePage> {
+  final TextEditingController quantityController = TextEditingController();
   late WineModel wineModel;
   late int wineQuantity;
   late List<WineRecordModel> wineRecordList;
@@ -50,6 +52,19 @@ class _WinePageState extends State<WinePage> {
     return AppScaffold(
       body: _body(),
       appBar: _appBar(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.white,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WineRecordDetailPage(wineModel: wineModel),
+            ),
+          ).then((value) => _getData());
+        },
+      ),
     );
   }
 
@@ -83,73 +98,85 @@ class _WinePageState extends State<WinePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const SizedBox(height: 10),
-        AppQuantityInput(
-          label: AppLocalizations.of(context)!.wineQuantity,
-          initValue: wineQuantity,
-          step: 10,
-          onChange: (value) {
-            setState(() {
-              wineQuantity = value;
-            });
-          },
-          onSave: () {
-            wineModel.quantity = wineQuantity.toDouble();
-            BlocProvider.of<WineBloc>(context).add(UpdateWineEvent(wineModel: wineModel));
-          },
-        ),
-        const SizedBox(height: 20),
+        _addQuantity(),
         _otherInfo(),
         const Divider(height: 30),
-        AppButton(
-          title: AppLocalizations.of(context)!.addRecord,
-          buttonType: ButtonType.add,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WineRecordDetailPage(wineModel: wineModel),
-              ),
-            ).then((value) => _getData());
-          },
-        ),
-        const SizedBox(height: 10),
         _wineRecordList(),
         const SizedBox(height: 20),
       ],
     );
   }
 
+  BlocConsumer<WineBloc, WineState> _addQuantity() {
+    return BlocConsumer<WineBloc, WineState>(
+      listener: (context, state) {
+        if (state is WineSuccessState) {
+          AppToastMessage().showToastMsg(AppLocalizations.of(context)!.updatedSuccessfully, ToastState.success);
+        } else if (state is WineFailureState) {
+          AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
+        }
+      },
+      builder: (context, state) {
+        if (state is WineLoadingState) {
+          return const AppLoadingIndicator();
+        } else {
+          return AppBoxContent(
+            title: AppLocalizations.of(context)!.wineQuantity,
+            child: AppQuantityInput(
+              inputController: quantityController,
+              initValue: wineQuantity,
+              step: 10,
+              unit: AppUnits().liter(quantityController.text, context),
+              onChange: (value) {
+                setState(() {
+                  wineQuantity = value;
+                });
+              },
+              onSave: () {
+                wineModel.quantity = wineQuantity.toDouble();
+                BlocProvider.of<WineBloc>(context).add(UpdateWineEvent(wineModel: wineModel));
+              },
+            ),
+          );
+        }
+      },
+    );
+  }
+
   Widget _otherInfo() {
-    return Table(
-      children: [
-        TableRow(children: [
-          TableCell(child: Text(AppLocalizations.of(context)!.acid)),
-          TableCell(child: Text(wineModel.acid != null ? parseDouble(wineModel.acid).toString() : AppLocalizations.of(context)!.undefinied)),
-        ]),
-        TableRow(children: [
-          TableCell(child: Text(AppLocalizations.of(context)!.sugar)),
-          TableCell(child: Text(wineModel.sugar != null ? parseDouble(wineModel.sugar).toString() : AppLocalizations.of(context)!.undefinied)),
-        ]),
-        TableRow(children: [
-          TableCell(child: Text(AppLocalizations.of(context)!.alcohol)),
-          TableCell(child: Text(wineModel.alcohol != null ? parseDouble(wineModel.alcohol).toString() : AppLocalizations.of(context)!.undefinied)),
-        ]),
-        TableRow(children: [
-          TableCell(child: Text(AppLocalizations.of(context)!.created)),
-          TableCell(child: Text(appFormatDateTime(wineModel.created))),
-        ]),
-        if (wineModel.updated != null)
+    return AppBoxContent(
+      title: AppLocalizations.of(context)!.wineInfo,
+      child: Table(
+        children: [
+          // TODO neaktualizují se data po uložení z detailu
           TableRow(children: [
-            TableCell(child: Text(AppLocalizations.of(context)!.updated)),
-            TableCell(child: Text(appFormatDateTime(wineModel.updated!))),
+            TableCell(child: Text(AppLocalizations.of(context)!.acid)),
+            TableCell(child: Text(wineModel.acid != null ? parseDouble(wineModel.acid).toString() : AppLocalizations.of(context)!.undefinied)),
           ]),
-        if (wineModel.note != null && wineModel.note != AppConstant.EMPTY)
           TableRow(children: [
-            TableCell(child: Text(AppLocalizations.of(context)!.note)),
-            TableCell(child: Text(wineModel.note!)),
+            TableCell(child: Text(AppLocalizations.of(context)!.sugar)),
+            TableCell(child: Text(wineModel.sugar != null ? parseDouble(wineModel.sugar).toString() : AppLocalizations.of(context)!.undefinied)),
           ]),
-      ],
+          TableRow(children: [
+            TableCell(child: Text(AppLocalizations.of(context)!.alcohol)),
+            TableCell(child: Text(wineModel.alcohol != null ? parseDouble(wineModel.alcohol).toString() : AppLocalizations.of(context)!.undefinied)),
+          ]),
+          TableRow(children: [
+            TableCell(child: Text(AppLocalizations.of(context)!.created)),
+            TableCell(child: Text(appFormatDateTime(wineModel.created))),
+          ]),
+          if (wineModel.updated != null)
+            TableRow(children: [
+              TableCell(child: Text(AppLocalizations.of(context)!.updated)),
+              TableCell(child: Text(appFormatDateTime(wineModel.updated!))),
+            ]),
+          if (wineModel.note != null && wineModel.note != AppConstant.EMPTY)
+            TableRow(children: [
+              TableCell(child: Text(AppLocalizations.of(context)!.note)),
+              TableCell(child: Text(wineModel.note!)),
+            ]),
+        ],
+      ),
     );
   }
 
@@ -166,7 +193,11 @@ class _WinePageState extends State<WinePage> {
         if (state is WineRecordLoadingState) {
           return const AppLoadingIndicator();
         } else {
-          return AppListView(listData: wineRecordList, itemBuilder: _itemBuilder);
+          return AppListView(
+            title: AppLocalizations.of(context)!.wineRecord,
+            listData: wineRecordList,
+            itemBuilder: _itemBuilder,
+          );
         }
       },
     );
