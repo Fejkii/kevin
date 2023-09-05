@@ -44,6 +44,14 @@ String appFormatLiter(dynamic number, BuildContext context) {
   return "${_numberFormat(number, 0)} ${AppUnits().liter(number.toString(), context)}";
 }
 
+String appFormatPercent(dynamic number) {
+  return "${parseDouble(number)} ${AppUnits.percent}";
+}
+
+String appFormatGramPerLiter(dynamic number) {
+  return "${parseDouble(number)} ${AppUnits.gramPerLiter}";
+}
+
 String _numberFormat(dynamic number, int? decimalDigits) {
   NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: LanguageCodeEnum.czech.getValue(),

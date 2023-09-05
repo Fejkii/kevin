@@ -1,12 +1,12 @@
 name: kevin
-description: A new Flutter project.
+description: Komplexní evidence vín
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
+# followed by an optional build number separated by a +.flutterfire configure
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # In Android, build-name is used as versionName while build-number used as versionCode.
@@ -38,6 +38,7 @@ dependencies:
 
   cloud_firestore: ^4.8.3
   firebase_core: ^2.15.0
+  firebase_crashlytics: ^3.3.5
   flutterfire_ui: ^0.4.3+20
   firebase_auth: ^4.7.1
   google_sign_in: ^5.4.4

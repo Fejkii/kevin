@@ -164,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () {
                   final Uri emailLaunchUri = Uri(
                     scheme: 'mailto',
-                    path: 'petr@mrhappy.cz',
+                    path: 'petrstastny09@gmail.com',
                     query: _encodeQueryParameters(<String, String>{
                       'subject': 'KEVIN - helpdesk',
                     }),

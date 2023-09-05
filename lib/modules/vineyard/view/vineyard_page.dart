@@ -10,6 +10,7 @@ import 'package:kevin/services/app_functions.dart';
 import 'package:kevin/ui/widgets/app_box_content.dart';
 
 import '../../../const/app_units.dart';
+import '../../../ui/theme/app_colors.dart';
 import '../../../ui/widgets/app_list_view.dart';
 import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_scaffold.dart';
@@ -81,6 +82,19 @@ class _VineyardPageState extends State<VineyardPage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.white,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VineyardRecordDetailPage(vineyardModel: vineyardModel),
+            ),
+          ).then((value) => _getVineyardRecordList());
+        },
+      ),
     );
   }
 
@@ -91,19 +105,6 @@ class _VineyardPageState extends State<VineyardPage> {
       children: [
         _otherInfo(),
         const SizedBox(height: 20),
-        AppButton(
-          title: AppLocalizations.of(context)!.addRecord,
-          buttonType: ButtonType.add,
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => VineyardRecordDetailPage(vineyardModel: vineyardModel),
-              ),
-            ).then((value) => _getVineyardRecordList());
-          },
-        ),
-        const SizedBox(height: 10),
         _vineyardRecordList(),
         const SizedBox(height: 20),
       ],
@@ -176,7 +177,11 @@ class _VineyardPageState extends State<VineyardPage> {
         if (state is VineyardRecordLoadingState) {
           return const AppLoadingIndicator();
         } else {
-          return AppListView(listData: vineyardRecordList, itemBuilder: _itemBuilder);
+          return AppListView(
+            title: AppLocalizations.of(context)!.vineyardRecord,
+            listData: vineyardRecordList,
+            itemBuilder: _itemBuilder,
+          );
         }
       },
     );

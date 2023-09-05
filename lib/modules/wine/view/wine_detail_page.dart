@@ -60,7 +60,7 @@ class _WineDetailPageState extends State<WineDetailPage> {
         selectedWineVarieties.add(element);
       }
       selectedWineClassification = wineModel!.wineClassification;
-      _titleController.text = wineModel!.title;
+      _titleController.text = wineModel!.title ?? "";
       _quantityController.text = parseDouble(wineModel!.quantity);
       _yearController.text = wineModel!.year.toString();
       _alcoholController.text = parseDouble(wineModel!.alcohol);
@@ -126,7 +126,7 @@ class _WineDetailPageState extends State<WineDetailPage> {
 
   AppBar _appBar(BuildContext context) {
     return AppBar(
-      title: Text(wineModel != null ? wineModel!.title : AppLocalizations.of(context)!.createWine),
+      title: Text(wineModel != null ? wineModel!.title! : AppLocalizations.of(context)!.createWine),
       actions: [
         BlocConsumer<WineBloc, WineState>(
           listener: (context, state) {
@@ -215,7 +215,6 @@ class _WineDetailPageState extends State<WineDetailPage> {
           AppTextField(
             controller: _titleController,
             label: AppLocalizations.of(context)!.title,
-            isRequired: true,
           ),
           const SizedBox(height: 20),
           DropdownSearch<WineVarietyModel>.multiSelection(

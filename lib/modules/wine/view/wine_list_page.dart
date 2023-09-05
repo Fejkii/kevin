@@ -80,7 +80,7 @@ class _WineListPageState extends State<WineListPage> {
       itemBody: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(wineList[index].title),
+          Text(wineList[index].title!),
           Text(appFormatLiter(wineList[index].quantity, context)),
         ],
       ),

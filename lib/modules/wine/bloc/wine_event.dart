@@ -8,7 +8,7 @@ abstract class WineEvent extends Equatable {
 }
 
 class CreateWineEvent extends WineEvent {
-  final String title;
+  final String? title;
   final List<WineVarietyModel> wineVarieties;
   final WineClassificationModel? wineClassification;
   final double quantity;
@@ -41,6 +41,12 @@ class UpdateWineEvent extends WineEvent {
 
   @override
   List<Object> get props => [wineModel];
+}
+
+class GetWineEvent extends WineEvent {
+  final String wineId;
+
+  const GetWineEvent(this.wineId);
 }
 
 class WineListRequestEvent extends WineEvent {}

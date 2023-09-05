@@ -45,6 +45,16 @@ class WineBloc extends Bloc<WineEvent, WineState> {
       }
     });
 
+    on<GetWineEvent>((event, emit) async {
+      emit(WineLoadingState());
+      try {
+        await wineRepository.getWine(event.wineId);
+        emit(WineSuccessState());
+      } on Exception catch (e) {
+        emit(WineFailureState(e.toString()));
+      }
+    });
+
     on<WineListRequestEvent>((event, emit) async {
       emit(WineLoadingState());
       try {

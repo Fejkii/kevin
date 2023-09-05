@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:kevin/modules/wine/data/model/wine_classification_model.dart';
@@ -9,7 +8,7 @@ class WineModel {
   String projectId;
   List<WineVarietyModel> wineVarieties;
   WineClassificationModel? wineClassification;
-  String title;
+  String? title;
   double quantity;
   int year;
   double? alcohol;
@@ -36,7 +35,7 @@ class WineModel {
   });
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    return {
       'id': id,
       'projectId': projectId,
       'wineVarieties': wineVarieties.map((x) => x.toMap()).toList(),
@@ -55,28 +54,23 @@ class WineModel {
 
   factory WineModel.fromMap(Map<String, dynamic> map) {
     return WineModel(
-      id: map['id'] as String,
-      projectId: map['projectId'] as String,
-      wineVarieties: List<WineVarietyModel>.from(
-        (map['wineVarieties'] as List<dynamic>).map<WineVarietyModel>(
-          (x) => WineVarietyModel.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
-      wineClassification:
-          map['wineClassification'] != null ? WineClassificationModel.fromMap(map['wineClassification'] as Map<String, dynamic>) : null,
-      title: map['title'] as String,
-      quantity: map['quantity'] as double,
-      year: map['year'] as int,
-      alcohol: map['alcohol'] != null ? map['alcohol'] as double : null,
-      acid: map['acid'] != null ? map['acid'] as double : null,
-      sugar: map['sugar'] != null ? map['sugar'] as double : null,
-      note: map['note'] != null ? map['note'] as String : null,
-      created: DateTime.fromMillisecondsSinceEpoch(map['created'] as int),
-      updated: map['updated'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updated'] as int) : null,
+      id: map['id'] ?? '',
+      projectId: map['projectId'] ?? '',
+      wineVarieties: List<WineVarietyModel>.from(map['wineVarieties']?.map((x) => WineVarietyModel.fromMap(x))),
+      wineClassification: map['wineClassification'] != null ? WineClassificationModel.fromMap(map['wineClassification']) : null,
+      title: map['title'],
+      quantity: map['quantity']?.toDouble() ?? 0.0,
+      year: map['year']?.toInt() ?? 0,
+      alcohol: map['alcohol']?.toDouble(),
+      acid: map['acid']?.toDouble(),
+      sugar: map['sugar']?.toDouble(),
+      note: map['note'],
+      created: DateTime.fromMillisecondsSinceEpoch(map['created']),
+      updated: map['updated'] != null ? DateTime.fromMillisecondsSinceEpoch(map['updated']) : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory WineModel.fromJson(String source) => WineModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory WineModel.fromJson(String source) => WineModel.fromMap(json.decode(source));
 }

@@ -17,7 +17,7 @@ class WineRepository {
   }
 
   Future<void> createWine(
-    String title,
+    String? title,
     List<WineVarietyModel> wineVarieties,
     WineClassificationModel? wineClassification,
     double quantity,
@@ -28,11 +28,20 @@ class WineRepository {
     String? note,
   ) async {
     final wineRef = firebase.doc();
+    String varietyTitle = "Směs";
+    if (title != null && title != "") {
+      varietyTitle = title;
+    } else {
+      for (var wineVariety in wineVarieties) {
+        varietyTitle += " - ${wineVariety.title}";
+      }
+    }
+    varietyTitle.trim();
     final wineModel = WineModel(
       id: wineRef.id,
       projectId: appPreferences.getUserProject().project.id,
       wineVarieties: wineVarieties,
-      title: title,
+      title: varietyTitle,
       quantity: quantity,
       year: year,
       alcohol: alcohol,
@@ -46,5 +55,11 @@ class WineRepository {
 
   Future<void> updateWine(WineModel wineModel) async {
     await firebase.doc(wineModel.id).set(wineModel.toMap());
+  }
+
+  Future<WineModel> getWine(String wineId) async {
+    late WineModel wine;
+    await firebase.doc(wineId).get().then((value) => wine = WineModel.fromMap(value.data()!));
+    return wine;
   }
 }

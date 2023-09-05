@@ -15,7 +15,7 @@
     "author": "Autor",
     "authorName": "Petr Šťastný",
     "authorContact": "Kontakt",
-    "authorEmail": "petr@mrhappy.cz",
+    "authorEmail": "petrstastny09@gmail.cz",
     "signIn": "Přihlaš se pomocí",
     "signInWithEmail": "Emailu a hesla",
     "signInWithGoogle": "Google účtu",
@@ -142,6 +142,7 @@
     "undefinied": "Nedefinováno",
     "createVineyard": "Vytvořit vinohrad",
     "vineyards": "Vinohrady",
+    "vineyardRecord": "Záznamy vinohradu",
     "wineVarietyCount": "Celkový počet odrůd",
     "vineyardWineQuantity": "Celkový počet hlaviček",
     "vineyardWines": "Přehled hlaviček",
@@ -150,5 +151,6 @@
     "sprayName": "Název postřiku",
     "ratio": "Poměr",
     "spray": "Postřik",
-    "water": "Voda"
+    "water": "Voda",
+    "mixture": "Směs"
 }

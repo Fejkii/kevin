@@ -40,7 +40,7 @@ class _WinePageState extends State<WinePage> {
 
   @override
   void initState() {
-    _getData();
+    _getWineRecords();
     wineModel = widget.wineModel;
     wineQuantity = wineModel.quantity.toInt();
     wineRecordList = [];
@@ -62,19 +62,23 @@ class _WinePageState extends State<WinePage> {
             MaterialPageRoute(
               builder: (context) => WineRecordDetailPage(wineModel: wineModel),
             ),
-          ).then((value) => _getData());
+          ).then((value) => _getWineRecords());
         },
       ),
     );
   }
 
-  void _getData() {
+  void _getWine() {
+    BlocProvider.of<WineBloc>(context).add(GetWineEvent(widget.wineModel.id));
+  }
+
+  void _getWineRecords() {
     BlocProvider.of<WineRecordBloc>(context).add(WineRecordListEvent(widget.wineModel.id));
   }
 
   AppBar _appBar() {
     return AppBar(
-      title: Text(wineModel.title),
+      title: Text(wineModel.title!),
       actions: [
         AppIconButton(
           iconButtonType: IconButtonType.edit,
@@ -86,7 +90,7 @@ class _WinePageState extends State<WinePage> {
                   wineModel: wineModel,
                 ),
               ),
-            );
+            ).then((value) => _getWine());
           },
         ),
       ],
@@ -148,18 +152,17 @@ class _WinePageState extends State<WinePage> {
       title: AppLocalizations.of(context)!.wineInfo,
       child: Table(
         children: [
-          // TODO neaktualizují se data po uložení z detailu
           TableRow(children: [
             TableCell(child: Text(AppLocalizations.of(context)!.acid)),
-            TableCell(child: Text(wineModel.acid != null ? parseDouble(wineModel.acid).toString() : AppLocalizations.of(context)!.undefinied)),
+            TableCell(child: Text(wineModel.acid != null ? appFormatGramPerLiter(wineModel.acid) : AppLocalizations.of(context)!.undefinied)),
           ]),
           TableRow(children: [
             TableCell(child: Text(AppLocalizations.of(context)!.sugar)),
-            TableCell(child: Text(wineModel.sugar != null ? parseDouble(wineModel.sugar).toString() : AppLocalizations.of(context)!.undefinied)),
+            TableCell(child: Text(wineModel.sugar != null ? appFormatGramPerLiter(wineModel.sugar) : AppLocalizations.of(context)!.undefinied)),
           ]),
           TableRow(children: [
             TableCell(child: Text(AppLocalizations.of(context)!.alcohol)),
-            TableCell(child: Text(wineModel.alcohol != null ? parseDouble(wineModel.alcohol).toString() : AppLocalizations.of(context)!.undefinied)),
+            TableCell(child: Text(wineModel.alcohol != null ? appFormatPercent(wineModel.alcohol) : AppLocalizations.of(context)!.undefinied)),
           ]),
           TableRow(children: [
             TableCell(child: Text(AppLocalizations.of(context)!.created)),
@@ -228,7 +231,7 @@ class _WinePageState extends State<WinePage> {
               wineRecord: wineRecordList[index],
             ),
           ),
-        ).then((value) => _getData());
+        ).then((value) => _getWineRecords());
       },
       itemColor: wineRecordList[index].isInProgress == true ? AppColors.green : null,
     );
