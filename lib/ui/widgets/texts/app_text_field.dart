@@ -93,15 +93,6 @@ class _AppTextFieldState extends State<AppTextField> {
         case InputType.password:
           iconData = Icons.lock;
           break;
-        case InputType.title:
-          iconData = Icons.title;
-          break;
-        case InputType.double:
-          iconData = Icons.numbers;
-          break;
-        case InputType.integer:
-          iconData = Icons.numbers;
-          break;
         default:
           break;
       }
@@ -115,6 +106,7 @@ class _AppTextFieldState extends State<AppTextField> {
         labelText: widget.label,
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        // contentPadding: EdgeInsets.zero,
         prefixIcon: iconData != null
             ? Icon(
                 iconData,
@@ -122,7 +114,8 @@ class _AppTextFieldState extends State<AppTextField> {
               )
             : null,
         isDense: true,
-        suffixIcon: widget.unit != null ? showUnit() : showPasswordIcon(),
+        suffixIcon: showPasswordIcon(),
+        suffixText: widget.unit,
       ),
       maxLines: widget.inputType == InputType.note ? 3 : 1,
       validator: (value) {

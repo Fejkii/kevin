@@ -70,12 +70,12 @@ class _ProjectPageState extends State<ProjectPage> {
             children: [
               AppTextWithValue(
                 text: AppLocalizations.of(context)!.defaultFreeSulfur,
-                value: parseDouble(userProjectModel.project.defaultFreeSulfur),
+                value: appFormatDoubleToString(userProjectModel.project.defaultFreeSulfur),
                 unit: AppUnits.miliGramPerLiter,
               ),
               AppTextWithValue(
                 text: AppLocalizations.of(context)!.defaultLiquidSulfur,
-                value: parseDouble(userProjectModel.project.defaultLiquidSulfur),
+                value: appFormatDoubleToString(userProjectModel.project.defaultLiquidSulfur),
                 unit: AppUnits.percent,
               ),
             ],

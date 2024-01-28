@@ -129,7 +129,7 @@ class _VineyardPageState extends State<VineyardPage> {
               children: [
                 AppTextWithValue(
                   text: AppLocalizations.of(context)!.area,
-                  value: parseDouble(vineyardModel.area),
+                  value: appFormatDoubleToString(vineyardModel.area),
                   unit: AppUnits.squareMeter,
                 ),
                 AppTextWithValue(

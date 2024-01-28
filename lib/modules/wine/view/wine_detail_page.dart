@@ -61,11 +61,11 @@ class _WineDetailPageState extends State<WineDetailPage> {
       }
       selectedWineClassification = wineModel!.wineClassification;
       _titleController.text = wineModel!.title ?? "";
-      _quantityController.text = parseDouble(wineModel!.quantity);
+      _quantityController.text = appFormatDoubleToString(wineModel!.quantity);
       _yearController.text = wineModel!.year.toString();
-      _alcoholController.text = parseDouble(wineModel!.alcohol);
-      _acidController.text = parseDouble(wineModel!.acid);
-      _sugarController.text = parseDouble(wineModel!.sugar);
+      _alcoholController.text = appFormatDoubleToString(wineModel!.alcohol);
+      _acidController.text = appFormatDoubleToString(wineModel!.acid);
+      _sugarController.text = appFormatDoubleToString(wineModel!.sugar);
       _noteController.text = wineModel!.note ?? "";
     }
 

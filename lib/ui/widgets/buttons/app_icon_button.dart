@@ -4,6 +4,8 @@ enum IconButtonType {
   save,
   edit,
   add,
+  delete,
+  close,
 }
 
 class AppIconButton extends StatelessWidget {
@@ -27,6 +29,12 @@ class AppIconButton extends StatelessWidget {
         break;
       case IconButtonType.add:
         icon = Icons.add;
+        break;
+      case IconButtonType.delete:
+        icon = Icons.delete_rounded;
+        break;
+      case IconButtonType.close:
+        icon = Icons.close_rounded;
         break;
       default:
         break;

@@ -85,7 +85,12 @@ class _WineListPageState extends State<WineListPage> {
         ],
       ),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => WinePage(wineModel: wineList[index])));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WinePage(wineModel: wineList[index]),
+          ),
+        );
       },
     );
   }

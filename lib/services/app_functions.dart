@@ -17,20 +17,10 @@ bool isPasswordValid(String password) {
 
 bool isTitleValid(String title) {
   return RegExp(r"^.{2,}$").hasMatch(title);
-}
+} 
 
 bool isDoubleValid(String value) {
   return RegExp(r"^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").hasMatch(value);
-}
-
-String parseDouble(double? value) {
-  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-  return value != null ? value.toString().replaceAll(regex, '') : "";
-}
-
-double? parseStringToDouble(String? value) {
-  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-  return value != null && value != "" ? double.parse(value.replaceAll(regex, "")) : null;
 }
 
 bool isIntegerValid(String value) {
@@ -40,23 +30,49 @@ bool isIntegerValid(String value) {
   return RegExp(r"^[+-]?([0-9]+)$").hasMatch(value);
 }
 
-String appFormatLiter(dynamic number, BuildContext context) {
-  return "${_numberFormat(number, 0)} ${AppUnits().liter(number.toString(), context)}";
-}
-
-String appFormatPercent(dynamic number) {
-  return "${parseDouble(number)} ${AppUnits.percent}";
-}
-
-String appFormatGramPerLiter(dynamic number) {
-  return "${parseDouble(number)} ${AppUnits.gramPerLiter}";
-}
-
 String _numberFormat(dynamic number, int? decimalDigits) {
   NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: LanguageCodeEnum.czech.getValue(),
     decimalDigits: decimalDigits ?? 0,
   );
+
+  return formatter.format(number);
+}
+
+String appFormatDoubleToString(double? value) {
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+  return value != null ? value.toString().replaceAll(regex, '') : "";
+}
+
+double? appFormatStringToDouble(String? value) {
+  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+  return value != null && value != "" ? double.parse(value.replaceAll(regex, "")) : null;
+}
+
+String appFormatLiter(dynamic number, BuildContext context) {
+  return "${_numberFormat(number, 0)} ${AppUnits().liter(number.toString(), context)}";
+}
+
+String appFormatPercent(dynamic number) {
+  return "${appFormatDoubleToString(number)} ${AppUnits.percent}";
+}
+
+String appFormatGramPerLiter(dynamic number) {
+  return "${appFormatDoubleToString(number)} ${AppUnits.gramPerLiter}";
+}
+
+String appFormatQuantity(dynamic number) {
+  return "${appFormatDoubleToString(number)} ${AppUnits.quantity}";
+}
+
+String appFormatPriceWithUnit(dynamic number) {
+  return "${appFormatDoubleToString(number)} ${AppUnits.crown}";
+}
+
+String appFormatPriceToTextField(dynamic number) {
+  NumberFormat formatter = NumberFormat();
+  formatter.minimumFractionDigits = 0;
+  formatter.maximumFractionDigits = 2;
 
   return formatter.format(number);
 }

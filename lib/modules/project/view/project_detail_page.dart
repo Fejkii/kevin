@@ -51,8 +51,8 @@ class _ProjectDetailPageState extends State<ProjectDetailPage> {
     _getData();
     _titleController.text = userProjectModel.project.title;
     userProjectList = [];
-    _defaultFreeSulfurController.text = parseDouble(userProjectModel.project.defaultFreeSulfur).toString();
-    _defaultLiquidSulfurController.text = parseDouble(userProjectModel.project.defaultLiquidSulfur).toString();
+    _defaultFreeSulfurController.text = appFormatDoubleToString(userProjectModel.project.defaultFreeSulfur).toString();
+    _defaultLiquidSulfurController.text = appFormatDoubleToString(userProjectModel.project.defaultLiquidSulfur).toString();
     super.initState();
   }
 
