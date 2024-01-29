@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/trade/bloc/trade_bloc.dart';
 import 'package:kevin/modules/trade/data/model/trade_model.dart';
 import 'package:kevin/modules/trade/view/trade_item_form.dart';
+import 'package:kevin/ui/widgets/buttons/app_segmented_button.dart';
 
 import '../../../services/app_functions.dart';
 import '../../../ui/widgets/app_date_picker.dart';
@@ -185,7 +186,7 @@ class _TradeDetailPageState extends State<TradeDetailPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SegmentedButton(
+          AppSegmentedButton(
             segments: <ButtonSegment<TradeType>>[
               ButtonSegment<TradeType>(
                 value: TradeType.sale,
@@ -199,7 +200,7 @@ class _TradeDetailPageState extends State<TradeDetailPage> {
               ),
             ],
             selected: <TradeType>{tradeType},
-            onSelectionChanged: (Set<TradeType> newSelection) {
+            onSelectionChanged: (newSelection) {
               setState(() {
                 tradeType = newSelection.first;
               });

@@ -5,6 +5,7 @@ import 'package:kevin/modules/trade/data/model/trade_model.dart';
 import 'package:kevin/modules/trade/view/trade_detail_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/services/app_functions.dart';
+import 'package:kevin/ui/widgets/buttons/app_segmented_button.dart';
 
 import '../../../ui/theme/app_colors.dart';
 import '../../../ui/widgets/app_list_view.dart';
@@ -58,6 +59,7 @@ class _TradeListPageState extends State<TradeListPage> {
 
   Widget _body() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _segmentButton(),
         const SizedBox(height: 10),
@@ -103,7 +105,7 @@ class _TradeListPageState extends State<TradeListPage> {
         if (state is TradeLoadingState) {
           return const AppLoadingIndicator();
         } else {
-          return SegmentedButton(
+          return AppSegmentedButton(
             segments: <ButtonSegment<TradeType>>[
               ButtonSegment<TradeType>(
                 value: TradeType.all,
@@ -121,24 +123,13 @@ class _TradeListPageState extends State<TradeListPage> {
                 icon: const Icon(Icons.calendar_view_week),
               ),
             ],
-            emptySelectionAllowed: true,
             selected: <TradeType>{tradeSelect},
-            onSelectionChanged: (Set<TradeType> newSelection) {
+            onSelectionChanged: (newSelection) {
               setState(() {
                 tradeSelect = newSelection.first;
               });
               _getTrades();
             },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.selected)) {
-                    return AppColors.white;
-                  }
-                  return AppColors.grey;
-                },
-              ),
-            ),
           );
         }
       },
