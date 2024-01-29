@@ -17,10 +17,10 @@ bool isPasswordValid(String password) {
 
 bool isTitleValid(String title) {
   return RegExp(r"^.{2,}$").hasMatch(title);
-} 
+}
 
 bool isDoubleValid(String value) {
-  return RegExp(r"^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$").hasMatch(value);
+  return RegExp(r"^[+-]?([0-9]+([.,][0-9]*)?|[.,][0-9]+)$").hasMatch(value);
 }
 
 bool isIntegerValid(String value) {
@@ -40,13 +40,20 @@ String _numberFormat(dynamic number, int? decimalDigits) {
 }
 
 String appFormatDoubleToString(double? value) {
-  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+  RegExp regex = RegExp(r'([.]*0+)(?!.*\d)');
   return value != null ? value.toString().replaceAll(regex, '') : "";
 }
 
 double? appFormatStringToDouble(String? value) {
-  RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
-  return value != null && value != "" ? double.parse(value.replaceAll(regex, "")) : null;
+  if (value != "" && value!.contains('.')) {
+    return double.parse(value.replaceAll(RegExp(r"([.]*0+)(?!.*\d)"), "") //remove all trailing 0's and extra decimals at end if any
+        );
+  } else {
+    return double.parse(value!);
+  }
+
+  // RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+  // return value != null && value != "" ? double.parse(value.replaceAll(regex, "")) : null;
 }
 
 String appFormatLiter(dynamic number, BuildContext context) {
@@ -70,11 +77,8 @@ String appFormatPriceWithUnit(dynamic number) {
 }
 
 String appFormatPriceToTextField(dynamic number) {
-  NumberFormat formatter = NumberFormat();
-  formatter.minimumFractionDigits = 0;
-  formatter.maximumFractionDigits = 2;
-
-  return formatter.format(number);
+  RegExp regex = RegExp(r'([.]*0+)(?!.*\d)');
+  return number != null ?number.toString().replaceAll(regex, '') : "";
 }
 
 String appFormatDateTime(DateTime dateTime, {bool dateOnly = false}) {
