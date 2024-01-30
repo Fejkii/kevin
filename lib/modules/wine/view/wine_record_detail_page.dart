@@ -60,8 +60,8 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
     wineId = widget.wineModel.id;
     wineRecord = null;
     selectedWineRecordType = null;
-    _requiredSulphurisationController.text = parseDouble(appPreferences.getUserProject().project.defaultFreeSulfur);
-    _liquidSulfurController.text = parseDouble(appPreferences.getUserProject().project.defaultLiquidSulfur);
+    _requiredSulphurisationController.text = appFormatDoubleToString(appPreferences.getUserProject().project.defaultFreeSulfur);
+    _liquidSulfurController.text = appFormatDoubleToString(appPreferences.getUserProject().project.defaultLiquidSulfur);
     _quantityController.text = widget.wineModel.quantity.toStringAsFixed(0);
     _isInProgress = false;
 

@@ -56,7 +56,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
         await showDatePicker(
           locale: Locale(instance<AppPreferences>().getAppLanguage()),
           context: context,
-          initialDate: todayDate,
+          initialDate: widget.initDate ?? todayDate,
           firstDate: firstDate,
           lastDate: lastDate,
           confirmText: AppLocalizations.of(context)!.ok,

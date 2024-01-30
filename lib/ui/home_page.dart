@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kevin/modules/settings/view/settings_page.dart';
+import 'package:kevin/modules/trade/view/trade_list_page.dart';
 import 'package:kevin/modules/vineyard/view/vineyard_list_page.dart';
 import 'package:kevin/modules/wine/view/wine_list_page.dart';
 import 'package:kevin/services/app_preferences.dart';
@@ -22,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _pages = [
     const WineListPage(),
     const VineyardListPage(),
+    const TradeListPage(),
     const SettingsPage(),
   ];
 
@@ -46,6 +48,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             label: AppLocalizations.of(context)!.vineyard,
             icon: const Icon(Icons.local_florist),
+          ),
+          BottomNavigationBarItem(
+            label: AppLocalizations.of(context)!.trade,
+            icon: const Icon(Icons.swap_horiz),
           ),
           BottomNavigationBarItem(
             label: AppLocalizations.of(context)!.settings,

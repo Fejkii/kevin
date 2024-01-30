@@ -21,7 +21,7 @@ class AppQuantityInput extends StatefulWidget {
     required this.initValue,
     this.label = "",
     this.min = 0,
-    this.max = 0x7FFFFFFFFFFFFFFF,
+    this.max = 99999999,
     this.step = 1,
     this.unit,
     required this.onChange,

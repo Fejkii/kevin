@@ -7,6 +7,7 @@ import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/firebase_options.dart';
 import 'package:kevin/modules/auth/bloc/user_bloc.dart';
 import 'package:kevin/modules/auth/data/repository/user_repository.dart';
+import 'package:kevin/modules/trade/bloc/trade_bloc.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_bloc.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_record_bloc.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_wine_bloc.dart';
@@ -36,15 +37,14 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  FlutterError.onError = (errorDetails) {
-      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-    };
-    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-    PlatformDispatcher.instance.onError = (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-      return true;
-    };
-    
+  if (!kIsWeb) {
+    if (kDebugMode) {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    } else {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    }
+  }
+
   await initAppDependences();
   await instance<AppPreferences>().initSP();
 
@@ -69,6 +69,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<VineyardBloc>(create: (context) => VineyardBloc()),
         BlocProvider<VineyardWineBloc>(create: (context) => VineyardWineBloc()),
         BlocProvider<VineyardRecordBloc>(create: (context) => VineyardRecordBloc()),
+        BlocProvider<TradeBloc>(create: (context) => TradeBloc()),
       ],
       child: MaterialApp(
         locale: Locale(instance<AppPreferences>().getAppLanguage()),

@@ -37,7 +37,7 @@ class _VineyardDetailPageState extends State<VineyardDetailPage> {
     vineyardModel = widget.vineyardModel;
     if (vineyardModel != null) {
       _titleController.text = vineyardModel!.title;
-      _areaController.text = parseDouble(vineyardModel!.area);
+      _areaController.text = appFormatDoubleToString(vineyardModel!.area);
     }
     super.initState();
   }

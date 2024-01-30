@@ -73,19 +73,6 @@ class _SignInPageState extends State<SignInPage> {
                 }
               },
             ),
-            // TODO
-            // AppLoginButton(
-            //   text: AppLocalizations.of(context)!.signInWithApple,
-            //   color: Colors.black,
-            //   image: const AssetImage(ImageAssetPath.apple),
-            //   onPressed: () {},
-            // ),
-            // AppLoginButton(
-            //   text: AppLocalizations.of(context)!.signInWithFacebook,
-            //   color: Colors.blue,
-            //   image: const AssetImage(ImageAssetPath.facebook),
-            //   onPressed: () {},
-            // ),
           ],
         ),
       ),
