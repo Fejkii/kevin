@@ -130,7 +130,7 @@ class _WineDetailPageState extends State<WineDetailPage> {
       actions: [
         BlocConsumer<WineBloc, WineState>(
           listener: (context, state) {
-            if (state is WineSuccessState) {
+            if (state is WineSaveSuccessState) {
               wineModel != null
                   ? AppToastMessage().showToastMsg(AppLocalizations.of(context)!.updatedSuccessfully, ToastState.success)
                   : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.createdSuccessfully, ToastState.success);

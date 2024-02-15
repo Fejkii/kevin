@@ -11,7 +11,9 @@ class WineInitial extends WineState {}
 
 class WineLoadingState extends WineState {}
 
-class WineSuccessState extends WineState {}
+class WineLoadSuccessState extends WineState {}
+
+class WineSaveSuccessState extends WineState {}
 
 class WineListSuccessState extends WineState {
   final List<WineModel> wineList;

@@ -52,19 +52,23 @@ class _WinePageState extends State<WinePage> {
     return AppScaffold(
       body: _body(),
       appBar: _appBar(),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.white,
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WineRecordDetailPage(wineModel: wineModel),
-            ),
-          ).then((value) => _getWineRecords());
-        },
-      ),
+      floatingActionButton: _addWineRecordButton(context),
+    );
+  }
+
+  FloatingActionButton _addWineRecordButton(BuildContext context) {
+    return FloatingActionButton(
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.white,
+      child: const Icon(Icons.add),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => WineRecordDetailPage(wineModel: wineModel),
+          ),
+        ).then((value) => _getWineRecords());
+      },
     );
   }
 
@@ -114,7 +118,7 @@ class _WinePageState extends State<WinePage> {
   BlocConsumer<WineBloc, WineState> _addQuantity() {
     return BlocConsumer<WineBloc, WineState>(
       listener: (context, state) {
-        if (state is WineSuccessState) {
+        if (state is WineSaveSuccessState) {
           AppToastMessage().showToastMsg(AppLocalizations.of(context)!.updatedSuccessfully, ToastState.success);
         } else if (state is WineFailureState) {
           AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);

@@ -14,7 +14,7 @@ class VineyardBloc extends Bloc<VineyardEvent, VineyardState> {
       emit(VineyardLoadingState());
       try {
         await wineRepository.createVineyard(event.vineyardModel);
-        emit(VineyardSuccessState());
+        emit(VineyardSaveSuccessState());
       } on Exception catch (e) {
         emit(VineyardFailureState(e.toString()));
       }
@@ -24,7 +24,7 @@ class VineyardBloc extends Bloc<VineyardEvent, VineyardState> {
       emit(VineyardLoadingState());
       try {
         await wineRepository.updateVineyard(event.vineyardModel);
-        emit(VineyardSuccessState());
+        emit(VineyardSaveSuccessState());
       } on Exception catch (e) {
         emit(VineyardFailureState(e.toString()));
       }
@@ -34,7 +34,7 @@ class VineyardBloc extends Bloc<VineyardEvent, VineyardState> {
       emit(VineyardLoadingState());
       try {
         await wineRepository.getVineyard(event.vineyardId);
-        emit(VineyardSuccessState());
+        emit(VineyardLoadSuccessState());
       } on Exception catch (e) {
         emit(VineyardFailureState(e.toString()));
       }

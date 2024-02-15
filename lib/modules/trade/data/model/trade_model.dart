@@ -81,7 +81,7 @@ class TradeModel {
       tradeTypeId: map['tradeTypeId'] as int,
       tradeItems: List<TradeItemModel>.from(
         (map['tradeItems'] as List<dynamic>).map<TradeItemModel>(
-          (x) => TradeItemModel.fromMap(x as Map<String, dynamic>),
+          (attributes) => TradeItemModel.fromMap(attributes as Map<String, dynamic>),
         ),
       ),
       note: map['note'] != null ? map['note'] as String : null,

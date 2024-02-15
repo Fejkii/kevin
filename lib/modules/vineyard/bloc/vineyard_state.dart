@@ -11,7 +11,9 @@ class VineyardInitial extends VineyardState {}
 
 class VineyardLoadingState extends VineyardState {}
 
-class VineyardSuccessState extends VineyardState {}
+class VineyardSaveSuccessState extends VineyardState {}
+
+class VineyardLoadSuccessState extends VineyardState {}
 
 class VineyardListSuccessState extends VineyardState {
   final List<VineyardModel> vineyardList;

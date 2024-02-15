@@ -29,7 +29,7 @@ class WineBloc extends Bloc<WineEvent, WineState> {
           event.sugar,
           event.note,
         );
-        emit(WineSuccessState());
+        emit(WineSaveSuccessState());
       } on Exception catch (e) {
         emit(WineFailureState(e.toString()));
       }
@@ -39,7 +39,7 @@ class WineBloc extends Bloc<WineEvent, WineState> {
       emit(WineLoadingState());
       try {
         await wineRepository.updateWine(event.wineModel);
-        emit(WineSuccessState());
+        emit(WineSaveSuccessState());
       } on Exception catch (e) {
         emit(WineFailureState(e.toString()));
       }
@@ -49,7 +49,7 @@ class WineBloc extends Bloc<WineEvent, WineState> {
       emit(WineLoadingState());
       try {
         await wineRepository.getWine(event.wineId);
-        emit(WineSuccessState());
+        emit(WineLoadSuccessState());
       } on Exception catch (e) {
         emit(WineFailureState(e.toString()));
       }

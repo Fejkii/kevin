@@ -58,7 +58,7 @@ class _VineyardDetailPageState extends State<VineyardDetailPage> {
         actions: [
           BlocConsumer<VineyardBloc, VineyardState>(
             listener: (context, state) {
-              if (state is VineyardSuccessState) {
+              if (state is VineyardSaveSuccessState) {
                 setState(() {
                   vineyardModel != null
                       ? AppToastMessage().showToastMsg(AppLocalizations.of(context)!.updatedSuccessfully, ToastState.success)
