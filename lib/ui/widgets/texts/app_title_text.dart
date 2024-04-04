@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTitleText extends StatelessWidget {
   final String text;
@@ -12,8 +11,8 @@ class AppTitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.sriracha(
-        fontSize: 23,
+      style: const TextStyle(
+        fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:kevin/ui/theme/app_colors.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 
 class AppListView extends StatelessWidget {
@@ -75,8 +76,8 @@ class AppListViewItem extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: onDelete,
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
+            backgroundColor: AppColors.red,
+            foregroundColor: AppColors.white,
             icon: Icons.delete,
             label: AppLocalizations.of(context)!.delete,
             borderRadius: const BorderRadius.all(Radius.circular(5)),
@@ -86,7 +87,12 @@ class AppListViewItem extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Card(
-          color: itemColor,
+          color: itemColor ?? AppColors.white,
+          elevation: 0,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.circular(0.0),
+            side: BorderSide(color: AppColors.border, width: 0.5),
+          ),
           child: Center(
             heightFactor: 2.5,
             child: Container(

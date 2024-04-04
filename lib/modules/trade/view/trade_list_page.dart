@@ -144,7 +144,7 @@ class _TradeListPageState extends State<TradeListPage> {
       totalPrice += element.price;
     }
     return AppListViewItem(
-      itemColor: purchaseList[index].tradeTypeId == 1 ? Colors.deepPurple[200] : Colors.teal[200],
+      itemColor: purchaseList[index].tradeTypeId == 1 ? Colors.deepPurple[100] : Colors.teal[100],
       itemBody: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

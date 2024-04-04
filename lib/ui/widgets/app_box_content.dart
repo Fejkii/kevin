@@ -30,7 +30,7 @@ class AppBoxContent extends StatelessWidget {
             color: AppColors.white,
             border: Border.all(
               width: 0.5,
-              color: AppColors.grey,
+              color: AppColors.border,
             ),
           ),
           child: child,

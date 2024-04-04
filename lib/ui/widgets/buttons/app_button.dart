@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kevin/ui/theme/app_colors.dart';
 
 enum ButtonType {
   logout,
@@ -22,8 +23,17 @@ class AppButton extends StatelessWidget {
       return ElevatedButton.icon(
         onPressed: onTap,
         icon: const Icon(Icons.logout),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.white,
+          elevation: 0,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.circular(2.0),
+          ),
+        ),
         label: Text(
           title,
+          style: const TextStyle(fontSize: 18),
         ),
       );
     }
@@ -33,11 +43,16 @@ class AppButton extends StatelessWidget {
         onPressed: onTap,
         icon: const Icon(Icons.add),
         style: ElevatedButton.styleFrom(
-          shadowColor: Colors.grey,
+          backgroundColor: AppColors.primary,
+          foregroundColor: AppColors.white,
+          elevation: 0,
+          shape: BeveledRectangleBorder(
+            borderRadius: BorderRadius.circular(2.0),
+          ),
         ),
         label: Text(
           title,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 18),
         ),
       );
     }
@@ -45,9 +60,17 @@ class AppButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onTap,
       style: ElevatedButton.styleFrom(
-        shadowColor: Colors.red,
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.white,
+        elevation: 0,
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(2.0),
+        ),
       ),
-      child: Text(title),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 18),
+      ),
     );
   }
 }

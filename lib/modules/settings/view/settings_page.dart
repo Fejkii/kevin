@@ -132,14 +132,17 @@ class _SettingsPageState extends State<SettingsPage> {
             } else {
               return Center(
                 child: AppButton(
-                    title: AppLocalizations.of(context)!.logout,
-                    onTap: () {
-                      BlocProvider.of<AuthBloc>(context).add(const LogOutEvent());
-                    }),
+                  title: AppLocalizations.of(context)!.logout,
+                  onTap: () {
+                    BlocProvider.of<AuthBloc>(context).add(const LogOutEvent());
+                  },
+                  buttonType: ButtonType.logout,
+                ),
               );
             }
           },
         ),
+        const Divider(height: 30),
         _appInfo(context),
       ],
     );

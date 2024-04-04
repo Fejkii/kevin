@@ -46,9 +46,9 @@ class _AppDatePickerState extends State<AppDatePicker> {
     return TextFormField(
       controller: widget.controller,
       decoration: InputDecoration(
-        prefixIcon: widget.setIcon != null ? const Icon(Icons.calendar_today, size: 20) : null,
+        prefixIcon: widget.setIcon != null ? const Icon(Icons.calendar_today, size: 17) : null,
         labelText: widget.label != null ? widget.label! : AppLocalizations.of(context)!.date,
-        contentPadding: const EdgeInsets.all(0),
+        contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         border: const OutlineInputBorder(),
       ),
       readOnly: true,

@@ -106,7 +106,6 @@ class _AppTextFieldState extends State<AppTextField> {
         labelText: widget.label,
         border: const OutlineInputBorder(),
         contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        // contentPadding: EdgeInsets.zero,
         prefixIcon: iconData != null
             ? Icon(
                 iconData,

@@ -51,7 +51,7 @@ dependencies:
   fluttertoast: ^8.1.2 # Error messages
   flutter_slidable: ^2.0.0 # More information in ListView item and deleting
   dropdown_search: ^5.0.6 # Select box
-  google_fonts: ^5.1.0
+  # google_fonts: ^5.1.0
 
   url_launcher: ^6.1.12 # For opening extern URL
   connectivity_plus: ^4.0.2 # To check internet connection

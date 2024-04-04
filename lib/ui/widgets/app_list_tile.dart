@@ -22,8 +22,9 @@ class AppListTile extends StatelessWidget {
       trailing: trailing,
       onTap: onTap,
       tileColor: AppColors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+      shape: BeveledRectangleBorder(
+        borderRadius: BorderRadius.circular(0.0),
+        side: BorderSide(color: AppColors.border, width: 0.5),
       ),
     );
   }
