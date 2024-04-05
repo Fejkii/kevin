@@ -1,11 +1,4 @@
-import 'dart:async';
-import 'dart:developer' as developer;
-
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'app_toast_messages.dart';
 
 class AppScaffold extends StatefulWidget {
   final Widget body;
@@ -27,48 +20,14 @@ class AppScaffold extends StatefulWidget {
 }
 
 class _AppScaffoldState extends State<AppScaffold> {
-  ConnectivityResult _connectionStatus = ConnectivityResult.none;
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-
   @override
   void initState() {
     super.initState();
-    initConnectivity();
-
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
   @override
   void dispose() {
-    _connectivitySubscription.cancel();
     super.dispose();
-  }
-
-  Future<void> initConnectivity() async {
-    late ConnectivityResult result;
-    try {
-      result = await _connectivity.checkConnectivity();
-    } on PlatformException catch (e) {
-      developer.log('Couldn\'t check connectivity status', error: e);
-      return;
-    }
-    if (!mounted) {
-      return Future.value(null);
-    }
-
-    return _updateConnectionStatus(result);
-  }
-
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    setState(() {
-      _connectionStatus = result;
-    });
-    if (result == ConnectivityResult.mobile || result == ConnectivityResult.mobile) {
-      AppToastMessage().showToastMsg("Připojení: ${_connectionStatus.toString()}", ToastState.success);
-    } else if (result == ConnectivityResult.none) {
-      AppToastMessage().showToastMsg("Žádné připojení: ${_connectionStatus.toString()}", ToastState.error);
-    }
   }
 
   @override
