@@ -163,5 +163,10 @@
   "all": "Všechno",
   "amount": "Množství",
   "price": "Cena",
-  "unitPrice": "Jednotková cena"
+  "unitPrice": "Jednotková cena",
+  "clientMessage": "Zpráva autorovi",
+  "message": "Zpráva",
+  "sendMessage": "Odeslat zprávu",
+  "sendMessageToAuthor": "Poslat zprávu autorovi",
+  "messageSended": "Zpráva odeslána"
 }

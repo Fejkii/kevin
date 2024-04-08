@@ -9,6 +9,7 @@ import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/firebase_options.dart';
 import 'package:kevin/modules/auth/bloc/user_bloc.dart';
 import 'package:kevin/modules/auth/data/repository/user_repository.dart';
+import 'package:kevin/modules/client_message/bloc/client_message_bloc.dart';
 import 'package:kevin/modules/trade/bloc/trade_bloc.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_bloc.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_record_bloc.dart';
@@ -104,6 +105,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider<VineyardWineBloc>(create: (context) => VineyardWineBloc()),
         BlocProvider<VineyardRecordBloc>(create: (context) => VineyardRecordBloc()),
         BlocProvider<TradeBloc>(create: (context) => TradeBloc()),
+        BlocProvider<ClientMessageBloc>(create: (context) => ClientMessageBloc()),
       ],
       child: MaterialApp(
         locale: Locale(instance<AppPreferences>().getAppLanguage()),
