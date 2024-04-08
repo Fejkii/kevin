@@ -3,6 +3,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 
 import '../../../services/app_preferences.dart';
 import '../../../services/dependency_injection.dart';
@@ -126,81 +127,72 @@ class _VineyardWineDetailPageState extends State<VineyardWineDetailPage> {
   }
 
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          BlocConsumer<WineVarietyBloc, WineVarietyState>(
-            builder: (context, state) {
-              if (state is WineVarietyLoadingState) {
-                return const AppLoadingIndicator();
-              } else {
-                return DropdownSearch<WineVarietyModel>(
-                  popupProps: const PopupProps.menu(showSelectedItems: false, showSearchBox: true),
-                  items: wineVareityList,
-                  itemAsString: (WineVarietyModel wc) => wc.title,
-                  dropdownDecoratorProps: DropDownDecoratorProps(
-                    dropdownSearchDecoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      contentPadding: const EdgeInsets.all(10),
-                      labelText: AppLocalizations.of(context)!.wineVariety,
-                      hintText: AppLocalizations.of(context)!.selectInSelectBox,
-                    ),
+    return AppForm(
+      formKey: _formKey,
+      content: <Widget>[
+        BlocConsumer<WineVarietyBloc, WineVarietyState>(
+          builder: (context, state) {
+            if (state is WineVarietyLoadingState) {
+              return const AppLoadingIndicator();
+            } else {
+              return DropdownSearch<WineVarietyModel>(
+                popupProps: const PopupProps.menu(showSelectedItems: false, showSearchBox: true),
+                items: wineVareityList,
+                itemAsString: (WineVarietyModel wc) => wc.title,
+                dropdownDecoratorProps: DropDownDecoratorProps(
+                  dropdownSearchDecoration: InputDecoration(
+                    border: const OutlineInputBorder(),
+                    contentPadding: const EdgeInsets.all(10),
+                    labelText: AppLocalizations.of(context)!.wineVariety,
+                    hintText: AppLocalizations.of(context)!.selectInSelectBox,
                   ),
-                  onChanged: (WineVarietyModel? wineVariety) {
-                    setState(() {
-                      selectedWineVariety = wineVariety;
-                    });
-                  },
-                  selectedItem: selectedWineVariety,
-                  clearButtonProps: const ClearButtonProps(isVisible: true),
-                  validator: (WineVarietyModel? wineVariety) {
-                    if (wineVariety == null) return AppLocalizations.of(context)!.inputEmpty;
-                    return null;
-                  },
-                );
-              }
-            },
-            listener: (context, state) {
-              if (state is WineVarietyListSuccessState) {
-                setState(() {
-                  wineVareityList = state.wineVarietyList;
-                });
-              } else if (state is WineVarietyFailureState) {
-                AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
-              }
-            },
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _titleController,
-            label: AppLocalizations.of(context)!.title,
-            inputType: InputType.title,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _quantityController,
-            label: AppLocalizations.of(context)!.vineyardWineQuantity,
-            inputType: InputType.integer,
-            isRequired: true,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _yearController,
-            label: AppLocalizations.of(context)!.year,
-            inputType: InputType.integer,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _noteController,
-            label: AppLocalizations.of(context)!.note,
-            inputType: InputType.note,
-          ),
-        ],
-      ),
+                ),
+                onChanged: (WineVarietyModel? wineVariety) {
+                  setState(() {
+                    selectedWineVariety = wineVariety;
+                  });
+                },
+                selectedItem: selectedWineVariety,
+                clearButtonProps: const ClearButtonProps(isVisible: true),
+                validator: (WineVarietyModel? wineVariety) {
+                  if (wineVariety == null) return AppLocalizations.of(context)!.inputEmpty;
+                  return null;
+                },
+              );
+            }
+          },
+          listener: (context, state) {
+            if (state is WineVarietyListSuccessState) {
+              setState(() {
+                wineVareityList = state.wineVarietyList;
+              });
+            } else if (state is WineVarietyFailureState) {
+              AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
+            }
+          },
+        ),
+        AppTextField(
+          controller: _titleController,
+          label: AppLocalizations.of(context)!.title,
+          inputType: InputType.title,
+        ),
+        AppTextField(
+          controller: _quantityController,
+          label: AppLocalizations.of(context)!.vineyardWineQuantity,
+          inputType: InputType.integer,
+          isRequired: true,
+        ),
+        AppTextField(
+          controller: _yearController,
+          label: AppLocalizations.of(context)!.year,
+          inputType: InputType.integer,
+        ),
+        AppTextField(
+          controller: _noteController,
+          label: AppLocalizations.of(context)!.note,
+          inputType: InputType.note,
+        ),
+      ],
     );
   }
 }

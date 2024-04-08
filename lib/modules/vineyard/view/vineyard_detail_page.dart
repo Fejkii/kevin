@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_bloc.dart';
 import 'package:kevin/services/app_functions.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 
 import '../../../const/app_units.dart';
 import '../../../services/app_preferences.dart';
@@ -52,7 +53,7 @@ class _VineyardDetailPageState extends State<VineyardDetailPage> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: _bodyWidget(),
+      body: _form(context),
       appBar: AppBar(
         title: Text(vineyardModel != null ? vineyardModel!.title : AppLocalizations.of(context)!.createVineyard),
         actions: [
@@ -78,7 +79,7 @@ class _VineyardDetailPageState extends State<VineyardDetailPage> {
                   onPress: () {
                     if (_formKey.currentState!.validate()) {
                       final vineyard = VineyardModel(
-                        id: vineyardModel != null ? vineyardModel!.id : null,
+                        id: vineyardModel?.id,
                         projectId: appPreferences.getUserProject().project.id,
                         title: _titleController.text.trim(),
                         area: double.parse(_areaController.text),
@@ -100,39 +101,22 @@ class _VineyardDetailPageState extends State<VineyardDetailPage> {
     );
   }
 
-  Widget _bodyWidget() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(height: 10),
-        _form(context),
-      ],
-    );
-  }
-
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          AppTextField(
-            controller: _titleController,
-            label: AppLocalizations.of(context)!.title,
-            isRequired: true,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _areaController,
-            label: AppLocalizations.of(context)!.area,
-            inputType: InputType.double,
-            unit: AppUnits.squareMeter,
-          ),
-        ],
-      ),
+    return AppForm(
+      formKey: _formKey,
+      content: <Widget>[
+        AppTextField(
+          controller: _titleController,
+          label: AppLocalizations.of(context)!.title,
+          isRequired: true,
+        ),
+        AppTextField(
+          controller: _areaController,
+          label: AppLocalizations.of(context)!.area,
+          inputType: InputType.double,
+          unit: AppUnits.squareMeter,
+        ),
+      ],
     );
   }
 }

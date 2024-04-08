@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_bloc.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_record_bloc.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 import 'package:kevin/ui/widgets/texts/app_content_text.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 
@@ -122,7 +123,7 @@ class _VineyardRecordDetailPageState extends State<VineyardRecordDetailPage> {
                       }
 
                       final vineyardRecord = VineyardRecordModel(
-                        id: vineyardRecordModel != null ? vineyardRecordModel!.id : null,
+                        id: vineyardRecordModel?.id,
                         vineyardRecordTypeId: selectedVineyardRecordType!.getId(),
                         date: appToDateTime(_dateController.text.trim()),
                         data: data,
@@ -144,50 +145,43 @@ class _VineyardRecordDetailPageState extends State<VineyardRecordDetailPage> {
   }
 
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(height: 10),
-          AppDatePicker(
-            controller: _dateController,
-            initDate: vineyardRecordModel?.date,
-            setIcon: true,
-          ),
-          const SizedBox(height: 20),
-          DropdownSearch<VineyardRecordType>(
-            popupProps: const PopupProps.menu(showSelectedItems: false, showSearchBox: true),
-            items: vineyardRecordTypeList,
-            itemAsString: (VineyardRecordType vrt) => vrt.getTranslate(context),
-            dropdownDecoratorProps: DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                contentPadding: const EdgeInsets.all(10),
-                labelText: AppLocalizations.of(context)!.vineyardRecordType,
-                hintText: AppLocalizations.of(context)!.selectInSelectBox,
-              ),
+    return AppForm(
+      formKey: _formKey,
+      content: <Widget>[
+        AppDatePicker(
+          controller: _dateController,
+          initDate: vineyardRecordModel?.date,
+          setIcon: true,
+        ),
+        DropdownSearch<VineyardRecordType>(
+          popupProps: const PopupProps.menu(showSelectedItems: false, showSearchBox: true),
+          items: vineyardRecordTypeList,
+          itemAsString: (VineyardRecordType vrt) => vrt.getTranslate(context),
+          dropdownDecoratorProps: DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.all(10),
+              labelText: AppLocalizations.of(context)!.vineyardRecordType,
+              hintText: AppLocalizations.of(context)!.selectInSelectBox,
             ),
-            onChanged: (VineyardRecordType? value) {
-              setState(() {
-                selectedVineyardRecordType = value;
-              });
-            },
-            selectedItem: selectedVineyardRecordType,
-            clearButtonProps: const ClearButtonProps(isVisible: true),
           ),
-          _sprayingRecord(),
-          _otherRecord(),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _noteController,
-            label: AppLocalizations.of(context)!.note,
-            inputType: InputType.note,
-          ),
-        ],
-      ),
+          onChanged: (VineyardRecordType? value) {
+            setState(() {
+              selectedVineyardRecordType = value;
+              print(value);
+            });
+          },
+          selectedItem: selectedVineyardRecordType,
+          clearButtonProps: const ClearButtonProps(isVisible: true),
+        ),
+        _sprayingRecord(),
+        _otherRecord(),
+        AppTextField(
+          controller: _noteController,
+          label: AppLocalizations.of(context)!.note,
+          inputType: InputType.note,
+        ),
+      ],
     );
   }
 
@@ -196,7 +190,6 @@ class _VineyardRecordDetailPageState extends State<VineyardRecordDetailPage> {
       return selectedVineyardRecordType == VineyardRecordType.spraying
           ? Column(
               children: [
-                const SizedBox(height: 20),
                 AppTextField(
                   controller: _sprayNameController,
                   label: AppLocalizations.of(context)!.sprayName,
@@ -247,14 +240,12 @@ class _VineyardRecordDetailPageState extends State<VineyardRecordDetailPage> {
       return selectedVineyardRecordType == VineyardRecordType.others
           ? Column(
               children: [
-                const SizedBox(height: 20),
                 AppTextField(
                   controller: _titleController,
                   label: AppLocalizations.of(context)!.title,
                   isRequired: true,
                   inputType: InputType.title,
                 ),
-                const SizedBox(height: 10),
               ],
             )
           : Container();

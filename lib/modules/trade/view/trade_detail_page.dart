@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/trade/bloc/trade_bloc.dart';
 import 'package:kevin/modules/trade/data/model/trade_model.dart';
 import 'package:kevin/modules/trade/view/trade_item_form.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 import 'package:kevin/ui/widgets/buttons/app_segmented_button.dart';
 
 import '../../../services/app_functions.dart';
@@ -179,66 +180,58 @@ class _TradeDetailPageState extends State<TradeDetailPage> {
   }
 
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          AppSegmentedButton(
-            segments: <ButtonSegment<TradeType>>[
-              ButtonSegment<TradeType>(
-                value: TradeType.sale,
-                label: Text(AppLocalizations.of(context)!.sale),
-                icon: const Icon(Icons.calendar_view_day),
-              ),
-              ButtonSegment<TradeType>(
-                value: TradeType.purchase,
-                label: Text(AppLocalizations.of(context)!.purchase),
-                icon: const Icon(Icons.calendar_view_week),
-              ),
-            ],
-            selected: <TradeType>{tradeType},
-            onSelectionChanged: (newSelection) {
-              setState(() {
-                tradeType = newSelection.first;
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          AppDatePicker(
-            controller: _dateController,
-            label: AppLocalizations.of(context)!.date,
-            initDate: tradeModel?.date,
-            fillTodayDate: true,
-            setIcon: true,
-          ),
-          const SizedBox(height: 10),
-          ListView.builder(
-            padding: const EdgeInsets.all(0),
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: tradeItemForms.length,
-            itemBuilder: (_, index) {
-              return tradeItemForms[index];
-            },
-          ),
-          AppButton(
-            title: AppLocalizations.of(context)!.addNextItem,
-            onTap: () {
-              onAddItem(null);
-            },
-            buttonType: ButtonType.add,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _noteController,
-            label: AppLocalizations.of(context)!.note,
-            inputType: InputType.note,
-          ),
-        ],
-      ),
+    return AppForm(
+      formKey: _formKey,
+      content: <Widget>[
+        AppSegmentedButton(
+          segments: <ButtonSegment<TradeType>>[
+            ButtonSegment<TradeType>(
+              value: TradeType.sale,
+              label: Text(AppLocalizations.of(context)!.sale),
+              icon: const Icon(Icons.calendar_view_day),
+            ),
+            ButtonSegment<TradeType>(
+              value: TradeType.purchase,
+              label: Text(AppLocalizations.of(context)!.purchase),
+              icon: const Icon(Icons.calendar_view_week),
+            ),
+          ],
+          selected: <TradeType>{tradeType},
+          onSelectionChanged: (newSelection) {
+            setState(() {
+              tradeType = newSelection.first;
+            });
+          },
+        ),
+        AppDatePicker(
+          controller: _dateController,
+          label: AppLocalizations.of(context)!.date,
+          initDate: tradeModel?.date,
+          fillTodayDate: true,
+          setIcon: true,
+        ),
+        ListView.builder(
+          padding: const EdgeInsets.all(0),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: tradeItemForms.length,
+          itemBuilder: (_, index) {
+            return tradeItemForms[index];
+          },
+        ),
+        AppButton(
+          title: AppLocalizations.of(context)!.addNextItem,
+          onTap: () {
+            onAddItem(null);
+          },
+          buttonType: ButtonType.add,
+        ),
+        AppTextField(
+          controller: _noteController,
+          label: AppLocalizations.of(context)!.note,
+          inputType: InputType.note,
+        ),
+      ],
     );
   }
 }

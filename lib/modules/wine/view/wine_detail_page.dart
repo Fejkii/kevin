@@ -2,7 +2,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/const/app_units.dart';
-import 'package:kevin/const/app_values.dart';
+import 'package:kevin/const/app_constant.dart';
 import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/wine/bloc/wine_variety_bloc.dart';
@@ -12,6 +12,7 @@ import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
 import 'package:kevin/services/app_functions.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
@@ -205,119 +206,106 @@ class _WineDetailPageState extends State<WineDetailPage> {
   }
 
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          AppTextField(
-            controller: _titleController,
-            label: AppLocalizations.of(context)!.title,
+    return AppForm(
+      formKey: _formKey,
+      content: <Widget>[
+        AppTextField(
+          controller: _titleController,
+          label: AppLocalizations.of(context)!.title,
+        ),
+        DropdownSearch<WineVarietyModel>.multiSelection(
+          popupProps: const PopupPropsMultiSelection.menu(
+            showSelectedItems: true,
+            interceptCallBacks: true,
+            showSearchBox: true,
+            constraints: BoxConstraints(maxHeight: 500),
           ),
-          const SizedBox(height: 20),
-          DropdownSearch<WineVarietyModel>.multiSelection(
-            popupProps: const PopupPropsMultiSelection.menu(
-              showSelectedItems: true,
-              interceptCallBacks: true,
-              showSearchBox: true,
-              constraints: BoxConstraints(maxHeight: 500),
+          items: wineVarietiesList,
+          itemAsString: (WineVarietyModel wineVariety) => AppTextWithCode().textWithCode(wineVariety.title, wineVariety.code),
+          compareFn: (item, selectedItem) => item.id == selectedItem.id,
+          dropdownDecoratorProps: DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              labelText: AppLocalizations.of(context)!.wineVarieties,
+              hintText: AppLocalizations.of(context)!.selectInSelectBox,
             ),
-            items: wineVarietiesList,
-            itemAsString: (WineVarietyModel wineVariety) => AppTextWithCode().textWithCode(wineVariety.title, wineVariety.code),
-            compareFn: (item, selectedItem) => item.id == selectedItem.id,
-            dropdownDecoratorProps: DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                labelText: AppLocalizations.of(context)!.wineVarieties,
-                hintText: AppLocalizations.of(context)!.selectInSelectBox,
-              ),
+          ),
+          onChanged: (List<WineVarietyModel> wineVarieties) {
+            setState(() {
+              selectedWineVarieties = wineVarieties;
+            });
+          },
+          selectedItems: selectedWineVarieties,
+          validator: (List<WineVarietyModel>? items) {
+            if (items == null || items.isEmpty) return AppLocalizations.of(context)!.inputEmpty;
+            return null;
+          },
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          clearButtonProps: const ClearButtonProps(isVisible: true),
+        ),
+        DropdownSearch<WineClassificationModel>(
+          popupProps: const PopupProps.menu(showSearchBox: true),
+          items: wineClassificationList,
+          itemAsString: (WineClassificationModel wineClassification) =>
+              AppTextWithCode().textWithCode(wineClassification.title, wineClassification.code),
+          dropdownDecoratorProps: DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.all(10),
+              labelText: AppLocalizations.of(context)!.wineClassification,
+              hintText: AppLocalizations.of(context)!.selectInSelectBox,
             ),
-            onChanged: (List<WineVarietyModel> wineVarieties) {
-              setState(() {
-                selectedWineVarieties = wineVarieties;
-              });
-            },
-            selectedItems: selectedWineVarieties,
-            validator: (List<WineVarietyModel>? items) {
-              if (items == null || items.isEmpty) return AppLocalizations.of(context)!.inputEmpty;
-              return null;
-            },
-            autoValidateMode: AutovalidateMode.onUserInteraction,
-            clearButtonProps: const ClearButtonProps(isVisible: true),
           ),
-          const SizedBox(height: 20),
-          DropdownSearch<WineClassificationModel>(
-            popupProps: const PopupProps.menu(showSearchBox: true),
-            items: wineClassificationList,
-            itemAsString: (WineClassificationModel wineClassification) =>
-                AppTextWithCode().textWithCode(wineClassification.title, wineClassification.code),
-            dropdownDecoratorProps: DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                contentPadding: const EdgeInsets.all(10),
-                labelText: AppLocalizations.of(context)!.wineClassification,
-                hintText: AppLocalizations.of(context)!.selectInSelectBox,
-              ),
-            ),
-            onChanged: (WineClassificationModel? wineClassification) {
-              setState(() {
-                selectedWineClassification = wineClassification;
-              });
-            },
-            selectedItem: selectedWineClassification,
-            clearButtonProps: const ClearButtonProps(isVisible: true),
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _quantityController,
-            label: AppLocalizations.of(context)!.wineQuantity,
-            isRequired: true,
-            inputType: InputType.double,
-            keyboardType: TextInputType.number,
-            unit: AppUnits().liter(_quantityController.text, context),
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _yearController,
-            label: AppLocalizations.of(context)!.year,
-            isRequired: true,
-            inputType: InputType.double,
-            keyboardType: TextInputType.number,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _alcoholController,
-            label: AppLocalizations.of(context)!.alcohol,
-            inputType: InputType.double,
-            keyboardType: TextInputType.number,
-            unit: AppUnits.percent,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _acidController,
-            label: AppLocalizations.of(context)!.acid,
-            inputType: InputType.double,
-            keyboardType: TextInputType.number,
-            unit: AppUnits.gramPerLiter,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _sugarController,
-            label: AppLocalizations.of(context)!.sugar,
-            inputType: InputType.double,
-            keyboardType: TextInputType.number,
-            unit: AppUnits.gramPerLiter,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _noteController,
-            label: AppLocalizations.of(context)!.note,
-            inputType: InputType.note,
-          ),
-        ],
-      ),
+          onChanged: (WineClassificationModel? wineClassification) {
+            setState(() {
+              selectedWineClassification = wineClassification;
+            });
+          },
+          selectedItem: selectedWineClassification,
+          clearButtonProps: const ClearButtonProps(isVisible: true),
+        ),
+        AppTextField(
+          controller: _quantityController,
+          label: AppLocalizations.of(context)!.wineQuantity,
+          isRequired: true,
+          inputType: InputType.double,
+          keyboardType: TextInputType.number,
+          unit: AppUnits().liter(_quantityController.text, context),
+        ),
+        AppTextField(
+          controller: _yearController,
+          label: AppLocalizations.of(context)!.year,
+          isRequired: true,
+          inputType: InputType.double,
+          keyboardType: TextInputType.number,
+        ),
+        AppTextField(
+          controller: _alcoholController,
+          label: AppLocalizations.of(context)!.alcohol,
+          inputType: InputType.double,
+          keyboardType: TextInputType.number,
+          unit: AppUnits.percent,
+        ),
+        AppTextField(
+          controller: _acidController,
+          label: AppLocalizations.of(context)!.acid,
+          inputType: InputType.double,
+          keyboardType: TextInputType.number,
+          unit: AppUnits.gramPerLiter,
+        ),
+        AppTextField(
+          controller: _sugarController,
+          label: AppLocalizations.of(context)!.sugar,
+          inputType: InputType.double,
+          keyboardType: TextInputType.number,
+          unit: AppUnits.gramPerLiter,
+        ),
+        AppTextField(
+          controller: _noteController,
+          label: AppLocalizations.of(context)!.note,
+          inputType: InputType.note,
+        ),
+      ],
     );
   }
 }
