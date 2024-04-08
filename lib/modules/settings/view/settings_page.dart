@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/const/app_routes.dart';
-import 'package:kevin/const/app_values.dart';
+import 'package:kevin/const/app_constant.dart';
 import 'package:kevin/modules/auth/bloc/auth_bloc.dart';
 import 'package:kevin/modules/auth/data/model/user_model.dart';
 import 'package:kevin/modules/auth/view/user_profile_page.dart';
+import 'package:kevin/modules/client_message/view/client_message_form.dart';
 import 'package:kevin/modules/project/data/model/user_project_model.dart';
 import 'package:kevin/modules/wine/view/wine_variety_list_page.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/widgets/app_list_tile.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
+import 'package:kevin/ui/widgets/app_modal_view.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/buttons/app_text_button.dart';
@@ -144,6 +146,8 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         const Divider(height: 30),
         _appInfo(context),
+        const Divider(height: 30),
+        _sendMessageToAuthor(),
       ],
     );
   }
@@ -167,7 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onTap: () {
                   final Uri emailLaunchUri = Uri(
                     scheme: 'mailto',
-                    path: 'petrstastny09@gmail.com',
+                    path: AppConstant.EMAIL,
                     query: _encodeQueryParameters(<String, String>{
                       'subject': 'KEVIN - helpdesk',
                     }),
@@ -184,5 +188,19 @@ class _SettingsPageState extends State<SettingsPage> {
 
   String? _encodeQueryParameters(Map<String, String> params) {
     return params.entries.map((MapEntry<String, String> e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
+  }
+
+  Widget _sendMessageToAuthor() {
+    return Center(
+      child: AppButton(
+        title: AppLocalizations.of(context)!.sendMessageToAuthor,
+        onTap: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => AppModalView(title: AppLocalizations.of(context)!.sendMessageToAuthor, content: const ClientMessageForm()),
+          );
+        },
+      ),
+    );
   }
 }

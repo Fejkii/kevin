@@ -10,4 +10,5 @@ class AppCollection {
   static String vineardWines = "vineardWines";
   static String vineardRecords = "vineardRecords";
   static String trades = "trades";
+  static String clientMessages = "clientMessages";
 }

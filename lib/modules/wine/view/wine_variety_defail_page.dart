@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/wine/bloc/wine_variety_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
@@ -97,28 +98,20 @@ class _WineVarietyDetailPageState extends State<WineVarietyDetailPage> {
   }
 
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(height: 10),
-          AppTextField(
-            controller: _titleController,
-            isRequired: true,
-            label: AppLocalizations.of(context)!.title,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _codeController,
-            isRequired: true,
-            label: AppLocalizations.of(context)!.code,
-          ),
-          const SizedBox(height: 20),
-        ],
-      ),
+    return AppForm(
+      formKey: _formKey,
+      content: <Widget>[
+        AppTextField(
+          controller: _titleController,
+          isRequired: true,
+          label: AppLocalizations.of(context)!.title,
+        ),
+        AppTextField(
+          controller: _codeController,
+          isRequired: true,
+          label: AppLocalizations.of(context)!.code,
+        ),
+      ],
     );
   }
 }

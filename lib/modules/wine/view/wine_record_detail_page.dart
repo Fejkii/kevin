@@ -5,6 +5,7 @@ import 'package:kevin/modules/wine/bloc/wine_record_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/ui/widgets/app_box_content.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 import 'package:kevin/ui/widgets/texts/app_text_field.dart';
 
 import '../../../const/app_units.dart';
@@ -226,59 +227,50 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
   }
 
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(height: 10),
-          AppDatePicker(
-            controller: _dateController,
-            initDate: wineRecord?.date,
-            fillTodayDate: true,
-            setIcon: true,
-          ),
-          const SizedBox(height: 20),
-          DropdownSearch<WineRecordType>(
-            popupProps: const PopupProps.menu(showSelectedItems: false, showSearchBox: true),
-            items: wineRecordTypeList,
-            itemAsString: (WineRecordType wrt) => wrt.getTranslate(context),
-            dropdownDecoratorProps: DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                border: const OutlineInputBorder(),
-                contentPadding: const EdgeInsets.all(10),
-                labelText: AppLocalizations.of(context)!.wineRecordType,
-                hintText: AppLocalizations.of(context)!.selectInSelectBox,
-              ),
+    return AppForm(
+      formKey: _formKey,
+      content: <Widget>[
+        AppDatePicker(
+          controller: _dateController,
+          initDate: wineRecord?.date,
+          fillTodayDate: true,
+          setIcon: true,
+        ),
+        DropdownSearch<WineRecordType>(
+          popupProps: const PopupProps.menu(showSelectedItems: false, showSearchBox: true),
+          items: wineRecordTypeList,
+          itemAsString: (WineRecordType wrt) => wrt.getTranslate(context),
+          dropdownDecoratorProps: DropDownDecoratorProps(
+            dropdownSearchDecoration: InputDecoration(
+              border: const OutlineInputBorder(),
+              contentPadding: const EdgeInsets.all(10),
+              labelText: AppLocalizations.of(context)!.wineRecordType,
+              hintText: AppLocalizations.of(context)!.selectInSelectBox,
             ),
-            onChanged: (WineRecordType? value) {
-              setState(() {
-                selectedWineRecordType = value;
-              });
-            },
-            validator: (WineRecordType? item) {
-              if (item == null) return AppLocalizations.of(context)!.inputEmpty;
-              return null;
-            },
-            autoValidateMode: AutovalidateMode.onUserInteraction,
-            selectedItem: selectedWineRecordType,
-            clearButtonProps: const ClearButtonProps(isVisible: true),
           ),
-          _freeSulfure(),
-          _fermentation(),
-          _otherRecord(),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _noteController,
-            label: AppLocalizations.of(context)!.note,
-            inputType: InputType.note,
-          ),
-          const SizedBox(height: 20),
-          _otherInfo(),
-        ],
-      ),
+          onChanged: (WineRecordType? value) {
+            setState(() {
+              selectedWineRecordType = value;
+            });
+          },
+          validator: (WineRecordType? item) {
+            if (item == null) return AppLocalizations.of(context)!.inputEmpty;
+            return null;
+          },
+          autoValidateMode: AutovalidateMode.onUserInteraction,
+          selectedItem: selectedWineRecordType,
+          clearButtonProps: const ClearButtonProps(isVisible: true),
+        ),
+        _freeSulfure(),
+        _fermentation(),
+        _otherRecord(),
+        AppTextField(
+          controller: _noteController,
+          label: AppLocalizations.of(context)!.note,
+          inputType: InputType.note,
+        ),
+        _otherInfo(),
+      ],
     );
   }
 
@@ -295,7 +287,6 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
       return selectedWineRecordType == WineRecordType.measurementFreeSulfure
           ? Column(
               children: [
-                const SizedBox(height: 20),
                 AppTextField(
                   controller: _freeSulfureController,
                   label: AppLocalizations.of(context)!.measuredFreeSulfur,
@@ -395,7 +386,6 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
       return selectedWineRecordType == WineRecordType.fermentation
           ? Column(
               children: [
-                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -426,19 +416,16 @@ class _WineRecordDetailPageState extends State<WineRecordDetailPage> {
     }
   }
 
+  // TODO: Bug s přepínáním Typu síry/ síření, měření atd...
+
   Widget _otherRecord() {
     if (selectedWineRecordType != null) {
       return selectedWineRecordType == WineRecordType.others
-          ? Column(
-              children: [
-                const SizedBox(height: 20),
-                AppTextField(
-                  controller: _titleController,
-                  label: AppLocalizations.of(context)!.title,
-                  isRequired: true,
-                  inputType: InputType.title,
-                ),
-              ],
+          ? AppTextField(
+              controller: _titleController,
+              label: AppLocalizations.of(context)!.title,
+              isRequired: true,
+              inputType: InputType.title,
             )
           : Container();
     } else {

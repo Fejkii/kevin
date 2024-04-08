@@ -4,6 +4,7 @@ import 'package:kevin/const/app_routes.dart';
 import 'package:kevin/modules/auth/bloc/auth_bloc.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
@@ -50,76 +51,68 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _loginForm(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 10),
-          AppTextField(
-            controller: _emailController,
-            label: AppLocalizations.of(context)!.email,
-            keyboardType: TextInputType.emailAddress,
-            isRequired: true,
-            inputType: InputType.email,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _passwordController,
-            label: AppLocalizations.of(context)!.password,
-            isRequired: true,
-            inputType: InputType.password,
-          ),
-          const SizedBox(height: 20),
-          BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-              if (state is LoginSuccessState) {
-                if (appPreferences.getUser().userName == null) {
-                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.userName, (route) => false);
-                } else if (!appPreferences.hasUserProject()) {
-                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.createProject, (route) => false);
-                } else {
-                  Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
-                }
-              } else if (state is AuthFailureState) {
-                AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
-              }
-            },
-            builder: (context, state) {
-              if (state is AuthLoadingState) {
-                return const AppLoadingIndicator();
+    return AppForm(
+      formKey: _formKey,
+      content: [
+        AppTextField(
+          controller: _emailController,
+          label: AppLocalizations.of(context)!.email,
+          keyboardType: TextInputType.emailAddress,
+          isRequired: true,
+          inputType: InputType.email,
+        ),
+        AppTextField(
+          controller: _passwordController,
+          label: AppLocalizations.of(context)!.password,
+          isRequired: true,
+          inputType: InputType.password,
+        ),
+        BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is LoginSuccessState) {
+              if (appPreferences.getUser().userName == null) {
+                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.userName, (route) => false);
+              } else if (!appPreferences.hasUserProject()) {
+                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.createProject, (route) => false);
               } else {
-                return AppButton(
-                  title: AppLocalizations.of(context)!.loginButton,
-                  onTap: () {
-                    _formKey.currentState!.validate()
-                        ? BlocProvider.of<AuthBloc>(context)
-                            .add(LogInEvent(email: _emailController.text.trim(), password: _passwordController.text.trim()))
-                        : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
-                  },
-                );
+                Navigator.pushNamedAndRemoveUntil(context, AppRoutes.home, (route) => false);
               }
-            },
-          ),
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AppTextButton(
-                  title: AppLocalizations.of(context)!.register,
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.register);
-                  }),
-              AppTextButton(
-                  title: AppLocalizations.of(context)!.forgottenPassword,
-                  onTap: () {
-                    Navigator.pushNamed(context, AppRoutes.forgetPassword);
-                  }),
-            ],
-          )
-        ],
-      ),
+            } else if (state is AuthFailureState) {
+              AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoadingState) {
+              return const AppLoadingIndicator();
+            } else {
+              return AppButton(
+                title: AppLocalizations.of(context)!.loginButton,
+                onTap: () {
+                  _formKey.currentState!.validate()
+                      ? BlocProvider.of<AuthBloc>(context)
+                          .add(LogInEvent(email: _emailController.text.trim(), password: _passwordController.text.trim()))
+                      : AppToastMessage().showToastMsg(AppLocalizations.of(context)!.loginError, ToastState.error);
+                },
+              );
+            }
+          },
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AppTextButton(
+                title: AppLocalizations.of(context)!.register,
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.register);
+                }),
+            AppTextButton(
+                title: AppLocalizations.of(context)!.forgottenPassword,
+                onTap: () {
+                  Navigator.pushNamed(context, AppRoutes.forgetPassword);
+                }),
+          ],
+        )
+      ],
     );
   }
 }

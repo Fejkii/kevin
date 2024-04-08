@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/modules/auth/bloc/user_bloc.dart';
 import 'package:kevin/modules/auth/data/model/user_model.dart';
+import 'package:kevin/ui/widgets/app_form.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -96,27 +97,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
   }
 
   Widget _form(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          AppTextField(
-            controller: _nameController,
-            label: AppLocalizations.of(context)!.name,
-            isRequired: true,
-            inputType: InputType.title,
-          ),
-          const SizedBox(height: 20),
-          AppTextField(
-            controller: _emailController,
-            label: AppLocalizations.of(context)!.email,
-            inputType: InputType.email,
-          ),
-        ],
-      ),
+    return AppForm(
+      formKey: _formKey,
+      content: <Widget>[
+        AppTextField(
+          controller: _nameController,
+          label: AppLocalizations.of(context)!.name,
+          isRequired: true,
+          inputType: InputType.title,
+        ),
+        AppTextField(
+          controller: _emailController,
+          label: AppLocalizations.of(context)!.email,
+          inputType: InputType.email,
+        ),
+      ],
     );
   }
 
