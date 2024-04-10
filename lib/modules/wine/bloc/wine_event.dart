@@ -49,10 +49,4 @@ class GetWineEvent extends WineEvent {
   const GetWineEvent(this.wineId);
 }
 
-class WineListRequestEvent extends WineEvent {}
-
-class WineListReceivedEvent extends WineEvent {
-  final List<WineModel> winelist;
-
-  const WineListReceivedEvent(this.winelist);
-}
+class GetWineListEvent extends WineEvent {}

@@ -10,10 +10,14 @@ class WineRepository {
   final firebase = FirebaseFirestore.instance.collection(AppCollection.wines);
   final AppPreferences appPreferences = instance<AppPreferences>();
 
-  Stream<List<WineModel>> getAllWines() {
-    return firebase.where("projectId", isEqualTo: appPreferences.getUserProject().project.id).snapshots().map((snapshot) {
-      return snapshot.docs.map((doc) => WineModel.fromMap(doc.data())).toList();
+  Future<List<WineModel>> getAllWines() async {
+    List<WineModel> list = [];
+    await firebase.where("projectId", isEqualTo: appPreferences.getUserProject().project.id).get().then((value) {
+      for (var element in value.docs) {
+        list.add(WineModel.fromMap(element.data()));
+      }
     });
+    return list;
   }
 
   Future<void> createWine(

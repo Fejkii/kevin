@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 
 class AppScaffold extends StatefulWidget {
   final Widget body;
-  final AppBar? appBar;
-  final bool? hasSidebar;
+  final PreferredSizeWidget? appBar;
   final bool? centerContent;
-  final FloatingActionButton? floatingActionButton;
+  final Widget? floatingActionButton;
   const AppScaffold({
     Key? key,
     required this.body,
     this.appBar,
-    this.hasSidebar,
     this.centerContent,
     this.floatingActionButton,
   }) : super(key: key);

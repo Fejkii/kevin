@@ -36,7 +36,6 @@ class _VineyardListPageState extends State<VineyardListPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       body: _list(),
-      hasSidebar: true,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.vineyards),
         actions: [

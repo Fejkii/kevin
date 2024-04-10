@@ -10,6 +10,7 @@ import 'package:kevin/ui/widgets/app_box_content.dart';
 import 'package:kevin/ui/widgets/app_quantity_input.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kevin/ui/widgets/buttons/app_floating_button.dart';
 
 import '../../../const/app_constant.dart';
 import '../../../services/app_functions.dart';
@@ -56,20 +57,15 @@ class _WinePageState extends State<WinePage> {
     );
   }
 
-  FloatingActionButton _addWineRecordButton(BuildContext context) {
-    return FloatingActionButton(
-      backgroundColor: AppColors.primary,
-      foregroundColor: AppColors.white,
-      child: const Icon(Icons.add),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WineRecordDetailPage(wineModel: wineModel),
-          ),
-        ).then((value) => _getWineRecords());
-      },
-    );
+  Widget _addWineRecordButton(BuildContext context) {
+    return AppFloatingButton(onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => WineRecordDetailPage(wineModel: wineModel),
+        ),
+      ).then((value) => _getWineRecords());
+    });
   }
 
   void _getWine() {

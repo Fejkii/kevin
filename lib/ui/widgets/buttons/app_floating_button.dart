@@ -14,10 +14,8 @@ class AppFloatingButton extends StatelessWidget {
     return FloatingActionButton(
       backgroundColor: AppColors.primary,
       foregroundColor: AppColors.white,
+      onPressed: onPressed,
       child: const Icon(Icons.add),
-      onPressed: () {
-        onPressed;
-      },
     );
   }
 }

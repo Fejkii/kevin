@@ -6,6 +6,8 @@ enum IconButtonType {
   add,
   delete,
   close,
+  search,
+  arrow_back,
 }
 
 class AppIconButton extends StatelessWidget {
@@ -35,6 +37,12 @@ class AppIconButton extends StatelessWidget {
         break;
       case IconButtonType.close:
         icon = Icons.close_rounded;
+        break;
+      case IconButtonType.search:
+        icon = Icons.search;
+        break;
+      case IconButtonType.arrow_back:
+        icon = Icons.arrow_back;
         break;
       default:
         break;

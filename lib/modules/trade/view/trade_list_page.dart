@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kevin/const/app_constant.dart';
 import 'package:kevin/modules/trade/bloc/trade_bloc.dart';
 import 'package:kevin/modules/trade/data/model/trade_model.dart';
 import 'package:kevin/modules/trade/view/trade_detail_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/services/app_functions.dart';
+import 'package:kevin/ui/widgets/buttons/app_floating_button.dart';
 import 'package:kevin/ui/widgets/buttons/app_segmented_button.dart';
-
-import '../../../ui/theme/app_colors.dart';
 import '../../../ui/widgets/app_list_view.dart';
 import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_scaffold.dart';
@@ -41,10 +41,7 @@ class _TradeListPageState extends State<TradeListPage> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.trade),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.white,
-        child: const Icon(Icons.add),
+      floatingActionButton: AppFloatingButton(
         onPressed: () {
           Navigator.push(
             context,
@@ -137,7 +134,7 @@ class _TradeListPageState extends State<TradeListPage> {
   }
 
   Widget _itemBuilder(BuildContext context, int index) {
-    String title = "";
+    String title = AppConstant.EMPTY;
     double totalPrice = 0;
     for (var element in purchaseList[index].tradeItems) {
       title += "${element.title} ";

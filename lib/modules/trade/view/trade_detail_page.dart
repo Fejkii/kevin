@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kevin/const/app_constant.dart';
 import 'package:kevin/modules/trade/bloc/trade_bloc.dart';
 import 'package:kevin/modules/trade/data/model/trade_model.dart';
 import 'package:kevin/modules/trade/view/trade_item_form.dart';
@@ -51,7 +52,7 @@ class _TradeDetailPageState extends State<TradeDetailPage> {
       tradeModel = widget.tradeModel;
       _titleController.text = tradeModel!.title;
       _dateController.text = tradeModel!.date.toIso8601String();
-      _noteController.text = tradeModel!.note ?? "";
+      _noteController.text = tradeModel!.note ?? AppConstant.EMPTY;
       tradeType = TradeType.values.firstWhere((element) => element.getId() == tradeModel!.tradeTypeId);
       for (TradeItemModel tradeItemModel in tradeModel!.tradeItems) {
         onAddItem(tradeItemModel);

@@ -77,7 +77,6 @@ class _VineyardPageState extends State<VineyardPage> {
                   builder: (context) => VineyardDetailPage(vineyardModel: vineyardModel),
                 ),
               ).then((value) => _getVineyard());
-              // );
             },
           ),
         ],
@@ -115,7 +114,9 @@ class _VineyardPageState extends State<VineyardPage> {
     return BlocConsumer<VineyardWineBloc, VineyardWineState>(
       listener: (context, state) {
         if (state is VineyardWineSummarySuccessState) {
-          vineyardWineSummaryModel = state.vineyardWineSummaryModel;
+          setState(() {
+            vineyardWineSummaryModel = state.vineyardWineSummaryModel;
+          });
         } else if (state is VineyardWineFailureState) {
           AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
         }
@@ -149,7 +150,7 @@ class _VineyardPageState extends State<VineyardPage> {
                       MaterialPageRoute(
                         builder: (context) => VineyardWineListPage(vineyardId: vineyardModel.id!),
                       ),
-                    );
+                    ).then((value) => _getVineyard());
                   },
                 ),
               ],
@@ -158,10 +159,6 @@ class _VineyardPageState extends State<VineyardPage> {
         }
       },
     );
-  }
-
-  void _getData() {
-    BlocProvider.of<VineyardRecordBloc>(context).add(VineyardRecordListEvent(vineyardId: widget.vineyardModel.id!));
   }
 
   Widget _vineyardRecordList() {
@@ -207,7 +204,7 @@ class _VineyardPageState extends State<VineyardPage> {
               vineyardRecordModel: vineyardRecordList[index],
             ),
           ),
-        ).then((value) => _getData());
+        ).then((value) => _getVineyardRecordList());
       },
     );
   }

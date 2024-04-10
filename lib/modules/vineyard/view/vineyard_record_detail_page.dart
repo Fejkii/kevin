@@ -168,7 +168,6 @@ class _VineyardRecordDetailPageState extends State<VineyardRecordDetailPage> {
           onChanged: (VineyardRecordType? value) {
             setState(() {
               selectedVineyardRecordType = value;
-              print(value);
             });
           },
           selectedItem: selectedVineyardRecordType,
