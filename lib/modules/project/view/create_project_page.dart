@@ -7,19 +7,19 @@ import 'package:kevin/modules/auth/data/model/user_model.dart';
 import 'package:kevin/modules/project/bloc/project_bloc.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
-import 'package:kevin/ui/widgets/texts/app_text_field.dart';
+import 'package:kevin/ui/widgets/form/app_text_field.dart';
 import 'package:kevin/ui/widgets/texts/app_title_text.dart';
 
 import '../bloc/user_project_bloc.dart';
 
 class CreateProjectPage extends StatefulWidget {
-  const CreateProjectPage({Key? key}) : super(key: key);
+  const CreateProjectPage({super.key});
 
   @override
   State<CreateProjectPage> createState() => _CreateProjectPageState();

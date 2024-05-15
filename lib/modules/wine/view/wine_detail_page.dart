@@ -1,10 +1,9 @@
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kevin/const/app_units.dart';
-import 'package:kevin/const/app_constant.dart';
-import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:kevin/const/app_constant.dart';
+import 'package:kevin/const/app_units.dart';
+import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
 import 'package:kevin/modules/wine/bloc/wine_variety_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_classification_model.dart';
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
@@ -12,20 +11,25 @@ import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
 import 'package:kevin/services/app_functions.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_icon_button.dart';
-import 'package:kevin/ui/widgets/texts/app_text_field.dart';
-import 'package:kevin/ui/widgets/texts/app_text_with_code.dart';
+import 'package:kevin/ui/widgets/form/app_multi_select_field.dart';
+import 'package:kevin/ui/widgets/form/app_select_field.dart';
+import 'package:kevin/ui/widgets/form/app_text_field.dart';
 
 class WineDetailPage extends StatefulWidget {
+  final List<WineClassificationModel> wineClassificationList;
+  final List<WineVarietyModel> wineVarietyList;
   final WineModel? wineModel;
   const WineDetailPage({
-    Key? key,
+    super.key,
+    required this.wineClassificationList,
+    required this.wineVarietyList,
     this.wineModel,
-  }) : super(key: key);
+  });
 
   @override
   State<WineDetailPage> createState() => _WineDetailPageState();
@@ -41,8 +45,6 @@ class _WineDetailPageState extends State<WineDetailPage> {
   final TextEditingController _noteController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final AppPreferences appPreferences = instance<AppPreferences>();
-  late List<WineClassificationModel> wineClassificationList;
-  late List<WineVarietyModel> wineVarietiesList;
   late WineModel? wineModel;
   late WineClassificationModel? selectedWineClassification;
   late List<WineVarietyModel> selectedWineVarieties;
@@ -50,9 +52,7 @@ class _WineDetailPageState extends State<WineDetailPage> {
   @override
   void initState() {
     BlocProvider.of<WineVarietyBloc>(context).add(WineVarietyListEvent());
-    wineClassificationList = appPreferences.getWineClassificationList();
     wineModel = null;
-    wineVarietiesList = [];
     selectedWineClassification = null;
     selectedWineVarieties = [];
     if (widget.wineModel != null) {
@@ -94,34 +94,16 @@ class _WineDetailPageState extends State<WineDetailPage> {
   }
 
   Widget _body() {
-    return BlocProvider(
-      create: (context) => WineBloc(),
-      child: BlocConsumer<WineVarietyBloc, WineVarietyState>(
-        listener: (context, state) {
-          if (state is WineVarietyListSuccessState) {
-            wineVarietiesList = state.wineVarietyList;
-          } else if (state is WineVarietyFailureState) {
-            AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
-          }
-        },
-        builder: (context, state) {
-          if (state is WineVarietyLoadingState) {
-            return const AppLoadingIndicator();
-          } else {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 10),
-                _form(context),
-                const SizedBox(height: 20),
-                _otherInfo(),
-                const SizedBox(height: 20),
-              ],
-            );
-          }
-        },
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const SizedBox(height: 10),
+        _form(context),
+        const SizedBox(height: 20),
+        _otherInfo(),
+        const SizedBox(height: 20),
+      ],
     );
   }
 
@@ -213,56 +195,32 @@ class _WineDetailPageState extends State<WineDetailPage> {
           controller: _titleController,
           label: AppLocalizations.of(context)!.title,
         ),
-        DropdownSearch<WineVarietyModel>.multiSelection(
-          popupProps: const PopupPropsMultiSelection.menu(
-            showSelectedItems: true,
-            interceptCallBacks: true,
-            showSearchBox: true,
-            constraints: BoxConstraints(maxHeight: 500),
-          ),
-          items: wineVarietiesList,
-          itemAsString: (WineVarietyModel wineVariety) => AppTextWithCode().textWithCode(wineVariety.title, wineVariety.code),
+        AppMultiSelectField<WineVarietyModel>(
+          labelText: AppLocalizations.of(context)!.wineVarieties,
+          items: widget.wineVarietyList,
+          selectedItems: selectedWineVarieties,
           compareFn: (item, selectedItem) => item.id == selectedItem.id,
-          dropdownDecoratorProps: DropDownDecoratorProps(
-            dropdownSearchDecoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: AppLocalizations.of(context)!.wineVarieties,
-              hintText: AppLocalizations.of(context)!.selectInSelectBox,
-            ),
-          ),
+          itemAsString: (WineVarietyModel wineClassification) => appFormatTextWithCode(wineClassification.title, wineClassification.code),
           onChanged: (List<WineVarietyModel> wineVarieties) {
             setState(() {
               selectedWineVarieties = wineVarieties;
             });
           },
-          selectedItems: selectedWineVarieties,
-          validator: (List<WineVarietyModel>? items) {
-            if (items == null || items.isEmpty) return AppLocalizations.of(context)!.inputEmpty;
-            return null;
-          },
-          autoValidateMode: AutovalidateMode.onUserInteraction,
-          clearButtonProps: const ClearButtonProps(isVisible: true),
+          validate: true,
+          showSearchBox: true,
         ),
-        DropdownSearch<WineClassificationModel>(
-          popupProps: const PopupProps.menu(showSearchBox: true),
-          items: wineClassificationList,
+        AppSelectField(
+          labelText: AppLocalizations.of(context)!.wineClassification,
+          items: widget.wineClassificationList,
+          selectedItem: selectedWineClassification,
+          compareFn: (item, selectedItem) => item.id == selectedItem.id,
           itemAsString: (WineClassificationModel wineClassification) =>
-              AppTextWithCode().textWithCode(wineClassification.title, wineClassification.code),
-          dropdownDecoratorProps: DropDownDecoratorProps(
-            dropdownSearchDecoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              contentPadding: const EdgeInsets.all(10),
-              labelText: AppLocalizations.of(context)!.wineClassification,
-              hintText: AppLocalizations.of(context)!.selectInSelectBox,
-            ),
-          ),
+              appFormatTextWithCode(wineClassification.title, wineClassification.code),
           onChanged: (WineClassificationModel? wineClassification) {
             setState(() {
               selectedWineClassification = wineClassification;
             });
           },
-          selectedItem: selectedWineClassification,
-          clearButtonProps: const ClearButtonProps(isVisible: true),
         ),
         AppTextField(
           controller: _quantityController,

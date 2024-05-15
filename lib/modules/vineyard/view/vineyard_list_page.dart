@@ -12,7 +12,7 @@ import '../../../ui/widgets/app_toast_messages.dart';
 import '../model/vineyard_model.dart';
 
 class VineyardListPage extends StatefulWidget {
-  const VineyardListPage({Key? key}) : super(key: key);
+  const VineyardListPage({super.key});
 
   @override
   State<VineyardListPage> createState() => _VineyardListPageState();

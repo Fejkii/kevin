@@ -9,11 +9,11 @@ class AppListView extends StatelessWidget {
   final List listData;
   final IndexedWidgetBuilder itemBuilder;
   const AppListView({
-    Key? key,
+    super.key,
     this.title,
     required this.listData,
     required this.itemBuilder,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -60,12 +60,12 @@ class AppListViewItem extends StatelessWidget {
   final Function(BuildContext?)? onDelete;
   final Color? itemColor;
   const AppListViewItem({
-    Key? key,
+    super.key,
     required this.itemBody,
     this.onTap,
     this.onDelete,
     this.itemColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +94,11 @@ class AppListViewItem extends StatelessWidget {
             side: BorderSide(color: AppColors.border, width: 0.5),
           ),
           child: Center(
-            heightFactor: 2.5,
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ),
               child: itemBody,
             ),
           ),

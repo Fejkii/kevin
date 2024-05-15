@@ -195,9 +195,10 @@ class _SettingsPageState extends State<SettingsPage> {
       child: AppButton(
         title: AppLocalizations.of(context)!.sendMessageToAuthor,
         onTap: () {
-          showModalBottomSheet(
+          appShowModal(
             context: context,
-            builder: (context) => AppModalView(title: AppLocalizations.of(context)!.sendMessageToAuthor, content: const ClientMessageForm()),
+            title: AppLocalizations.of(context)!.sendMessageToAuthor,
+            content: const ClientMessageForm(),
           );
         },
       ),

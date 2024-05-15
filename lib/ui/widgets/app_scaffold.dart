@@ -6,12 +6,12 @@ class AppScaffold extends StatefulWidget {
   final bool? centerContent;
   final Widget? floatingActionButton;
   const AppScaffold({
-    Key? key,
+    super.key,
     required this.body,
     this.appBar,
     this.centerContent,
     this.floatingActionButton,
-  }) : super(key: key);
+  });
 
   @override
   State<AppScaffold> createState() => _AppScaffoldState();

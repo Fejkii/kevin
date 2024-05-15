@@ -44,19 +44,18 @@ dependencies:
   flutter_facebook_auth: ^4.4.1+1
 
   flutter_bloc: ^8.1.5
+  bloc: ^8.1.4
   equatable: ^2.0.5
   shared_preferences: ^2.2.0
   get_it: ^7.6.0
+  intl:
 
   fluttertoast: ^8.1.2 # Error messages
-  flutter_slidable: ^2.0.0 # More information in ListView item and deleting
+  flutter_slidable: ^3.1.0 # More information in ListView item and deleting
   dropdown_search: ^5.0.6 # Select box
-
   url_launcher: ^6.1.12 # For opening extern URL
   flutter_email_sender: ^6.0.2
-  connectivity_plus: ^4.0.2 # To check internet connection
-  intl:
-  bloc: ^8.1.4
+  connectivity_plus: ^6.0.3 # To check internet connection
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +66,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^4.0.0
   lint: ^2.1.2
 
 # For information on the generic Dart part of this file, see the

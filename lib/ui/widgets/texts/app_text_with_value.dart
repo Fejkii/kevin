@@ -7,12 +7,12 @@ class AppTextWithValue extends StatelessWidget {
   final bool? separator;
   final String? unit;
   const AppTextWithValue({
-    Key? key,
+    super.key,
     required this.text,
     required this.value,
     this.unit,
     this.separator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

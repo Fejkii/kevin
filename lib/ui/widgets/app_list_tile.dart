@@ -7,12 +7,12 @@ class AppListTile extends StatelessWidget {
   final Widget? trailing;
   final Function()? onTap;
   const AppListTile({
-    Key? key,
+    super.key,
     required this.title,
     this.leading,
     this.trailing,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

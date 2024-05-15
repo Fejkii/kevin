@@ -78,7 +78,7 @@ String appFormatPriceWithUnit(dynamic number) {
 
 String appFormatPriceToTextField(dynamic number) {
   RegExp regex = RegExp(r'([.]*0+)(?!.*\d)');
-  return number != null ?number.toString().replaceAll(regex, '') : "";
+  return number != null ? number.toString().replaceAll(regex, '') : "";
 }
 
 String appFormatDateTime(DateTime dateTime, {bool dateOnly = false}) {
@@ -90,4 +90,12 @@ String appFormatDateTime(DateTime dateTime, {bool dateOnly = false}) {
 
 DateTime appToDateTime(String dateTime) {
   return DateFormat.yMMMd(instance<AppPreferences>().getAppLanguage()).parse(dateTime);
+}
+
+String appFormatTextWithDash(String first, String second) {
+  return "$first – $second";
+}
+
+String appFormatTextWithCode(String title, String code) {
+  return "$title [$code]";
 }

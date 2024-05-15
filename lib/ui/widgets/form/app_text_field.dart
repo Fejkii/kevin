@@ -26,7 +26,7 @@ class AppTextField extends StatefulWidget {
   final Function(String)? onChange;
 
   const AppTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.label,
     this.keyboardType,
@@ -36,7 +36,7 @@ class AppTextField extends StatefulWidget {
     this.icon,
     this.unit,
     this.onChange,
-  }) : super(key: key);
+  });
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();

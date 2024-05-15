@@ -9,11 +9,11 @@ class AppSegmentedButton extends StatelessWidget {
   final Function(Set<dynamic>)? onSelectionChanged;
 
   const AppSegmentedButton({
-    Key? key,
+    super.key,
     required this.segments,
     required this.selected,
     this.onSelectionChanged,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +23,9 @@ class AppSegmentedButton extends StatelessWidget {
       selected: selected,
       onSelectionChanged: onSelectionChanged,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith<Color>(
-          (Set<MaterialState> states) {
-            if (states.contains(MaterialState.selected)) {
+        backgroundColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
               return AppColors.white;
             }
             return AppColors.grey;

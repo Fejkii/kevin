@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/modules/auth/bloc/user_bloc.dart';
 import 'package:kevin/modules/auth/data/model/user_model.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -12,7 +12,7 @@ import '../../../services/dependency_injection.dart';
 import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_toast_messages.dart';
 import '../../../ui/widgets/buttons/app_icon_button.dart';
-import '../../../ui/widgets/texts/app_text_field.dart';
+import '../../../ui/widgets/form/app_text_field.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});

@@ -9,11 +9,11 @@ class AppModalDialog extends StatefulWidget {
   final String content;
   final Function() onTap;
   const AppModalDialog({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   State<AppModalDialog> createState() => _AppModalDialogState();

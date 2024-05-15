@@ -3,11 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
 import 'package:kevin/modules/wine/data/repository/wine_variety_repository.dart';
 
+import '../../../services/app_preferences.dart';
+import '../../../services/dependency_injection.dart';
+
 part 'wine_variety_event.dart';
 part 'wine_variety_state.dart';
 
 class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
   final WineVarietyRepository wineVarietyRepository;
+  final AppPreferences appPreferences = instance<AppPreferences>();
 
   WineVarietyBloc(this.wineVarietyRepository) : super(WineVarietyInitial()) {
     on<CreateWineVarietyEvent>((event, emit) async {
@@ -34,6 +38,7 @@ class WineVarietyBloc extends Bloc<WineVarietyEvent, WineVarietyState> {
       emit(WineVarietyLoadingState());
       try {
         List<WineVarietyModel> list = await wineVarietyRepository.getWineVarietyList();
+        await appPreferences.setWineVarieties(list);
         add(WineVarietyListReceivedEvent(list));
       } on Exception catch (e) {
         emit(WineVarietyFailureState(e.toString()));

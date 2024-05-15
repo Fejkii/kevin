@@ -5,7 +5,7 @@ import 'package:kevin/ui/theme/app_colors.dart';
 import 'package:kevin/ui/widgets/buttons/app_icon_button.dart';
 
 import '../../../const/app_units.dart';
-import '../../../ui/widgets/texts/app_text_field.dart';
+import '../../../ui/widgets/form/app_text_field.dart';
 import '../data/model/trade_item_model.dart';
 
 class TradeItemForm extends StatefulWidget {
@@ -15,11 +15,11 @@ class TradeItemForm extends StatefulWidget {
   final state = _TradeItemFormState();
 
   TradeItemForm({
-    Key? key,
+    super.key,
     required this.tradeItemModel,
     required this.onRemove,
     required this.index,
-  }) : super(key: key);
+  });
 
   bool isValidated() => state.validate();
 

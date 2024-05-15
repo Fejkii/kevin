@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../services/app_functions.dart';
-import '../../services/app_preferences.dart';
-import '../../services/dependency_injection.dart';
+import '../../../services/app_functions.dart';
+import '../../../services/app_preferences.dart';
+import '../../../services/dependency_injection.dart';
 
 class AppDatePicker extends StatefulWidget {
   final TextEditingController controller;
@@ -11,14 +11,16 @@ class AppDatePicker extends StatefulWidget {
   final DateTime? initDate;
   final bool? fillTodayDate;
   final bool? setIcon;
+  final bool? onlyYear;
   const AppDatePicker({
-    Key? key,
+    super.key,
     required this.controller,
     this.label,
     this.initDate,
     this.fillTodayDate,
     this.setIcon,
-  }) : super(key: key);
+    this.onlyYear,
+  });
 
   @override
   State<AppDatePicker> createState() => _AppDatePickerState();
@@ -27,7 +29,7 @@ class AppDatePicker extends StatefulWidget {
 class _AppDatePickerState extends State<AppDatePicker> {
   late DateTime todayDate;
   DateTime firstDate = DateTime(2000);
-  DateTime lastDate = DateTime(2100);
+  DateTime lastDate = DateTime(2030);
 
   @override
   void initState() {
@@ -62,6 +64,7 @@ class _AppDatePickerState extends State<AppDatePicker> {
           confirmText: AppLocalizations.of(context)!.ok,
           cancelText: AppLocalizations.of(context)!.cancel,
           helpText: AppLocalizations.of(context)!.selectDate,
+          initialDatePickerMode: widget.onlyYear == true ? DatePickerMode.year : DatePickerMode.day,
         ).then((value) {
           if (value != null) {
             setState(() {

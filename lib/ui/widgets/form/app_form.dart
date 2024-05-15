@@ -5,10 +5,10 @@ class AppForm extends StatefulWidget {
   final List<Widget> content;
 
   const AppForm({
-    Key? key,
+    super.key,
     required this.formKey,
     required this.content,
-  }) : super(key: key);
+  });
 
   @override
   State<AppForm> createState() => _AppFormState();

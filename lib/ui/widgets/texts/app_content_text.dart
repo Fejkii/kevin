@@ -4,10 +4,10 @@ class AppContentText extends StatelessWidget {
   final String text;
   final double size;
   const AppContentText({
-    Key? key,
+    super.key,
     required this.text,
     this.size = 15,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

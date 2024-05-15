@@ -5,17 +5,17 @@ import 'package:kevin/const/app_constant.dart';
 import 'package:kevin/modules/trade/bloc/trade_bloc.dart';
 import 'package:kevin/modules/trade/data/model/trade_model.dart';
 import 'package:kevin/modules/trade/view/trade_item_form.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 import 'package:kevin/ui/widgets/buttons/app_segmented_button.dart';
 
 import '../../../services/app_functions.dart';
-import '../../../ui/widgets/app_date_picker.dart';
+import '../../../ui/widgets/form/app_date_picker.dart';
 import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_scaffold.dart';
 import '../../../ui/widgets/app_toast_messages.dart';
 import '../../../ui/widgets/buttons/app_button.dart';
 import '../../../ui/widgets/buttons/app_icon_button.dart';
-import '../../../ui/widgets/texts/app_text_field.dart';
+import '../../../ui/widgets/form/app_text_field.dart';
 import '../data/model/trade_item_model.dart';
 
 class TradeDetailPage extends StatefulWidget {

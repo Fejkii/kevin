@@ -6,12 +6,12 @@ class AppLoginButton extends StatelessWidget {
   final ImageProvider image;
   final VoidCallback onPressed;
   const AppLoginButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.color,
     required this.image,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

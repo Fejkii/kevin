@@ -5,14 +5,14 @@ import 'package:kevin/modules/wine/bloc/wine_record_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/ui/widgets/app_box_content.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
-import 'package:kevin/ui/widgets/texts/app_text_field.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_text_field.dart';
 
 import '../../../const/app_units.dart';
 import '../../../services/app_functions.dart';
 import '../../../services/app_preferences.dart';
 import '../../../services/dependency_injection.dart';
-import '../../../ui/widgets/app_date_picker.dart';
+import '../../../ui/widgets/form/app_date_picker.dart';
 import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_scaffold.dart';
 import '../../../ui/widgets/app_toast_messages.dart';
@@ -24,10 +24,10 @@ class WineRecordDetailPage extends StatefulWidget {
   final WineModel wineModel;
   final WineRecordModel? wineRecord;
   const WineRecordDetailPage({
-    Key? key,
+    super.key,
     required this.wineModel,
     this.wineRecord,
-  }) : super(key: key);
+  });
 
   @override
   State<WineRecordDetailPage> createState() => _WineRecordDetailPageState();

@@ -4,19 +4,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_bloc.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_record_bloc.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 import 'package:kevin/ui/widgets/texts/app_content_text.dart';
 import 'package:kevin/ui/widgets/texts/app_subtitle_text.dart';
 
 import '../../../services/app_functions.dart';
 import '../../../services/app_preferences.dart';
 import '../../../services/dependency_injection.dart';
-import '../../../ui/widgets/app_date_picker.dart';
+import '../../../ui/widgets/form/app_date_picker.dart';
 import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_scaffold.dart';
 import '../../../ui/widgets/app_toast_messages.dart';
 import '../../../ui/widgets/buttons/app_icon_button.dart';
-import '../../../ui/widgets/texts/app_text_field.dart';
+import '../../../ui/widgets/form/app_text_field.dart';
 import '../model/vineyard_model.dart';
 import '../model/vineyard_record_model.dart';
 
@@ -24,10 +24,10 @@ class VineyardRecordDetailPage extends StatefulWidget {
   final VineyardModel vineyardModel;
   final VineyardRecordModel? vineyardRecordModel;
   const VineyardRecordDetailPage({
-    Key? key,
+    super.key,
     required this.vineyardModel,
     this.vineyardRecordModel,
-  }) : super(key: key);
+  });
 
   @override
   State<VineyardRecordDetailPage> createState() => _VineyardRecordDetailPageState();

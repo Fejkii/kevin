@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/const/app_constant.dart';
-import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
+import 'package:kevin/modules/wine/data/model/wine_list_filter_model.dart';
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
 import 'package:kevin/modules/wine/view/wine_detail_page.dart';
+import 'package:kevin/modules/wine/view/wine_filter_view.dart';
 import 'package:kevin/modules/wine/view/wine_page.dart';
 import 'package:kevin/services/app_functions.dart';
 import 'package:kevin/services/app_preferences.dart';
@@ -15,6 +16,11 @@ import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_search_bar.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_floating_button.dart';
+import 'package:kevin/ui/widgets/widget_model/filter_model.dart';
+
+import '../bloc/wine_bloc.dart';
+import '../data/model/wine_classification_model.dart';
+import '../data/model/wine_variety_model.dart';
 
 class WineListPage extends StatefulWidget {
   const WineListPage({super.key});
@@ -26,13 +32,17 @@ class WineListPage extends StatefulWidget {
 class _WineListPageState extends State<WineListPage> {
   final AppPreferences appPreferences = instance<AppPreferences>();
   final TextEditingController _searchController = TextEditingController();
-  late List<WineModel> wineList;
-  late List<WineModel> wineFilteredList;
+  late List<WineModel> wineList = [];
+  late List<WineModel> wineFilteredList = [];
+  late List<WineClassificationModel> wineClassificationList;
+  late List<WineVarietyModel> wineVarietyList;
+  late WineListFilterModel wineListFilterModel;
 
   @override
   void initState() {
-    wineList = [];
-    wineFilteredList = [];
+    wineClassificationList = appPreferences.getWineClassificationList();
+    wineVarietyList = appPreferences.getWineVarietyList();
+    wineListFilterModel = appPreferences.getWineListFilter();
     _searchController.addListener(() {
       _searchWine();
     });
@@ -54,7 +64,16 @@ class _WineListPageState extends State<WineListPage> {
     );
   }
 
+  void _getWineList() {
+    BlocProvider.of<WineBloc>(context).add(GetWineListEvent());
+    setState(() {
+      wineFilteredList = wineList;
+    });
+    _filterWines();
+  }
+
   void _searchWine() {
+    // TODO: Fixnout vyhledávání s filtrováním. Když mám něco vyfiltrováno, pak dám vyheldat, list se resetne.
     setState(() {
       wineFilteredList = wineList.where((wine) {
         final String input = _searchController.text.toLowerCase();
@@ -69,12 +88,67 @@ class _WineListPageState extends State<WineListPage> {
     });
   }
 
+  void _filterWines() {
+    List<WineModel> wineListFromFilter = [];
+
+    // WineVariety Filter
+    // for (var filteredVariety in wineListFilterModel.wineVarieties) {
+    //   wineListFromFilter = wineList.where((wine) {
+    //     bool containVariety = false;
+    //     for (var variety in wine.wineVarieties) {
+    //       variety.title == filteredVariety.title ? containVariety = true : false;
+    //     }
+    //     return containVariety;
+    //   }).toList();
+    // }
+
+    // // WineClassification Filter
+    // for (var filtereClassification in wineListFilterModel.wineClassifications) {
+    //   if (wineListFilterModel.wineVarieties.isNotEmpty) {
+    //     wineListFromFilter = wineListFromFilter.where((wine) {
+    //       return wine.wineClassification != null ? wine.wineClassification!.title == filtereClassification.title : false;
+    //     }).toList();
+    //   } else {
+    //     wineListFromFilter = wineList.where((wine) {
+    //       return wine.wineClassification != null ? wine.wineClassification!.title == filtereClassification.title : false;
+    //     }).toList();
+    //   }
+    // }
+
+    wineListFromFilter = wineList.where((wine) {
+      return (wineListFilterModel.wineClassifications.isNotEmpty || wineListFilterModel.wineClassifications.contains(wine.wineClassification));
+    }).toList();
+
+    wineListFilterModel.activeFilters != 0 ? wineFilteredList = wineListFromFilter : wineFilteredList = wineList;
+  }
+
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppSearchBar(
       title: AppLocalizations.of(context)!.wine,
       enableSearch: true,
       searchController: _searchController,
+      filterModel: _filterModal(),
     );
+  }
+
+  FilterModel _filterModal() {
+    return FilterModel(
+      isFilterActive: true,
+      title: AppLocalizations.of(context)!.wineFilter,
+      filterBody: WineFilterView(
+        wineVarietyList: wineVarietyList,
+        wineClassificationList: wineClassificationList,
+        notifyWineFilterChanged: _refreshActiveFilterNumber,
+      ),
+      activeFilters: wineListFilterModel.activeFilters,
+    );
+  }
+
+  void _refreshActiveFilterNumber(WineListFilterModel wineListFilter) {
+    setState(() {
+      wineListFilterModel = wineListFilter;
+    });
+    _filterWines();
   }
 
   Widget _addWineButton(BuildContext context) {
@@ -82,16 +156,12 @@ class _WineListPageState extends State<WineListPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const WineDetailPage(),
+          builder: (context) => WineDetailPage(
+            wineClassificationList: wineClassificationList,
+            wineVarietyList: wineVarietyList,
+          ),
         ),
-      ).then((value) => _getWineLit());
-    });
-  }
-
-  void _getWineLit() {
-    BlocProvider.of<WineBloc>(context).add(GetWineListEvent());
-    setState(() {
-      wineFilteredList = wineList;
+      ).then((value) => _getWineList());
     });
   }
 
@@ -104,6 +174,7 @@ class _WineListPageState extends State<WineListPage> {
             setState(() {
               wineList = state.wineList;
               wineFilteredList = state.wineList;
+              _filterWines();
             });
           } else if (state is WineFailureState) {
             AppToastMessage().showToastMsg(state.errorMessage, ToastState.error);
@@ -125,7 +196,19 @@ class _WineListPageState extends State<WineListPage> {
       itemBody: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(wineFilteredList[index].title!),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                wineFilteredList[index].title!,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
+              Text(wineFilteredList[index].year.toString()),
+            ],
+          ),
           Text(appFormatLiter(wineFilteredList[index].quantity, context)),
         ],
       ),
@@ -133,9 +216,13 @@ class _WineListPageState extends State<WineListPage> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WinePage(wineModel: wineFilteredList[index]),
+            builder: (context) => WinePage(
+              wineClassificationList: wineClassificationList,
+              wineVarietyList: wineVarietyList,
+              wineModel: wineFilteredList[index],
+            ),
           ),
-        ).then((value) => _getWineLit());
+        ).then((value) => _getWineList());
       },
     );
   }

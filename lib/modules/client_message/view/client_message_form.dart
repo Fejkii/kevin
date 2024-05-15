@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kevin/const/app_constant.dart';
 import 'package:kevin/modules/client_message/bloc/client_message_bloc.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_button.dart';
-import 'package:kevin/ui/widgets/texts/app_text_field.dart';
+import 'package:kevin/ui/widgets/form/app_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ClientMessageForm extends StatefulWidget {

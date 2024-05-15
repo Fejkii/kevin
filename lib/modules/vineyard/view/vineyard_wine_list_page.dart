@@ -14,9 +14,9 @@ import '../model/vineyard_wine_model.dart';
 class VineyardWineListPage extends StatefulWidget {
   final String vineyardId;
   const VineyardWineListPage({
-    Key? key,
+    super.key,
     required this.vineyardId,
-  }) : super(key: key);
+  });
 
   @override
   State<VineyardWineListPage> createState() => _VineyardWineListPageState();

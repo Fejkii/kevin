@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/vineyard/bloc/vineyard_bloc.dart';
 import 'package:kevin/services/app_functions.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 
 import '../../../const/app_units.dart';
 import '../../../services/app_preferences.dart';
@@ -12,15 +12,15 @@ import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_scaffold.dart';
 import '../../../ui/widgets/app_toast_messages.dart';
 import '../../../ui/widgets/buttons/app_icon_button.dart';
-import '../../../ui/widgets/texts/app_text_field.dart';
+import '../../../ui/widgets/form/app_text_field.dart';
 import '../model/vineyard_model.dart';
 
 class VineyardDetailPage extends StatefulWidget {
   final VineyardModel? vineyardModel;
   const VineyardDetailPage({
-    Key? key,
+    super.key,
     this.vineyardModel,
-  }) : super(key: key);
+  });
 
   @override
   State<VineyardDetailPage> createState() => _VineyardDetailPageState();

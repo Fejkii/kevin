@@ -6,12 +6,12 @@ class AppTextButton extends StatelessWidget {
   final FontWeight fontWeight;
   final Function() onTap;
   const AppTextButton({
-    Key? key,
+    super.key,
     required this.title,
     this.fontSize = 14,
     this.fontWeight = FontWeight.normal,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

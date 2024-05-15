@@ -3,7 +3,7 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 
 import '../../../services/app_preferences.dart';
 import '../../../services/dependency_injection.dart';
@@ -11,7 +11,7 @@ import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_scaffold.dart';
 import '../../../ui/widgets/app_toast_messages.dart';
 import '../../../ui/widgets/buttons/app_icon_button.dart';
-import '../../../ui/widgets/texts/app_text_field.dart';
+import '../../../ui/widgets/form/app_text_field.dart';
 import '../../wine/bloc/wine_variety_bloc.dart';
 import '../../wine/data/model/wine_variety_model.dart';
 import '../bloc/vineyard_wine_bloc.dart';
@@ -21,10 +21,10 @@ class VineyardWineDetailPage extends StatefulWidget {
   final String vineyardId;
   final VineyardWineModel? vineyardWineModel;
   const VineyardWineDetailPage({
-    Key? key,
+    super.key,
     required this.vineyardId,
     this.vineyardWineModel,
-  }) : super(key: key);
+  });
 
   @override
   State<VineyardWineDetailPage> createState() => _VineyardWineDetailPageState();

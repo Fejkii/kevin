@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:kevin/modules/wine/data/model/wine_classification_model.dart';
+import 'package:kevin/modules/wine/data/model/wine_list_filter_model.dart';
+import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
 import 'package:kevin/modules/wine/data/repository/wine_classification_repository.dart';
 import 'package:kevin/services/language_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +15,8 @@ enum AppPreferencesKeys {
   user,
   userProject,
   wineClassification,
+  wineVarieties,
+  wineListFilter,
 }
 
 class AppPreferences {
@@ -84,5 +88,36 @@ class AppPreferences {
       wineClassificationList.add(WineClassificationModel.fromJson(element));
     });
     return wineClassificationList;
+  }
+
+  Future<void> setWineVarieties(List<WineVarietyModel> wineVarietyList) async {
+    var wineVarieties = jsonEncode(wineVarietyList);
+    await _sharedPreferences.setString(AppPreferencesKeys.wineVarieties.name, wineVarieties);
+  }
+
+  List<WineVarietyModel> getWineVarietyList() {
+    List<WineVarietyModel> wineVarietyList = [];
+    (jsonDecode(_sharedPreferences.getString(AppPreferencesKeys.wineVarieties.name)!)).forEach((element) {
+      wineVarietyList.add(WineVarietyModel.fromJson(element));
+    });
+    return wineVarietyList;
+  }
+
+  Future<void> setWineListFilter(WineListFilterModel wineListFilter) async {
+    await _sharedPreferences.setString(AppPreferencesKeys.wineListFilter.name, wineListFilter.toJson());
+  }
+
+  WineListFilterModel getWineListFilter() {
+    String? wineFilter = _sharedPreferences.getString(AppPreferencesKeys.wineListFilter.name);
+    if (wineFilter != null) {
+      return WineListFilterModel.fromJson(wineFilter);
+    } else {
+      return WineListFilterModel(
+        activeFilters: 0,
+        wineVarieties: [],
+        wineClassifications: [],
+        wineListOrderTypeId: 4,
+      );
+    }
   }
 }

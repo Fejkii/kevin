@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../services/app_functions.dart';
-import '../theme/app_colors.dart';
-import 'buttons/app_icon_button.dart';
+import '../../../services/app_functions.dart';
+import '../../theme/app_colors.dart';
+import '../buttons/app_icon_button.dart';
 
 class AppQuantityInput extends StatefulWidget {
   final TextEditingController inputController;
@@ -16,7 +16,7 @@ class AppQuantityInput extends StatefulWidget {
   final Function(int) onChange;
   final Function() onSave;
   const AppQuantityInput({
-    Key? key,
+    super.key,
     required this.inputController,
     required this.initValue,
     this.label = "",
@@ -26,7 +26,7 @@ class AppQuantityInput extends StatefulWidget {
     this.unit,
     required this.onChange,
     required this.onSave,
-  }) : super(key: key);
+  });
 
   @override
   State<AppQuantityInput> createState() => _AppQuantityInputState();

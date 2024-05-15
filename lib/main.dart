@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -28,7 +26,6 @@ import 'package:kevin/services/route_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/ui/theme/app_theme.dart';
-import 'package:kevin/ui/widgets/app_toast_messages.dart';
 
 import 'modules/auth/bloc/auth_bloc.dart';
 import 'modules/project/bloc/project_bloc.dart';
@@ -52,6 +49,9 @@ void main() async {
   await initAppDependences();
   await instance<AppPreferences>().initSP();
 
+  // TODO: Remove before production release
+  // instance<AppPreferences>().clear();
+
   runApp(const MyApp());
 }
 
@@ -63,31 +63,31 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final Connectivity _connectivity = Connectivity();
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  // final Connectivity _connectivity = Connectivity();
+  // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
 
-    _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
+    // _connectivitySubscription = _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
   @override
   void dispose() {
-    _connectivitySubscription.cancel();
+    // _connectivitySubscription.cancel();
     super.dispose();
   }
 
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    ConnectivityResult connectionStatus = await _connectivity.checkConnectivity();
+  // Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+  //   ConnectivityResult connectionStatus = await _connectivity.checkConnectivity();
 
-    if (connectionStatus != ConnectivityResult.none) {
-      AppToastMessage().showToastMsg("Připojení: ${connectionStatus.toString()}", ToastState.success);
-    } else {
-      AppToastMessage().showToastMsg("Žádné připojení: ${connectionStatus.toString()}", ToastState.error);
-    }
-  }
+  //   if (connectionStatus != ConnectivityResult.none) {
+  //     AppToastMessage().showToastMsg("Připojení: ${connectionStatus.toString()}", ToastState.success);
+  //   } else {
+  //     AppToastMessage().showToastMsg("Žádné připojení: ${connectionStatus.toString()}", ToastState.error);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kevin/const/app_constant.dart';
+import 'package:kevin/services/app_preferences.dart';
+import 'package:kevin/services/dependency_injection.dart';
 import 'package:kevin/ui/widgets/buttons/app_icon_button.dart';
+import 'package:kevin/ui/widgets/buttons/app_filter_icon_button.dart';
+import 'package:kevin/ui/widgets/widget_model/filter_model.dart';
+
+import 'app_modal_view.dart';
 
 class AppSearchBar extends StatefulWidget implements PreferredSizeWidget {
   final String? title;
@@ -9,15 +15,17 @@ class AppSearchBar extends StatefulWidget implements PreferredSizeWidget {
   // if enableSearch is true, searchController must is required too
   final bool? enableSearch;
   final TextEditingController? searchController;
+  final FilterModel? filterModel;
 
   const AppSearchBar({
-    Key? key,
+    super.key,
     this.title,
     this.actions,
     this.leading,
     this.enableSearch,
     this.searchController,
-  }) : super(key: key);
+    this.filterModel,
+  });
 
   @override
   State<AppSearchBar> createState() => _AppSearchBarState();
@@ -27,7 +35,9 @@ class AppSearchBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AppSearchBarState extends State<AppSearchBar> {
+  final AppPreferences appPreferences = instance<AppPreferences>();
   bool isSearchVisible = false;
+  bool isFilterVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +69,23 @@ class _AppSearchBarState extends State<AppSearchBar> {
         ),
       ];
     } else {
+      List<Widget> actions = [];
+      if (widget.filterModel?.isFilterActive == true) {
+        actions.add(
+          AppFilterIconButton(
+            number: widget.filterModel!.activeFilters,
+            onPress: () {
+              appShowModal(
+                context: context,
+                title: widget.filterModel!.title,
+                content: widget.filterModel!.filterBody,
+              );
+            },
+          ),
+        );
+      }
+
       if (widget.enableSearch == true) {
-        List<Widget> actions = [];
         actions.add(
           AppIconButton(
             iconButtonType: IconButtonType.search,
@@ -71,15 +96,13 @@ class _AppSearchBarState extends State<AppSearchBar> {
             },
           ),
         );
-        if (widget.actions != null) {
-          for (var element in widget.actions!) {
-            actions.add(element);
-          }
-        }
-        return actions;
-      } else {
-        return widget.actions;
       }
+      if (widget.actions != null) {
+        for (var element in widget.actions!) {
+          actions.add(element);
+        }
+      }
+      return actions;
     }
   }
 

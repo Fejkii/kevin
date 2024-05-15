@@ -3,19 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/modules/wine/bloc/wine_variety_bloc.dart';
 import 'package:kevin/modules/wine/data/model/wine_variety_model.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
 import 'package:kevin/ui/widgets/buttons/app_icon_button.dart';
-import 'package:kevin/ui/widgets/texts/app_text_field.dart';
+import 'package:kevin/ui/widgets/form/app_text_field.dart';
 
 class WineVarietyDetailPage extends StatefulWidget {
   final WineVarietyModel? wineVariety;
   const WineVarietyDetailPage({
-    Key? key,
+    super.key,
     this.wineVariety,
-  }) : super(key: key);
+  });
 
   @override
   State<WineVarietyDetailPage> createState() => _WineVarietyDetailPageState();

@@ -14,10 +14,10 @@ class AppIconButton extends StatelessWidget {
   final IconButtonType iconButtonType;
   final Function() onPress;
   const AppIconButton({
-    Key? key,
+    super.key,
     required this.iconButtonType,
     required this.onPress,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

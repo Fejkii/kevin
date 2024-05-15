@@ -7,7 +7,7 @@ import 'package:kevin/modules/project/data/model/user_project_model.dart';
 import 'package:kevin/services/app_functions.dart';
 import 'package:kevin/services/app_preferences.dart';
 import 'package:kevin/services/dependency_injection.dart';
-import 'package:kevin/ui/widgets/app_form.dart';
+import 'package:kevin/ui/widgets/form/app_form.dart';
 import 'package:kevin/ui/widgets/app_loading_indicator.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
 import 'package:kevin/ui/widgets/app_toast_messages.dart';
@@ -19,7 +19,7 @@ import '../../../const/app_constant.dart';
 import '../../../ui/widgets/app_list_view.dart';
 import '../../../ui/widgets/app_modal_dialog.dart';
 import '../../../ui/widgets/buttons/app_icon_button.dart';
-import '../../../ui/widgets/texts/app_text_field.dart';
+import '../../../ui/widgets/form/app_text_field.dart';
 import '../bloc/project_bloc.dart';
 import '../bloc/user_project_bloc.dart';
 import '../data/model/project_model.dart';
@@ -27,9 +27,9 @@ import '../data/model/project_model.dart';
 class ProjectDetailPage extends StatefulWidget {
   final UserProjectModel userProjectModel;
   const ProjectDetailPage({
-    Key? key,
+    super.key,
     required this.userProjectModel,
-  }) : super(key: key);
+  });
 
   @override
   State<ProjectDetailPage> createState() => _ProjectDetailPageState();

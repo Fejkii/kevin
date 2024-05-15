@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:kevin/const/app_units.dart';
 import 'package:kevin/modules/wine/bloc/wine_bloc.dart';
-
 import 'package:kevin/modules/wine/data/model/wine_model.dart';
 import 'package:kevin/modules/wine/view/wine_detail_page.dart';
 import 'package:kevin/modules/wine/view/wine_record_detail_page.dart';
 import 'package:kevin/ui/widgets/app_box_content.dart';
-import 'package:kevin/ui/widgets/app_quantity_input.dart';
+import 'package:kevin/ui/widgets/form/app_quantity_input.dart';
 import 'package:kevin/ui/widgets/app_scaffold.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kevin/ui/widgets/buttons/app_floating_button.dart';
 
 import '../../../const/app_constant.dart';
@@ -20,14 +20,21 @@ import '../../../ui/widgets/app_loading_indicator.dart';
 import '../../../ui/widgets/app_toast_messages.dart';
 import '../../../ui/widgets/buttons/app_icon_button.dart';
 import '../bloc/wine_record_bloc.dart';
+import '../data/model/wine_classification_model.dart';
 import '../data/model/wine_record_model.dart';
+import '../data/model/wine_variety_model.dart';
 
 class WinePage extends StatefulWidget {
+  final List<WineClassificationModel> wineClassificationList;
+  final List<WineVarietyModel> wineVarietyList;
   final WineModel wineModel;
+
   const WinePage({
-    Key? key,
+    super.key,
+    required this.wineClassificationList,
+    required this.wineVarietyList,
     required this.wineModel,
-  }) : super(key: key);
+  });
 
   @override
   State<WinePage> createState() => _WinePageState();
@@ -87,6 +94,8 @@ class _WinePageState extends State<WinePage> {
               context,
               MaterialPageRoute(
                 builder: (context) => WineDetailPage(
+                  wineClassificationList: widget.wineClassificationList,
+                  wineVarietyList: widget.wineVarietyList,
                   wineModel: wineModel,
                 ),
               ),
